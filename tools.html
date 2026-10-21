@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>document.documentElement.className+=' js'</script>
+<title>Free tools — ClipSolo</title>
+<meta name="description" content="Six tools that run in your browser: a screen recorder, a trimmer, MP4 to GIF, WebM and MOV to MP4, and video to WAV. No upload, no account, no watermark — every file stays on your machine.">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<style>
+  /* the live tools' own furniture — the glass language */
+  .status{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--muted);margin:14px 0 0}
+  .status.err{color:var(--red-deep)}
+  .status.nomargin{margin:0}
+  .clock{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.05em;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .btnrow .status{margin:0}
+  .btn.rec-on{background:var(--red);border-color:var(--red);color:#fff}
+  .pulse{width:10px;height:10px;border-radius:50%;background:rgba(21,22,26,.16);flex:none}
+  .pulse.on{background:var(--red);animation:pulse 1.1s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.82)}}
+  .voibar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;margin:16px 0 0;
+    border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.66)}
+  .camwin{position:relative;margin-top:16px;aspect-ratio:16/9;background:#0E0F13;border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;overflow:hidden}
+  .camwin video{display:block;width:100%;height:100%;object-fit:cover}
+  .camwin .off{position:absolute;inset:0;margin:0;display:grid;place-items:center;text-align:center;padding:0 18px;
+    color:#8A8D95;font-size:14px}
+  .shotwrap{position:relative;margin-top:16px;border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;background:#0E0F13}
+  .shotwrap canvas{display:block;width:100%;height:auto;cursor:crosshair;touch-action:none}
+  .shotchip{position:absolute;left:10px;bottom:10px;padding:5px 9px;border-radius:7px;background:rgba(12,13,16,.8);
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#C8CAD0}
+  .shotvid video{display:block;width:100%;border-radius:12px;background:#0E0F13}
+  .shotout img{display:block;max-width:100%;border-radius:12px;background:#0E0F13}
+  .wbdrop{display:grid;justify-items:center;gap:10px;text-align:center;padding:30px 22px;margin-top:18px;cursor:pointer;
+    border:1px dashed rgba(21,22,26,.26);border-radius:16px;background:rgba(255,255,255,.5)}
+  .wbdrop b{font-size:16px;letter-spacing:-.01em}
+  .wbmoves{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 14px;margin-top:16px;
+    border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72)}
+  .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+  .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
+    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);cursor:pointer;transition:transform .16s var(--ease),border-color .16s var(--ease)}
+  .wbmove:hover{transform:translateY(-1px);border-color:rgba(21,22,26,.3);color:var(--ink)}
+  .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  .wbwork{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:18px;
+    padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.6)}
+  .wbwork video{display:block;width:100%;border-radius:12px;background:#0E0F13}
+  .wbmeta{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+  .wblink{border:0;background:transparent;padding:0;color:var(--red);font:600 13px/1.4 var(--sans);cursor:pointer;text-align:left}
+  .wblink:hover{text-decoration:underline}
+  .wrange{display:grid;grid-template-columns:44px 1fr 52px;align-items:center;gap:10px;margin-bottom:10px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .wrange input[type=range]{width:100%;accent-color:var(--red)}
+  .wmodes{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+  .wmode,.wpreset,.wspeed{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:8px;color:var(--ink-2);
+    font:600 12px/1.2 var(--sans);padding:7px 11px;cursor:pointer}
+  .wmode.on,.wpreset.on,.wspeed.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .wpreset,.wspeed{display:flex;flex-direction:column;gap:3px;text-align:left}
+  .wpreset small,.wspeed small{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;opacity:.7}
+  .wpresets,.wspeeds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .wpane{border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
+  .wdesc{font-size:13.5px;color:var(--ink-2);margin:0 0 10px}
+  .wprog{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .wbar{flex:1;height:4px;border-radius:3px;background:rgba(21,22,26,.1);overflow:hidden}
+  .wbar span{display:block;height:100%;width:0;background:var(--red);border-radius:3px}
+  .wres{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .wres video{max-width:340px;width:100%;border-radius:12px;background:#0E0F13}
+  .wres img{max-width:240px;border-radius:12px;background:#0E0F13}
+  .toolcard .demo{border-radius:14px;border:1px solid rgba(255,255,255,.08);margin:0 0 18px}
+  /* workbench.js injects its own warm-paper styling for these — override it from
+     the page (higher specificity) so the bench wears the glass skin too */
+  html body .wbmoves{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);gap:8px}
+  html body .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  html body .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
+    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);transition:transform .16s var(--ease),border-color .16s var(--ease)}
+  html body .wbmove:hover{color:var(--ink);border-color:rgba(21,22,26,.3);transform:translateY(-1px)}
+  html body .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  html body .wbmove:disabled{opacity:.5;cursor:default;pointer-events:none}
+  html body.wb-dropping{outline:2px dashed rgba(226,59,46,.55);outline-offset:-10px}
+  html body.wb-dropping::after{
+    content:"DROP IT — THE BENCH HAS IT";top:80px;transform:translateX(-50%);
+    font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+    background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
+  }
+  @media (max-width:820px){.wbwork{grid-template-columns:1fr}}
+</style>
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/tools.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="Free tools — ClipSolo">
+<meta property="og:description" content="Six tools that run in your browser: a screen recorder, a trimmer, MP4 to GIF, WebM and MOV to MP4, and video to WAV. No upload, no account, no watermark — every file stays on your machine.">
+<meta property="og:url" content="https://venubobby1406.github.io/tools.html">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo — record your screen, keep the file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free tools — ClipSolo">
+<meta name="twitter:description" content="Six tools that run in your browser: a screen recorder, a trimmer, MP4 to GIF, WebM and MOV to MP4, and video to WAV. No upload, no account, no watermark — every file stays on your machine.">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!--/launch-meta-->
+</head>
+<body class="aurora">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="record.html"><i></i>ClipSolo</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="record.html">Record</a>
+      <a href="tools.html" aria-current="page">Tools</a>
+      <a href="features.html">Index</a>
+      <a href="embed.html">Embed</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="record.html">Open recorder <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================ HERO ============================ -->
+<section class="apphero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><i></i>The bench · six tools · nothing uploaded</div>
+      <h1>Six tools. One tab.<br>Zero uploads.</h1>
+      <p class="lede">A recorder, a trimmer, two converters, a GIF maker and an audio extractor. Every one of them runs in this page — on your machine, in real time, with no queue and no waiting.</p>
+      <div class="chips">
+        <span class="chip static">No account</span>
+        <span class="chip static">No uploads</span>
+        <span class="chip static">No watermark</span>
+        <span class="chip static">No install</span>
+      </div>
+    </div>
+    <div class="apphero__side">
+      <span class="mono">Works with</span>
+      <p>MP4 · WebM · MOV · audio — whatever your browser can play</p>
+      <span class="mono">Needs</span>
+      <p>A modern browser. That is the entire setup.</p>
+      <span class="mono">Costs</span>
+      <p>Nothing. There is no paid tier.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CATALOG ============================ -->
+<section class="sec" id="tools" style="padding-top:8px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">01 — The catalog</span>
+      <p class="hint">Six tools, each doing one thing properly. Watch one run — these are live, not screenshots.</p>
+    </div>
+
+    <div class="toolgrid">
+
+      <a class="tool" href="record.html">
+        <div class="demo" data-demo="rec" data-state="idle">
+          <div class="demo__stage">
+            <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+            <div class="rec__shot">
+              <div class="rec__chrome"><span></span><span></span><span></span><i>app.local / dashboard</i></div>
+              <div class="rec__body">
+                <div class="rec__nav"><b></b><b></b><b></b><b></b></div>
+                <div class="rec__main">
+                  <div class="rec__row"><div class="rec__card"></div><div class="rec__card rec__card--accent"></div><div class="rec__card"></div></div>
+                  <div class="rec__chart">
+                    <b style="--h:40%"></b><b style="--h:66%"></b><b style="--h:48%"></b><b style="--h:80%"></b>
+                    <b style="--h:56%"></b><b style="--h:36%"></b><b style="--h:70%"></b><b style="--h:44%"></b>
+                  </div>
+                </div>
+              </div>
+              <span class="rec__cursor"><svg viewBox="0 0 14 18" fill="#fff" stroke="#15161A" stroke-width="1.1" stroke-linejoin="round"><path d="M2 2 L12 8.6 L7.7 9.4 L10.2 14.8 L8 15.8 L5.6 10.4 L2 13.4 Z"/></svg></span>
+              <span class="rec__ripple" style="left:48%;top:46%"></span>
+              <div class="rec__bubble">CAM</div>
+            </div>
+            <div class="rec__hud"><span class="rec"><i></i>REC</span><span class="tc" data-rec-time>00:00</span></div>
+          </div>
+          <div class="demo__note"><span>Screen recorder</span><b data-rec-label>Ready</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">Record</span>
+          <h3>Screen, camera and mic</h3>
+          <p>Record a tab, a window or the whole screen with your camera bubble on top and your voice in it.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Pick a source</span></li>
+            <li><b>02</b><span>Hit REC</span></li>
+            <li><b>03</b><span>Stop — the file is on your disk</span></li>
+          </ul>
+          <span class="tool__go">Open the recorder <span>→</span></span>
+        </div>
+      </a>
+
+      <a class="tool" href="trim-video.html">
+        <div class="demo" data-demo="trim">
+          <div class="demo__stage">
+            <div class="trim">
+              <div class="trim__ruler"><span>0:00</span><span>0:05</span><span>0:10</span><span>0:15</span></div>
+              <div class="trim__track">
+                <div class="trim__clip a"></div><div class="trim__clip b"></div>
+                <div class="trim__sel"><span class="trim__handle l"></span><span class="trim__handle r"></span></div>
+                <div class="trim__head"></div>
+              </div>
+              <div class="trim__labels"><span>IN 0:02.0</span><span>OUT 0:07.4</span></div>
+            </div>
+          </div>
+          <div class="demo__note"><span>Trim video</span><b>in / out points</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">Trim</span>
+          <h3>Cut the boring middle</h3>
+          <p>Drag two handles and keep the good part. The cut is written on your machine — no re-upload.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop the file in</span></li>
+            <li><b>02</b><span>Drag the in and out points</span></li>
+            <li><b>03</b><span>Download the cut</span></li>
+          </ul>
+          <span class="tool__go">Open the trimmer <span>→</span></span>
+        </div>
+      </a>
+
+      <a class="tool" href="mp4-to-gif.html">
+        <div class="demo" data-demo="gif">
+          <div class="demo__stage">
+            <div class="gifwrap">
+              <div>
+                <div class="gif__frames"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="gif__src">clip.mp4</div>
+              </div>
+              <div class="gif__out">
+                <span class="gif__badge">GIF <em>loop</em></span>
+                <span class="gif__meta">560px · 8s · 10fps</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo__note"><span>MP4 → GIF</span><b>runs in-tab</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">Video → GIF</span>
+          <h3>A GIF for the chat</h3>
+          <p>Eight seconds, 560 pixels, ten frames a second — the size that still looks fine in a message thread.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop an MP4 in</span></li>
+            <li><b>02</b><span>Pick length and width</span></li>
+            <li><b>03</b><span>Download the loop</span></li>
+          </ul>
+          <span class="tool__go">Open the GIF maker <span>→</span></span>
+        </div>
+      </a>
+
+      <a class="tool" href="webm-to-mp4.html">
+        <div class="demo" data-demo="conv">
+          <div class="demo__stage">
+            <div class="conv">
+              <div class="conv__row">
+                <span class="conv__file">recording.webm <b>12.4 MB</b></span>
+                <span class="conv__arrow">→</span>
+                <span class="conv__file conv__file--out is-done">recording.mp4 <b>H.264</b></span>
+              </div>
+              <div class="conv__track"><div class="conv__fill"></div></div>
+              <div class="conv__meta">converting on your machine</div>
+            </div>
+          </div>
+          <div class="demo__note"><span>WEBM → MP4</span><b>plays anywhere</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">WebM → MP4</span>
+          <h3>Make it play anywhere</h3>
+          <p>Screen recordings come out as WebM, and half the internet refuses them. Convert to MP4 in the tab.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop the .webm in</span></li>
+            <li><b>02</b><span>It converts on your machine</span></li>
+            <li><b>03</b><span>Save an .mp4 that plays everywhere</span></li>
+          </ul>
+          <span class="tool__go">Open the converter <span>→</span></span>
+        </div>
+      </a>
+
+      <a class="tool" href="mov-to-mp4.html">
+        <div class="demo" data-demo="conv">
+          <div class="demo__stage">
+            <div class="conv">
+              <div class="conv__row">
+                <span class="conv__file">clip.mov <b>38.1 MB</b></span>
+                <span class="conv__arrow">→</span>
+                <span class="conv__file conv__file--out is-done">clip.mp4 <b>12.0 MB</b></span>
+              </div>
+              <div class="conv__track"><div class="conv__fill"></div></div>
+              <div class="conv__meta">h.264 · plays on phones</div>
+            </div>
+          </div>
+          <div class="demo__note"><span>MOV → MP4</span><b>smaller too</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">MOV → MP4</span>
+          <h3>Fix a file before it leaves your phone</h3>
+          <p>Your camera writes MOV. Convert to MP4 in the browser — smaller, and it plays on the phone you send it from.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop the .mov in</span></li>
+            <li><b>02</b><span>Re-encode to H.264 locally</span></li>
+            <li><b>03</b><span>Send it to a phone</span></li>
+          </ul>
+          <span class="tool__go">Open the converter <span>→</span></span>
+        </div>
+      </a>
+
+      <a class="tool" href="video-to-audio.html">
+        <div class="demo" data-demo="aud">
+          <div class="demo__stage">
+            <div class="aud">
+              <div class="aud__wave">
+                <b style="--h:38%;--d:0s"></b><b style="--h:62%;--d:.1s"></b><b style="--h:88%;--d:.2s"></b>
+                <b style="--h:44%;--d:.05s"></b><b style="--h:70%;--d:.15s"></b><b style="--h:34%;--d:.25s"></b>
+                <b style="--h:80%;--d:.08s"></b><b style="--h:52%;--d:.18s"></b><b style="--h:26%;--d:.28s"></b>
+                <b style="--h:66%;--d:.02s"></b><b style="--h:48%;--d:.12s"></b><b style="--h:74%;--d:.22s"></b>
+                <b style="--h:40%;--d:.07s"></b><b style="--h:58%;--d:.17s"></b><b style="--h:30%;--d:.27s"></b>
+                <b style="--h:76%;--d:.03s"></b><b style="--h:46%;--d:.13s"></b><b style="--h:64%;--d:.23s"></b>
+              </div>
+              <span class="aud__out">audio.wav <em>44.1 kHz</em></span>
+            </div>
+          </div>
+          <div class="demo__note"><span>VIDEO → WAV</span><b>no re-mix</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">Video → WAV</span>
+          <h3>Pull the track out</h3>
+          <p>Want the words, not the pixels? Lift the audio out as a WAV — for a transcript, a podcast edit or a re-record.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop a video in</span></li>
+            <li><b>02</b><span>Pull the audio track out</span></li>
+            <li><b>03</b><span>Save it as WAV</span></li>
+          </ul>
+          <span class="tool__go">Open the extractor <span>→</span></span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ LIVE TOOLS ============================ -->
+<section class="sec" id="live" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">02 — Working right now</span>
+      <p class="hint">Four more tools, live in this page. Press a button and watch them work — nothing leaves your machine.</p>
+    </div>
+
+    <div class="toolgrid" style="margin-top:26px">
+
+      <!-- Screenshot -->
+      <section class="tool toolcard" id="screenshot">
+        <div class="tool__body">
+          <span class="tool__tag">Screenshot</span>
+          <h3>Grab a still, blur what is private</h3>
+          <p>Capture any screen, window or tab — or pull a still out of a video. Pixelate what should not go public, then copy it to a chat or save the PNG.</p>
+          <div class="btnrow" style="margin-top:6px">
+            <button class="btn" id="shotGo" type="button">Take a screenshot</button>
+            <button class="btn ghost" id="shotVidPick" type="button">Still from a video…</button>
+          </div>
+          <input type="file" id="shotVidFile" accept="video/*" hidden>
+          <p class="status" id="shotSt">Windows · macOS · Linux · Chrome / Edge / Firefox</p>
+          <div class="shotvid" id="shotVidWrap" style="display:none">
+            <video id="shotVid" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture playsinline></video>
+            <div class="btnrow" style="margin-top:12px">
+              <button class="btn" id="shotGrab" type="button">Grab this frame</button>
+              <p class="status nomargin" id="shotVidSt">Scrub to the moment, then grab it.</p>
+            </div>
+          </div>
+          <div class="shotout" id="shotOut" style="display:none">
+            <div class="shotwrap">
+              <canvas id="shotCanvas"></canvas>
+              <span class="shotchip" id="shotChip">Drag to pixelate</span>
+            </div>
+            <div class="btnrow" style="margin-top:12px">
+              <button class="btn btn-primary" id="shotCopy" type="button">Copy PNG</button>
+              <button class="btn" id="shotSave" type="button">Save PNG</button>
+              <button class="btn ghost" id="shotReset" type="button">Reset</button>
+            </div>
+            <p class="status" id="shotSt2"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Webcam -->
+      <section class="tool toolcard" id="webcam">
+        <div class="tool__body">
+          <span class="tool__tag">Webcam</span>
+          <h3>Camera-only clip</h3>
+          <p>For intros, updates and quick hellos. Records, saves, done — the file lands in your downloads.</p>
+          <div class="camwin">
+            <video id="webPrev" muted playsinline style="display:none"></video>
+            <video id="webPlay" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture playsinline style="display:none"></video>
+            <p class="off" id="webOff">Camera off — nothing is being recorded</p>
+          </div>
+          <div class="btnrow" style="margin-top:14px">
+            <button class="btn" id="webBtn" type="button">Start webcam recording</button>
+            <span class="clock" id="webTime">00:00</span>
+            <a class="btn ghost" id="webDl" href="#" style="display:none" download>Save again</a>
+          </div>
+          <p class="status" id="webSt">Camera + mic · MP4 where supported · stays on your device</p>
+        </div>
+      </section>
+
+      <!-- Voice -->
+      <section class="tool toolcard" id="voice">
+        <div class="tool__body">
+          <span class="tool__tag">Voice</span>
+          <h3>Mic-only note</h3>
+          <p>A thought, a memo, a quick bug description. No app, no account, no ceremony.</p>
+          <div class="voibar">
+            <span class="pulse" id="voiPulse"></span>
+            <span class="clock" id="voiTime">00:00</span>
+            <p class="status nomargin" id="voiSt">Mic ready when you are</p>
+          </div>
+          <audio id="voiPlay" controls controlsList="nodownload noplaybackrate noremoteplayback" style="display:none"></audio>
+          <div class="btnrow" style="margin-top:14px">
+            <button class="btn" id="voiBtn" type="button">Start voice recording</button>
+            <a class="btn ghost" id="voiDl" href="#" style="display:none" download>Save again</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Workbench -->
+      <section class="tool toolcard" id="workbench" style="grid-column:1/-1">
+        <div class="tool__body">
+          <span class="tool__tag">Workbench</span>
+          <h3>Chain the moves on one file</h3>
+          <p>Drop a recording here — or anywhere on this page. The bench reads it, suggests the moves, and chains them without re-dropping: to MP4, trimmed, compressed, as a GIF, or with the audio pulled out. Nothing leaves this machine.</p>
+
+          <div class="wbdrop" id="wbDrop">
+            <b>Drop a video here</b>
+            <p class="status nomargin" id="wbDropSt">MP4 · WebM · MOV (if your browser can play it) — processed locally, nothing uploaded</p>
+            <button class="btn" id="wbPick" type="button">Choose a video file</button>
+          </div>
+          <input type="file" id="wbFile" accept="video/*,audio/*" hidden>
+          <div class="wbmoves" id="wbMoves" style="display:none"></div>
+
+          <div class="wbwork" id="wbWork" style="display:none">
+            <div>
+              <video id="wbPrev" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture playsinline></video>
+              <p class="wbmeta"><span id="wbMeta"></span><button class="wblink" id="wbChange" type="button">choose another file</button></p>
+            </div>
+            <div>
+              <div class="wrange">
+                <span>Start</span><input type="range" id="wbIn" min="0" max="100" step="0.05" value="0"><span class="clock" id="wbInL">0:00.0</span>
+              </div>
+              <div class="wrange">
+                <span>End</span><input type="range" id="wbOut" min="0" max="100" step="0.05" value="0"><span class="clock" id="wbOutL">0:00.0</span>
+              </div>
+              <div class="wmodes" id="wbModes">
+                <button class="wmode on" data-pane="trim" type="button">Trim</button>
+                <button class="wmode" data-pane="mp4" type="button">To MP4</button>
+                <button class="wmode" data-pane="compress" type="button">Compress</button>
+                <button class="wmode" data-pane="gif" type="button">GIF</button>
+                <button class="wmode" data-pane="audio" type="button">Audio</button>
+                <button class="wmode" data-pane="speed" type="button">Speed</button>
+              </div>
+              <div class="wpane" id="pane-trim">
+                <button class="btn btn-primary" id="wbGoTrim" type="button">Trim &amp; save</button>
+                <p class="status" id="wbTrimSt">Renders in real time — a 30-second cut takes ~30 seconds. The preview plays while it renders.</p>
+              </div>
+              <div class="wpane" id="pane-mp4" style="display:none">
+                <p class="wdesc" id="wbMp4Info">Converts the whole file to MP4 — for players and editors that refuse WebM.</p>
+                <button class="btn btn-primary" id="wbGoMp4" type="button">Convert to MP4</button>
+                <p class="status" id="wbMp4St">Renders in real time, same as trimming.</p>
+              </div>
+              <div class="wpane" id="pane-compress" style="display:none">
+                <div class="wpresets" id="wbPresets">
+                  <button class="wpreset" data-bps="700000" type="button"><b>Email</b><small>~0.7 Mbps · smallest</small></button>
+                  <button class="wpreset on" data-bps="1600000" type="button"><b>Web</b><small>~1.6 Mbps · balanced</small></button>
+                  <button class="wpreset" data-bps="3200000" type="button"><b>Crisp</b><small>~3.2 Mbps · sharp text</small></button>
+                </div>
+                <p class="wdesc" id="wbEst"></p>
+                <button class="btn btn-primary" id="wbGoComp" type="button">Compress &amp; save</button>
+                <p class="status" id="wbCompSt">Re-encodes at the chosen bitrate — real time, like the rest.</p>
+              </div>
+              <div class="wpane" id="pane-gif" style="display:none">
+                <p class="wdesc">Uses the Start → End range above (max 8 seconds), 10 fps, up to 560px wide — GIFs are heavy, so we keep them light.</p>
+                <button class="btn btn-primary" id="wbGoGif" type="button">Make GIF</button>
+                <p class="status" id="wbGifSt">Loops forever. Obviously.</p>
+                <p class="wdesc">Sharing from a computer? WhatsApp Web sends GIFs as documents, not animations. An MP4 of the same range plays inline — and it's smaller.</p>
+                <button class="wblink" id="wbGoGifMp4" type="button">Save this range as MP4 →</button>
+              </div>
+              <div class="wpane" id="pane-audio" style="display:none">
+                <p class="wdesc">Pulls the sound out of the whole file as a 16-bit WAV. Fast — no real-time render.</p>
+                <button class="btn btn-primary" id="wbGoAudio" type="button">Extract audio (WAV)</button>
+                <p class="status" id="wbAudioSt">Works with video and audio files.</p>
+              </div>
+              <div class="wpane" id="pane-speed" style="display:none">
+                <div class="wspeeds" id="wbSpeeds">
+                  <button class="wspeed" data-rate="2" type="button"><b>2×</b><small>watchable fast</small></button>
+                  <button class="wspeed on" data-rate="4" type="button"><b>4×</b><small>timelapse</small></button>
+                  <button class="wspeed" data-rate="8" type="button"><b>8×</b><small>very long clips</small></button>
+                </div>
+                <p class="wdesc" id="wbSpeedEst">Pick a speed — the whole file is sped up, no trimming.</p>
+                <button class="btn btn-primary" id="wbGoSpeed" type="button">Speed it up &amp; save</button>
+                <p class="status" id="wbSpeedSt">Speeds up the whole file, real time at the accelerated rate.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="wprog" id="wbProg" style="display:none">
+            <div class="wbar"><span id="wbBar"></span></div>
+            <span class="mono" id="wbPct">0%</span>
+          </div>
+          <div class="wres" id="wbRes" style="display:none">
+            <video id="wbOutV" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture playsinline style="display:none"></video>
+            <audio id="wbOutA" controls controlsList="nodownload noplaybackrate noremoteplayback" style="display:none"></audio>
+            <img id="wbOutG" alt="Your GIF" style="display:none">
+            <a class="btn btn-primary" id="wbDl" href="#" download>Download</a>
+            <button class="wblink" id="wbChain" type="button" style="display:none">↻ put this result back on the bench</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ HONEST LIMITS ============================ -->
+<section class="sec" id="honest" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">03 — Honest limits</span>
+      <p class="hint">Two things people ask for that we have not built. We would rather say so here than put it on a pricing page later.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>No video redaction yet</h3>
+        <p>The screenshot tool can pixelate a region. Doing the same to a whole recording is on the list, but it is not built — and it will not ship half-done.</p>
+        <div class="meta">Not built</div>
+      </div>
+      <div class="case">
+        <h3>No share links yet</h3>
+        <p>A link means somebody else holds your file. Every tool here keeps it on your machine instead, and that is a deliberate trade, not an oversight.</p>
+        <div class="meta">Deliberate</div>
+      </div>
+      <div class="case">
+        <h3>Got a missing tool?</h3>
+        <p>This list grows from real requests. If something small would make your work easier, that is how it gets built.</p>
+        <div class="meta">Open</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="sec" id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">04 — Straight answers</span>
+      <p class="hint">If something here is wrong, tell us and we will fix the page and this list at the same time.</p>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Do these tools upload my file?</summary>
+        <p>No. Every conversion happens in your browser with WebCodecs and WebAssembly — the file is read from your disk and written back to it. There is no server involved, which is also why there is no upload bar and no “processing your video” wait.</p>
+      </details>
+      <details>
+        <summary>Why is the trim re-encoded?</summary>
+        <p>A browser cannot cut a container without rewriting it. We re-encode as it plays, in real time, and keep your original file untouched — so you can always trim the original again instead of trimming the trimmed copy.</p>
+      </details>
+      <details>
+        <summary>How large a file can I drop?</summary>
+        <p>As large as your browser can decode. Very large files work but take as long as the render takes — a 30-second cut takes about 30 seconds, because it is really being recorded again.</p>
+      </details>
+      <details>
+        <summary>Is there a paid version?</summary>
+        <p>No. There is no paid tier, no trial and no feature gate. If this ever needs a server, we will say so here before we ask you for anything.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h4>Tools</h4>
+        <a href="record.html">Screen recorder</a><a href="trim-video.html">Trim video</a><a href="mp4-to-gif.html">MP4 → GIF</a>
+      </div>
+      <div class="f-col">
+        <h4>Convert</h4>
+        <a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a><a href="video-to-audio.html">Video → audio</a>
+      </div>
+      <div class="f-col">
+        <h4>For developers</h4>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h4>The promise</h4>
+        <span>Local files only</span><span>No account</span><span>No watermark</span>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<script src="demos.js" defer></script>
+<script src="demos.js" defer></script>
+<script src="demos.js" defer></script>
+<script>
+/* v3: slam things onto the page as they scroll into view. One observer, unobserved after firing.
+   When a slam ends, .in is swapped for .rv-done — which hands the element back to its hover animations.
+   Any failure here — or reduced motion — simply shows everything. */
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.sheet,.polaroid,.shelf-tape,.stamp,.toast,.cell'));
+  function settle(el){el.classList.remove('in');el.classList.add('rv-done');}
+  try{
+    if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(function(e){e.classList.add('rv-done');});return;}
+    var io=new IntersectionObserver(function(es){
+      /* stagger: at most six elements per batch, 60 ms apart — never a dozen slams at once */
+      var n=0;
+      es.forEach(function(x){
+        if(!x.isIntersecting)return;
+        var el=x.target;io.unobserve(el);
+        el.style.setProperty('--d',Math.min(n++,5)*60+'ms');
+        el.addEventListener('animationend',function(e){
+          if(e.target!==el||(e.animationName!=='slam'&&e.animationName!=='toastin'))return;
+          settle(el);
+        });
+        el.classList.add('in');
+      });
+    },{threshold:.2});
+    els.forEach(function(e){io.observe(e);});
+    /* belt and braces: a slam that never reports back (paused tab, odd engine) is shown anyway */
+    setTimeout(function(){els.forEach(function(e){if(e.classList.contains('in'))settle(e);});},3500);
+  }catch(err){els.forEach(function(e){e.classList.add('rv-done');});}
+})();
+/* About tab: the pupils drift toward the pointer. Skipped for touch and for reduced motion. */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var eyes=[].slice.call(document.querySelectorAll('.ico-eyes')), raf=0, px=0, py=0;
+  if(!eyes.length) return;
+  function look(){
+    raf=0;
+    eyes.forEach(function(el){
+      var r=el.getBoundingClientRect(); if(!r.width) return;
+      var dx=px-(r.left+r.width/2), dy=py-(r.top+r.height/2), d=Math.hypot(dx,dy)||1, k=Math.min(d/80,1)*2.2;
+      el.style.setProperty('--ex',(dx/d*k).toFixed(2)); el.style.setProperty('--ey',(dy/d*k).toFixed(2));
+    });
+  }
+  addEventListener('pointermove',function(e){
+    if(e.pointerType==='touch') return;
+    px=e.clientX; py=e.clientY; if(!raf) raf=requestAnimationFrame(look);
+  },{passive:true});
+})();
+</script>
+<script>
+/* ---------- shared helpers ---------- */
+function pickMime(list){
+  if(!window.MediaRecorder) return '';
+  for(var i=0;i<list.length;i++){ try{ if(MediaRecorder.isTypeSupported(list[i])) return list[i]; }catch(e){} }
+  return '';
+}
+function fmtClock(ms){ var s=Math.max(0,Math.floor(ms/1000)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function saveBlob(url,name){ var a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); }
+
+/* ---------- nav rides along while scrolling ---------- */
+(function(){
+  var n = document.querySelector('.nav');
+  if(!n) return;
+  function u(){ n.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', u, {passive:true});
+  u();
+})();
+
+/* ---------- screenshot: capture or frame-grab → pixelate → copy ---------- */
+(function(){
+  var btn=document.getElementById('shotGo'), st=document.getElementById('shotSt'),
+      vidPick=document.getElementById('shotVidPick'), vidFile=document.getElementById('shotVidFile'),
+      vidWrap=document.getElementById('shotVidWrap'), vid=document.getElementById('shotVid'),
+      grab=document.getElementById('shotGrab'), vidSt=document.getElementById('shotVidSt'),
+      out=document.getElementById('shotOut'), cv=document.getElementById('shotCanvas'),
+      chip=document.getElementById('shotChip'),
+      copyBtn=document.getElementById('shotCopy'), saveBtn=document.getElementById('shotSave'),
+      resetBtn=document.getElementById('shotReset'), st2=document.getElementById('shotSt2');
+  if(!btn || !cv) return;
+  var ctx=cv.getContext('2d');
+  var orig=document.createElement('canvas'), work=document.createElement('canvas');
+  var drag=null, pv=0, chipUsed=false;
+  function status(el,t,err){ if(!el) return; el.textContent=t; el.classList.toggle('err',!!err); }
+  function canCopy(){ try{ return !!(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem); }catch(e){ return false; } }
+  if(!canCopy() && copyBtn) copyBtn.style.display='none';
+
+  function loadImage(src,w,h){
+    w=Math.max(2,Math.round(w||src.videoWidth||src.naturalWidth||1280));
+    h=Math.max(2,Math.round(h||src.videoHeight||src.naturalHeight||720));
+    cv.width=w; cv.height=h;
+    orig.width=w; orig.height=h; orig.getContext('2d').drawImage(src,0,0,w,h);
+    work.width=w; work.height=h; work.getContext('2d').drawImage(orig,0,0);
+    ctx.drawImage(work,0,0);
+    if(chip && !chipUsed) chip.style.display='';
+    out.style.display='';
+    status(st2,w+'×'+h+' · drag over anything private to pixelate it');
+    if(out.scrollIntoView) out.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  function renderPreview(){
+    ctx.drawImage(work,0,0);
+    if(!drag) return;
+    var x=Math.min(drag.x0,drag.x1), y=Math.min(drag.y0,drag.y1),
+        w=Math.abs(drag.x1-drag.x0), h=Math.abs(drag.y1-drag.y0);
+    var lw=Math.max(2,Math.round(cv.width/500));
+    ctx.save();
+    ctx.setLineDash([lw*3,lw*2]);
+    ctx.lineWidth=lw; ctx.strokeStyle='#B47A00';
+    ctx.shadowColor='rgba(0,0,0,.65)'; ctx.shadowBlur=lw*2;
+    ctx.strokeRect(x,y,w,h);
+    ctx.restore();
+  }
+  function schedulePreview(){ if(pv) return; pv=requestAnimationFrame(function(){ pv=0; renderPreview(); }); }
+  function pixelate(x,y,w,h){
+    var block=Math.max(16,Math.round(cv.width/80));
+    var tw=Math.max(1,Math.ceil(w/block)), th=Math.max(1,Math.ceil(h/block));
+    var dw=Math.min(tw*block, cv.width-x), dh=Math.min(th*block, cv.height-y);
+    if(dw<1 || dh<1) return;
+    var tmp=document.createElement('canvas'); tmp.width=tw; tmp.height=th;
+    var tc=tmp.getContext('2d'); tc.imageSmoothingEnabled=false;
+    tc.drawImage(work,x,y,w,h,0,0,tw,th);
+    ctx.imageSmoothingEnabled=false; ctx.drawImage(tmp,0,0,tw,th,x,y,dw,dh);
+    var wc=work.getContext('2d'); wc.imageSmoothingEnabled=false; wc.drawImage(tmp,0,0,tw,th,x,y,dw,dh);
+  }
+  function pos(e){ var r=cv.getBoundingClientRect(); return {x:(e.clientX-r.left)*cv.width/r.width, y:(e.clientY-r.top)*cv.height/r.height}; }
+  cv.addEventListener('pointerdown', function(e){
+    if(!orig.width) return;
+    e.preventDefault();
+    try{ cv.setPointerCapture(e.pointerId); }catch(err){}
+    var p=pos(e); drag={x0:p.x,y0:p.y,x1:p.x,y1:p.y};
+    schedulePreview();
+  });
+  cv.addEventListener('pointermove', function(e){
+    if(!drag) return;
+    var p=pos(e); drag.x1=p.x; drag.y1=p.y; schedulePreview();
+  });
+  function endDrag(commit){
+    if(!drag) return;
+    var d=drag; drag=null;
+    if(!commit){ renderPreview(); return; }
+    var x=Math.max(0,Math.min(d.x0,d.x1)), y=Math.max(0,Math.min(d.y0,d.y1));
+    var w=Math.min(cv.width-x,Math.abs(d.x1-d.x0)), h=Math.min(cv.height-y,Math.abs(d.y1-d.y0));
+    if(w<6 || h<6){ renderPreview(); return; }
+    pixelate(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
+    if(chip){ chipUsed=true; chip.style.display='none'; }
+    status(st2,'Pixelated '+Math.round(w)+'×'+Math.round(h)+' · drag again for more, or copy it');
+  }
+  cv.addEventListener('pointerup', function(e){ if(drag){ var p=pos(e); drag.x1=p.x; drag.y1=p.y; } endDrag(true); });
+  cv.addEventListener('pointercancel', function(){ endDrag(false); });
+
+  btn.addEventListener('click', function(){
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia){ status(st,'This browser has no screen capture — try Chrome, Edge or Firefox.',true); return; }
+    btn.disabled=true;
+    status(st,'Picking a source — choose a screen, window or tab…');
+    navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:false}).then(function(stream){
+      var v=document.createElement('video'); v.muted=true; v.playsInline=true; v.srcObject=stream;
+      v.play().catch(function(){});
+      setTimeout(function(){
+        try{ loadImage(v, v.videoWidth||1280, v.videoHeight||720); }catch(err){ status(st,'Could not read the frame — try again.',true); }
+        stream.getTracks().forEach(function(t){t.stop();});
+        v.pause(); v.srcObject=null;
+        btn.disabled=false;
+        status(st,'Captured — now hide anything private.');
+      },400);
+    }).catch(function(){
+      btn.disabled=false;
+      status(st,'Nothing captured — click the button and pick a screen.',true);
+    });
+  });
+
+  if(vidPick && vidFile && vid){
+    vidPick.addEventListener('click', function(){ vidFile.click(); });
+    vidFile.addEventListener('change', function(){
+      var f=vidFile.files && vidFile.files[0]; vidFile.value='';
+      if(!f) return;
+      if(vid.dataset.url) URL.revokeObjectURL(vid.dataset.url);
+      var u=URL.createObjectURL(f); vid.dataset.url=u; vid.dataset.name=f.name;
+      vid.src=u;
+      vidWrap.style.display='';
+      status(vidSt,'Scrub to the moment, then grab it.');
+      if(vidWrap.scrollIntoView) vidWrap.scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+    grab.addEventListener('click', function(){
+      if(!vid.videoWidth){ status(vidSt,'Give the video a second to load — then grab.',true); return; }
+      var done=false, fire=function(){
+        if(done) return; done=true;
+        loadImage(vid, vid.videoWidth, vid.videoHeight);
+        status(vidSt,'Grabbed from '+(vid.dataset.name||'the video')+'.');
+        status(st,'Still captured — now hide anything private.');
+      };
+      // nudge the player 1ms so the browser decodes and paints the exact frame, then grab on 'seeked'
+      var dur=vid.duration||0, t=vid.currentTime||0;
+      var target=Math.min(Math.max(t+0.001,0.001), (dur>0.002 ? dur-0.001 : Math.max(t,0.001)));
+      vid.addEventListener('seeked', fire, {once:true});
+      try{ vid.currentTime=target; }catch(err){}
+      setTimeout(fire,1500);
+    });
+  }
+
+  if(copyBtn) copyBtn.addEventListener('click', function(){
+    if(!cv.width) return;
+    cv.toBlob(function(blob){
+      if(!blob){ status(st2,'Could not encode the PNG — try again.',true); return; }
+      try{
+        navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(function(){
+          status(st2,'Copied — paste it straight into Slack, chat or email.');
+        }).catch(function(){
+          status(st2,'This browser refused the clipboard — saving it as a file instead.',true);
+          saveBlob(URL.createObjectURL(blob),'screenshot-'+Date.now()+'.png');
+        });
+      }catch(err){
+        status(st2,'Clipboard is blocked here — saving it as a file instead.',true);
+        saveBlob(URL.createObjectURL(blob),'screenshot-'+Date.now()+'.png');
+      }
+    },'image/png');
+  });
+  if(saveBtn) saveBtn.addEventListener('click', function(){
+    if(!cv.width) return;
+    cv.toBlob(function(blob){
+      if(!blob){ status(st2,'Could not encode the PNG — try again.',true); return; }
+      saveBlob(URL.createObjectURL(blob),'screenshot-'+Date.now()+'.png');
+      status(st2,'Saved — check your downloads.');
+    },'image/png');
+  });
+  if(resetBtn) resetBtn.addEventListener('click', function(){
+    if(!orig.width) return;
+    var wc=work.getContext('2d');
+    wc.clearRect(0,0,work.width,work.height);
+    wc.drawImage(orig,0,0);
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.drawImage(orig,0,0);
+    status(st2,'Back to the original — clean slate.');
+  });
+})();
+
+/* ---------- webcam + voice recorders ---------- */
+function setupRecorder(o){
+  var chunks=[], rec=null, t0=0, timer=null, mime='', url=null;
+  var st=o.st, btn=o.btn, time=o.time;
+  function status(t,err){ if(!st) return; st.textContent=t; st.classList.toggle('err',!!err); }
+  function stopClock(){ if(timer){ clearInterval(timer); timer=null; } }
+  btn.addEventListener('click', function(){
+    if(rec && rec.state==='recording'){ rec.stop(); return; }
+    navigator.mediaDevices.getUserMedia(o.constraints).then(function(stream){
+      mime = pickMime(o.mimes);
+      try{ rec = new MediaRecorder(stream, mime ? {mimeType:mime} : undefined); }
+      catch(e){ rec = new MediaRecorder(stream); mime=''; }
+      chunks=[];
+      rec.ondataavailable=function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop=function(){
+        stopClock();
+        stream.getTracks().forEach(function(t){t.stop();});
+        if(o.preview){ o.preview.srcObject=null; o.preview.style.display='none'; }
+        if(o.placeholder) o.placeholder.style.display='none';
+        var type=(mime.split(';')[0])||o.fallbackType;
+        var blob=new Blob(chunks,{type:type});
+        if(url) URL.revokeObjectURL(url);
+        url=URL.createObjectURL(blob);
+        var ext = type.indexOf('mp4')>-1 ? (o.audio?'.m4a':'.mp4') : '.webm';
+        var name=o.name+'-'+Date.now()+ext;
+        if(o.player){ o.player.src=url; o.player.style.display='block'; }
+        if(o.dl){ o.dl.href=url; o.dl.download=name; o.dl.style.display='inline-flex'; }
+        if(o.pulse) o.pulse.classList.remove('on');
+        btn.textContent=o.startLabel; btn.classList.remove('rec-on');
+        status('Saved '+time.textContent+' — downloading now.');
+        saveBlob(url,name);
+      };
+      rec.start(250);
+      if(o.preview){ o.preview.srcObject=stream; o.preview.muted=true; o.preview.style.display='block'; o.preview.play().catch(function(){}); }
+      if(o.placeholder) o.placeholder.style.display='none';
+      if(o.player) o.player.style.display='none';
+      if(o.dl) o.dl.style.display='none';
+      if(o.pulse) o.pulse.classList.add('on');
+      t0=Date.now(); time.textContent='00:00';
+      timer=setInterval(function(){ time.textContent=fmtClock(Date.now()-t0); },200);
+      btn.textContent=o.stopLabel; btn.classList.add('rec-on');
+      status('Recording — press stop when you\'re done.');
+    }).catch(function(){
+      status('No access — allow the '+(o.audio?'microphone':'camera')+' when the browser asks.',true);
+      if(o.preview) o.preview.style.display='none';
+      if(o.placeholder) o.placeholder.style.display='grid';
+    });
+  });
+}
+
+setupRecorder({
+  btn:document.getElementById('webBtn'), st:document.getElementById('webSt'), time:document.getElementById('webTime'),
+  preview:document.getElementById('webPrev'), player:document.getElementById('webPlay'),
+  dl:document.getElementById('webDl'), placeholder:document.getElementById('webOff'),
+  constraints:{video:{width:{ideal:1280},height:{ideal:720}},audio:true},
+  mimes:['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'],
+  fallbackType:'video/webm', audio:false, name:'webcam-clip',
+  startLabel:'Start webcam recording', stopLabel:'Stop recording'
+});
+
+setupRecorder({
+  btn:document.getElementById('voiBtn'), st:document.getElementById('voiSt'), time:document.getElementById('voiTime'),
+  pulse:document.getElementById('voiPulse'), player:document.getElementById('voiPlay'), dl:document.getElementById('voiDl'),
+  constraints:{audio:{echoCancellation:true,noiseSuppression:true}},
+  mimes:['audio/mp4;codecs=mp4a.40.2','audio/mp4','audio/webm;codecs=opus','audio/webm'],
+  fallbackType:'audio/webm', audio:true, name:'voice-note',
+  startLabel:'Start voice recording', stopLabel:'Stop recording'
+});
+</script>
+<script src="vendor/gif.js"></script>
+<script src="vendor/gif-worker-src.js"></script>
+<script>window.WB_CONFIG = {anywhere:true};</script>
+<script src="workbench.js"></script>
+<script src="gif-share.js"></script>
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+</body>
+</html>

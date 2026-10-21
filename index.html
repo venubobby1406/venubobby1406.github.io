@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ClipSolo — record your screen, keep the file, skip the cloud</title>
+<meta name="description" content="A screen recorder and a small editing bench that run in your browser. No account, no uploads, no watermark. Record, trim, convert to GIF, MP4 or WAV — the file never leaves your machine.">
+<meta name="theme-color" content="#F7F5F0">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ClipSolo — record your screen. keep the file. skip the cloud.">
+<meta property="og:description" content="No account, no uploads, no watermark. The screen recorder that keeps the file on your machine.">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<style>
+  /* page-only bits */
+  .toolgrid .demo__note{font-size:9px}
+  .bench .localcard{margin-top:26px}
+</style>
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="ClipSolo — record your screen, keep the file, skip the cloud">
+<meta property="og:description" content="A screen recorder and a small editing bench that run in your browser. No account, no uploads, no watermark. Record, trim, convert to GIF, MP4 or WAV — the file never leaves your machine.">
+<meta property="og:url" content="https://venubobby1406.github.io/">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo — record your screen, keep the file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ClipSolo — record your screen, keep the file, skip the cloud">
+<meta name="twitter:description" content="A screen recorder and a small editing bench that run in your browser. No account, no uploads, no watermark. Record, trim, convert to GIF, MP4 or WAV — the file never leaves your machine.">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ClipSolo","url":"https://venubobby1406.github.io/","applicationCategory":"MultimediaApplication","operatingSystem":"Web Browser","browserRequirements":"A modern browser with screen capture support (Chrome, Edge, Brave, Firefox)","description":"Record your screen, trim it and convert it — right in your browser. No install, no account, no upload. The file is yours.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Screen, window and tab recording","Camera bubble and microphone","Unlimited recording length","No watermark, no account, no upload","Trim, MP4, GIF and WAV tools in the same tab"]}
+</script>
+<!--/launch-meta-->
+</head>
+<body class="no-js aurora">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="record.html"><i></i>ClipSolo</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="record.html">Record</a>
+      <div class="nav-item">
+        <a class="nav-link" href="tools.html">Tools</a>
+        <div class="mega">
+          <a href="record.html"><span class="mono">Record</span><b>Screen, camera and mic</b><i>Tab, window or screen</i></a>
+          <a href="trim-video.html"><span class="mono">Trim</span><b>Cut the boring middle</b><i>In and out points</i></a>
+          <a href="mp4-to-gif.html"><span class="mono">GIF</span><b>MP4 to GIF</b><i>560px · 8s · loops</i></a>
+          <a href="webm-to-mp4.html"><span class="mono">Convert</span><b>WebM to MP4</b><i>Plays everywhere</i></a>
+          <a href="mov-to-mp4.html"><span class="mono">Convert</span><b>MOV to MP4</b><i>For phones</i></a>
+          <a href="video-to-audio.html"><span class="mono">Audio</span><b>Video to WAV</b><i>Pull the track out</i></a>
+        </div>
+      </div>
+      <a href="#compare">Compare</a>
+      <a href="embed.html">Embed</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="record.html">Open recorder <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero hero--center">
+  <div class="aurora-field" aria-hidden="true">
+    <svg class="aurora-field__horizon" viewBox="0 0 1440 820" preserveAspectRatio="none" focusable="false">
+      <defs>
+        <linearGradient id="skyGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity=".86"/>
+          <stop offset=".55" stop-color="#FFF8F2" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#FFEDE1" stop-opacity=".42"/>
+        </linearGradient>
+      </defs>
+      <path class="aurora-field__sky" d="M0 0 H1440 V648 Q610 812 0 686 Z"/>
+      <path class="aurora-field__line" d="M0 686 Q610 812 1440 648"/>
+    </svg>
+    <div class="aurora-field__glow"></div>
+    <div class="aurora-field__grain"></div>
+  </div>
+  <div class="wrap">
+    <div class="hero__center">
+      <div class="eyebrow"><i></i>Free · no account · nothing uploaded</div>
+      <h1>Record your screen.<br>Keep the file.<br>Skip the cloud.</h1>
+      <p class="lede">A screen recorder and a small editing bench, right in your browser. No sign-up, no watermark, no uploads — just the file you made, on your own disk.</p>
+      <div class="ctas">
+        <a class="btn" href="record.html">Start recording <span class="arr">→</span></a>
+        <a class="btn ghost" href="#tools">See every tool</a>
+      </div>
+      <div class="stats">
+        <div><b>0 <i>KB</i></b><span>Uploaded, ever</span></div>
+        <div><b>0</b><span>Accounts needed</span></div>
+        <div><b>0</b><span>Watermarks</span></div>
+        <div><b>0</b><span>Minutes of waiting</span></div>
+      </div>
+    </div>
+
+    <div class="hero__product">
+      <div class="demo" data-demo="rec" data-state="idle">
+        <div class="demo__bar">
+          <span class="dot"></span><span data-rec-label>Ready</span>
+          <span class="sep"></span><span>Tab</span>
+          <span class="sep"></span><span>1080p · 30</span>
+          <span class="right"><span class="dot dot--ok"></span>Mic on</span>
+        </div>
+        <div class="demo__stage">
+          <span class="crop tl"></span><span class="crop tr"></span>
+          <span class="crop bl"></span><span class="crop br"></span>
+          <span class="meta tl2"><span class="dot dot--ok"></span>Standby</span>
+          <div class="rec__shot">
+            <div class="rec__chrome"><span></span><span></span><span></span><i>app.local / dashboard</i></div>
+            <div class="rec__body">
+              <div class="rec__nav"><b></b><b></b><b></b><b></b></div>
+              <div class="rec__main">
+                <div class="rec__row">
+                  <div class="rec__card"></div><div class="rec__card rec__card--accent"></div><div class="rec__card"></div>
+                </div>
+                <div class="rec__chart">
+                  <b style="--h:34%"></b><b style="--h:58%"></b><b style="--h:42%"></b><b style="--h:72%"></b>
+                  <b style="--h:52%"></b><b style="--h:88%"></b><b class="hot" style="--h:64%"></b><b style="--h:40%"></b>
+                  <b style="--h:70%"></b><b style="--h:46%"></b><b style="--h:30%"></b><b style="--h:56%"></b>
+                </div>
+              </div>
+            </div>
+            <span class="rec__cursor">
+              <svg viewBox="0 0 14 18" fill="#fff" stroke="#15161A" stroke-width="1.1" stroke-linejoin="round"><path d="M2 2 L12 8.6 L7.7 9.4 L10.2 14.8 L8 15.8 L5.6 10.4 L2 13.4 Z"/></svg>
+            </span>
+            <span class="rec__ripple" style="left:54%;top:44%"></span>
+            <span class="rec__ripple" style="left:26%;top:64%"></span>
+            <div class="rec__bubble">CAM</div>
+          </div>
+          <div class="rec__hud"><span class="rec"><i></i>REC</span><span class="tc" data-rec-time>00:00</span></div>
+        </div>
+        <div class="rec__ctl">
+          <span class="rec__btn"><i></i><span data-rec-btn-label>Record</span></span>
+          <span class="rec__wave">
+            <b style="--h:40%;--d:0s"></b><b style="--h:70%;--d:.12s"></b><b style="--h:45%;--d:.24s"></b>
+            <b style="--h:85%;--d:.06s"></b><b style="--h:55%;--d:.3s"></b><b style="--h:35%;--d:.18s"></b>
+            <b style="--h:75%;--d:.09s"></b><b style="--h:50%;--d:.27s"></b><b style="--h:90%;--d:.03s"></b>
+            <b style="--h:40%;--d:.21s"></b><b style="--h:60%;--d:.15s"></b>
+          </span>
+          <span class="demo__time" data-rec-time>00:00</span>
+        </div>
+        <div class="rec__toast">Saved to your device <s>recording.webm · 18.4 MB</s></div>
+      </div>
+      <div class="hero-foot">
+        <span>No install · one page</span>
+        <span>No server · no queue</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ MARQUEE ============================ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>No install</span><b>·</b><span>No account</span><b>·</b><span>No upload</span><b>·</b><span>No watermark</span><b>·</b><span>No queue</span><b>·</b><span>Unlimited length</span><b>·</b><span>Pause &amp; resume</span><b>·</b><span>Camera bubble</span><b>·</b><span>Mic + system audio</span><b>·</b><span>MP4</span><b>·</b><span>GIF</span><b>·</b><span>WAV</span><b>·</b>
+    <span>No install</span><b>·</b><span>No account</span><b>·</b><span>No upload</span><b>·</b><span>No watermark</span><b>·</b><span>No queue</span><b>·</b><span>Unlimited length</span><b>·</b><span>Pause &amp; resume</span><b>·</b><span>Camera bubble</span><b>·</b><span>Mic + system audio</span><b>·</b><span>MP4</span><b>·</b><span>GIF</span><b>·</b><span>WAV</span><b>·</b>
+  </div>
+</div>
+
+<!-- ============================ HOW ============================ -->
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow"><i></i>01 — How it works</div>
+        <h2>One page. Three moves.</h2>
+      </div>
+      <p class="side">Most recorders sell you a workspace. We give you a tool: pick a source, record, then cut the boring parts out before it ever leaves your machine.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01 / RECORD</div>
+        <h3>Hit record.</h3>
+        <p>Pick a tab, a window, or your whole screen. Mic and system audio are one switch each. No setup, no workspace, no sign-in.</p>
+        <div class="meta">Tab · Window · Screen</div>
+      </div>
+      <div class="step">
+        <div class="num">02 / TRIM</div>
+        <h3>Cut the dead air.</h3>
+        <p>Trim the ends, change the speed, or pull the audio out. Every edit runs on your own hardware — there is nothing to wait for.</p>
+        <div class="meta">Local processing · 0 uploads</div>
+      </div>
+      <div class="step">
+        <div class="num">03 / KEEP</div>
+        <h3>Keep the file.</h3>
+        <p>Download MP4, GIF or WAV. No account wall, no watermark, no “upgrade to export” at the last second.</p>
+        <div class="meta">MP4 · GIF · WAV</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TOOLS ============================ -->
+<section class="sec" id="tools" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow"><i></i>02 — The bench</div>
+        <h2>Every tool, working right now.</h2>
+      </div>
+      <p class="side">Six small tools that each do one thing, in the same tab. Watch one run — nothing to install, nothing to sign up for, nothing to wait for.</p>
+    </div>
+
+    <div class="toolgrid">
+
+      <!-- 1 · recorder -->
+      <a class="tool" href="record.html">
+        <div class="demo" data-demo="rec" data-state="idle">
+          <div class="demo__stage">
+            <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+            <div class="rec__shot">
+              <div class="rec__chrome"><span></span><span></span><span></span><i>app.local / dashboard</i></div>
+              <div class="rec__body">
+                <div class="rec__nav"><b></b><b></b><b></b><b></b></div>
+                <div class="rec__main">
+                  <div class="rec__row"><div class="rec__card"></div><div class="rec__card rec__card--accent"></div><div class="rec__card"></div></div>
+                  <div class="rec__chart">
+                    <b style="--h:40%"></b><b style="--h:66%"></b><b style="--h:48%"></b><b style="--h:80%"></b>
+                    <b style="--h:56%"></b><b style="--h:36%"></b><b style="--h:70%"></b><b style="--h:44%"></b>
+                  </div>
+                </div>
+              </div>
+              <span class="rec__cursor"><svg viewBox="0 0 14 18" fill="#fff" stroke="#15161A" stroke-width="1.1" stroke-linejoin="round"><path d="M2 2 L12 8.6 L7.7 9.4 L10.2 14.8 L8 15.8 L5.6 10.4 L2 13.4 Z"/></svg></span>
+              <span class="rec__ripple" style="left:48%;top:46%"></span>
+              <div class="rec__bubble">CAM</div>
+            </div>
+            <div class="rec__hud"><span class="rec"><i></i>REC</span><span class="tc" data-rec-time>00:00</span></div>
+          </div>
+          <div class="demo__note"><span>Screen recorder</span><b data-rec-label>Ready</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">Record</span>
+          <h3>Screen, camera and mic — mixed live</h3>
+          <p>Record a tab, a window or the whole screen with your camera bubble on top and your voice in it. Pause, resume, stop.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Pick tab, window or screen</span></li>
+            <li><b>02</b><span>Hit record — mic + system audio included</span></li>
+            <li><b>03</b><span>Stop, and the file is already on your disk</span></li>
+          </ul>
+          <span class="tool__go">Open the recorder <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 2 · trim -->
+      <a class="tool" href="trim-video.html">
+        <div class="demo" data-demo="trim">
+          <div class="demo__stage">
+            <div class="trim">
+              <div class="trim__ruler"><span>0:00</span><span>0:05</span><span>0:10</span><span>0:15</span></div>
+              <div class="trim__track">
+                <div class="trim__clip a"></div><div class="trim__clip b"></div>
+                <div class="trim__sel"><span class="trim__handle l"></span><span class="trim__handle r"></span></div>
+                <div class="trim__head"></div>
+              </div>
+              <div class="trim__labels"><span>IN 0:02.0</span><span>OUT 0:07.4</span></div>
+            </div>
+          </div>
+          <div class="demo__note"><span>Trim video</span><b>in / out points</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">Trim</span>
+          <h3>Cut the boring middle</h3>
+          <p>Set an in and out point, and the rest is thrown away. The cut is written on your machine — no re-upload, no waiting on a server.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop the file in</span></li>
+            <li><b>02</b><span>Drag the in and out points</span></li>
+            <li><b>03</b><span>Download the cut</span></li>
+          </ul>
+          <span class="tool__go">Open the trimmer <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 3 · gif -->
+      <a class="tool" href="mp4-to-gif.html">
+        <div class="demo" data-demo="gif">
+          <div class="demo__stage">
+            <div class="gifwrap">
+              <div>
+                <div class="gif__frames"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="gif__src">clip.mp4</div>
+              </div>
+              <div class="gif__out">
+                <span class="gif__badge">GIF <em>loop</em></span>
+                <span class="gif__meta">560px · 8s · 10fps</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo__note"><span>MP4 → GIF</span><b>runs in-tab</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">Video → GIF</span>
+          <h3>Make a GIF for the chat</h3>
+          <p>Eight seconds, 560 pixels wide, ten frames a second — the size that still looks fine in a message thread. Encoded in your browser.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop an MP4 in</span></li>
+            <li><b>02</b><span>Pick length and width</span></li>
+            <li><b>03</b><span>Download the loop</span></li>
+          </ul>
+          <span class="tool__go">Open the GIF maker <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 4 · webm -->
+      <a class="tool" href="webm-to-mp4.html">
+        <div class="demo" data-demo="conv">
+          <div class="demo__stage">
+            <div class="conv">
+              <div class="conv__row">
+                <span class="conv__file">recording.webm <b>12.4 MB</b></span>
+                <span class="conv__arrow">→</span>
+                <span class="conv__file conv__file--out is-done">recording.mp4 <b>H.264</b></span>
+              </div>
+              <div class="conv__track"><div class="conv__fill"></div></div>
+              <div class="conv__meta">converting on your machine</div>
+            </div>
+          </div>
+          <div class="demo__note"><span>WEBM → MP4</span><b>plays anywhere</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">WebM → MP4</span>
+          <h3>Make it play anywhere</h3>
+          <p>Screen recordings come out as WebM, and some apps refuse them. Convert to MP4 in the tab and send it anywhere — phone, chat, email.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop the .webm in</span></li>
+            <li><b>02</b><span>It converts on your machine</span></li>
+            <li><b>03</b><span>Save an .mp4 that plays everywhere</span></li>
+          </ul>
+          <span class="tool__go">Open the converter <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 5 · mov -->
+      <a class="tool" href="mov-to-mp4.html">
+        <div class="demo" data-demo="conv">
+          <div class="demo__stage">
+            <div class="conv">
+              <div class="conv__row">
+                <span class="conv__file">clip.mov <b>38.1 MB</b></span>
+                <span class="conv__arrow">→</span>
+                <span class="conv__file conv__file--out is-done">clip.mp4 <b>12.0 MB</b></span>
+              </div>
+              <div class="conv__track"><div class="conv__fill"></div></div>
+              <div class="conv__meta">h.264 · plays on phones</div>
+            </div>
+          </div>
+          <div class="demo__note"><span>MOV → MP4</span><b>smaller too</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">MOV → MP4</span>
+          <h3>Fix a file before it leaves your phone</h3>
+          <p>Your camera writes MOV. Half the internet refuses it. Convert to MP4 in the browser — smaller, and it plays on the phone you send it from.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop the .mov in</span></li>
+            <li><b>02</b><span>Re-encode to H.264 locally</span></li>
+            <li><b>03</b><span>Send it to a phone</span></li>
+          </ul>
+          <span class="tool__go">Open the converter <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 6 · audio -->
+      <a class="tool" href="video-to-audio.html">
+        <div class="demo" data-demo="aud">
+          <div class="demo__stage">
+            <div class="aud">
+              <div class="aud__wave">
+                <b style="--h:38%;--d:0s"></b><b style="--h:62%;--d:.1s"></b><b style="--h:88%;--d:.2s"></b>
+                <b style="--h:44%;--d:.05s"></b><b style="--h:70%;--d:.15s"></b><b style="--h:34%;--d:.25s"></b>
+                <b style="--h:80%;--d:.08s"></b><b style="--h:52%;--d:.18s"></b><b style="--h:26%;--d:.28s"></b>
+                <b style="--h:66%;--d:.02s"></b><b style="--h:48%;--d:.12s"></b><b style="--h:74%;--d:.22s"></b>
+                <b style="--h:40%;--d:.07s"></b><b style="--h:58%;--d:.17s"></b><b style="--h:30%;--d:.27s"></b>
+                <b style="--h:76%;--d:.03s"></b><b style="--h:46%;--d:.13s"></b><b style="--h:64%;--d:.23s"></b>
+              </div>
+              <span class="aud__out">audio.wav <em>44.1 kHz</em></span>
+            </div>
+          </div>
+          <div class="demo__note"><span>Video → audio</span><b>no re-mix</b></div>
+        </div>
+        <div class="tool__body">
+          <span class="tool__tag">Video → WAV</span>
+          <h3>Pull the track out</h3>
+          <p>Want the words, not the pixels? Lift the audio out of a recording as a WAV file — for a transcript, a podcast edit, or a re-record.</p>
+          <ul class="tool__steps">
+            <li><b>01</b><span>Drop a video in</span></li>
+            <li><b>02</b><span>Pull the audio track out</span></li>
+            <li><b>03</b><span>Save it as WAV</span></li>
+          </ul>
+          <span class="tool__go">Open the extractor <span>→</span></span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="sec-foot">
+      <a class="btn ghost" href="tools.html">All tools, including screenshots, webcam and voice <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ LOCAL BAND ============================ -->
+<section class="bench" id="bench">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="mono">03 — Why local</div>
+        <h2 style="margin-top:12px">Nothing leaves this tab.</h2>
+      </div>
+      <p class="side">Recording, trimming, converting — all of it happens in your browser. That is why there is no upload bar, no queue, no “processing your video” screen, and nothing to wait for.</p>
+    </div>
+
+    <div class="grid">
+      <div>
+        <h3>Edit it. Convert it. Don’t upload it.</h3>
+        <p class="lede">A small bench of tools that do one thing each, in the same tab. Nothing is sent to a server, because there is no server.</p>
+        <div class="bench__status">
+          <span><b>●</b> No queue</span>
+          <span><b>●</b> No upload</span>
+          <span><b>●</b> No waiting</span>
+        </div>
+
+        <div class="demo" data-demo="local">
+          <div class="localcard">
+            <div class="localcard__top">
+              <span class="localcard__name">recording.webm · 18.4 MB</span>
+              <span class="localcard__chip">Local</span>
+            </div>
+            <div class="localcard__bar"><div class="localcard__fill"></div></div>
+            <div class="localcard__meta">
+              <span>Converting on this machine</span>
+              <span>Uploaded <b>0 KB</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <a class="toolrow" href="trim-video.html">
+          <span class="tag">TRIM</span>
+          <div><h4>Cut the ends off</h4><p>Trim the dead air without a re-upload.</p></div>
+          <span class="arr">→</span>
+        </a>
+        <a class="toolrow" href="mp4-to-gif.html">
+          <span class="tag">MP4 → GIF</span>
+          <div><h4>Make a looping GIF</h4><p>Eight seconds, 560px, ready for chat.</p></div>
+          <span class="arr">→</span>
+        </a>
+        <a class="toolrow" href="webm-to-mp4.html">
+          <span class="tag">WEBM → MP4</span>
+          <div><h4>Make it play anywhere</h4><p>Phones, chats, and email clients that refuse WebM.</p></div>
+          <span class="arr">→</span>
+        </a>
+        <a class="toolrow" href="video-to-audio.html">
+          <span class="tag">VIDEO → AUDIO</span>
+          <div><h4>Pull the track out</h4><p>WAV, straight from the file.</p></div>
+          <span class="arr">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ COMPARE ============================ -->
+<section class="sec" id="compare">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow"><i></i>04 — The difference</div>
+        <h2>What the others do with your screen.</h2>
+      </div>
+      <p class="side">Share links are convenient. They also mean somebody else holds the file. We think a recorder should work like a camera: point it, record, keep what you shot.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th></th><th>Loom</th><th>Cap</th><th>Screenity</th>
+            <th class="us"><span class="us-mark"><i></i>ClipSolo</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>Install required</th><td>Extension or app</td><td>Desktop app</td><td>Chrome extension</td><td class="us">Nothing</td></tr>
+          <tr><th>Account required</th><td>Yes</td><td>No</td><td>No</td><td class="us">No</td></tr>
+          <tr><th>Where the file goes</th><td>Their cloud</td><td>Your disk or cloud</td><td>Your disk or paid cloud</td><td class="us">Your disk. Always.</td></tr>
+          <tr><th>Price</th><td>Free + paid</td><td>Free + $58 once</td><td>Free + paid editor</td><td class="us">Free</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Screenity’s recorder is local; its cloud editor needs an account. Correct as of October 2026 — we revise this when they do.</p>
+  </div>
+</section>
+
+<!-- ============================ USE CASES ============================ -->
+<section class="sec" id="use" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow"><i></i>05 — Who it’s for</div>
+        <h2>Three jobs, done in one take.</h2>
+      </div>
+      <p class="side">No re-recording because you forgot to say the name of the button. No “can you send that again?”</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>A bug report beats a thousand words</h3>
+        <p>Show the glitch, keep the tab audio, drop the file in the ticket. It is already trimmed by the time you paste it.</p>
+        <div class="meta">Screen · mic · system audio</div>
+      </div>
+      <div class="case">
+        <h3>Lessons people actually finish</h3>
+        <p>Record the flow once, trim the mistakes out, and send a GIF or an MP4 that fits in a message thread.</p>
+        <div class="meta">Trim · GIF · MP4</div>
+      </div>
+      <div class="case">
+        <h3>Show the work, skip the meeting</h3>
+        <p>Camera bubble on, screen on, two minutes long. No agenda, no calendar invite, no “can you record it again?”.</p>
+        <div class="meta">Camera bubble · unlimited length</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="sec" id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow"><i></i>06 — Straight answers</div>
+        <h2>Questions, answered straight.</h2>
+      </div>
+      <p class="side">If something here is wrong, tell us and we will fix the page and this list at the same time.</p>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Does my recording get uploaded anywhere?</summary>
+        <p>No. Recording happens in your browser through the same screen-capture API your OS already exposes, and the file is written straight to your downloads folder. There is no server to upload to, which is also why there is no upload bar and no processing wait.</p>
+      </details>
+      <details>
+        <summary>Do I need an account?</summary>
+        <p>No, and there is no plan where you do. Every tool — the recorder, the trimmer, the converters — opens and works immediately.</p>
+      </details>
+      <details>
+        <summary>Which browsers work?</summary>
+        <p>Chrome, Edge and other Chromium browsers are the smoothest. Firefox records screen and microphone; system audio depends on what the browser exposes. Safari works for the file tools and is limited for recording.</p>
+      </details>
+      <details>
+        <summary>Is there a watermark?</summary>
+        <p>No. No logo, no caption, no “made with” line, and no upgrade prompt when you hit export.</p>
+      </details>
+      <details>
+        <summary>How long can a recording be?</summary>
+        <p>As long as you like, with pause and resume. The practical limit is your disk and your browser tab, not a timer in someone else’s dashboard.</p>
+      </details>
+      <details>
+        <summary>Can I share a link like the other tools?</summary>
+        <p>Not yet — sharing would mean putting your file on a server, and that is exactly what this site refuses to do. Until we build an opt-in version of it, the honest answer is: send the file, however you like.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FINAL CTA ============================ -->
+<section class="final">
+  <div class="aurora-field aurora-field--sm" aria-hidden="true">
+    <div class="aurora-field__glow"></div>
+    <div class="aurora-field__grain"></div>
+  </div>
+  <div class="wrap">
+    <div class="final__panel">
+      <h2>Your next recording takes thirty seconds.</h2>
+      <p>Open the recorder, pick a tab, hit record. The file is on your disk before the tab stops loading.</p>
+      <div class="ctas">
+        <a class="btn" href="record.html">Start recording — free <span class="arr">→</span></a>
+        <a class="btn ghost" href="tools.html">Browse the tools</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h4>Record</h4>
+        <a href="record.html">Screen recorder</a><a href="tools.html">All tools</a><a href="trim-video.html">Trim video</a>
+      </div>
+      <div class="f-col">
+        <h4>Convert</h4>
+        <a href="mp4-to-gif.html">MP4 → GIF</a><a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a><a href="video-to-audio.html">Video → audio</a>
+      </div>
+      <div class="f-col">
+        <h4>For developers</h4>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h4>Site</h4>
+        <a href="features.html">Everything, listed</a><a href="about.html">About</a><a href="#compare">Compare</a><a href="#faq">FAQ</a>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<script src="demos.js" defer></script>
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+</body>
+</html>

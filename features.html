@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Everything, listed — ClipSolo</title>
+<meta name="description" content="A ledger of what ClipSolo does today, what is still in the lab, and what it will never do — with the reasons next to each one.">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<style>
+  /* the ledger — a list, so it reads like a list */
+  .filters{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px}
+  .filters .meta{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+  .filters .chip b{font-weight:500;color:var(--ink);margin-left:4px}
+  .filters .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+  .filters .chip[aria-pressed="true"] b{color:#fff}
+  .xsec{margin-top:46px}
+  .xhead{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;border-top:1px solid var(--ink);padding-top:14px}
+  .xhead .meta{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0}
+  .xhead h2{font-size:clamp(24px,2.4vw,32px);letter-spacing:-.03em;margin:10px 0 0}
+  .xcount{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted);white-space:nowrap;padding-bottom:4px}
+  .xlead{font-size:15px;line-height:1.6;color:var(--ink-2);max-width:64ch;margin:14px 0 0}
+  .xgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+  .sheet.card{display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,.72);border:1px solid var(--line);
+    border-radius:18px;padding:20px 20px 22px;text-decoration:none;color:inherit;
+    box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -30px rgba(30,20,14,.3);
+    transition:transform .18s var(--ease),box-shadow .18s var(--ease),background .18s var(--ease)}
+  .sheet.card:hover{transform:translateY(-3px);background:rgba(255,255,255,.86);
+    box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 26px 46px -30px rgba(30,20,14,.36)}
+  .sheet.card h3{font-size:17px;letter-spacing:-.02em;margin:2px 0 0}
+  .sheet.card p{font-size:14px;line-height:1.55;color:var(--ink-2);margin:0}
+  .stamp.stamp-live{align-self:flex-start;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ok);background:rgba(30,122,82,.08);border:1px solid rgba(30,122,82,.28);
+    border-radius:5px;padding:3px 7px;transform:none}
+  .stamp.stamp-lab{align-self:flex-start;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;
+    text-transform:uppercase;color:#9A6A00;background:rgba(255,239,190,.7);border:1px solid rgba(154,106,0,.28);
+    border-radius:5px;padding:3px 7px;transform:none}
+  .doodle{display:none}
+  .golink{margin-top:auto;padding-top:14px;display:inline-flex;align-items:center;gap:6px;font:600 13px/1 var(--sans);color:var(--ink)}
+  .golink svg{width:13px;height:13px;transition:transform .16s var(--ease)}
+  .sheet.card:hover .golink svg{transform:translate(2px,-2px)}
+  .sheet.nono{list-style:none;margin:22px 0 0;padding:0;background:rgba(255,255,255,.72);border:1px solid var(--line);
+    border-radius:18px;padding:6px 22px;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -30px rgba(30,20,14,.3)}
+  .nono-row{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:15px 0;border-bottom:1px solid var(--line);align-items:start}
+  .nono-row:last-child{border-bottom:0}
+  .no-x{color:var(--red);margin-top:2px}
+  .no-x svg{width:16px;height:16px}
+  .nono-row b{display:block;font-size:15px;margin-bottom:3px}
+  .nono-row p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.55}
+  @media (max-width:1000px){.xgrid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:800px){.xgrid{grid-template-columns:1fr}}
+</style>
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/features.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="Everything, listed — ClipSolo">
+<meta property="og:description" content="A ledger of what ClipSolo does today, what is still in the lab, and what it will never do — with the reasons next to each one.">
+<meta property="og:url" content="https://venubobby1406.github.io/features.html">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo — record your screen, keep the file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Everything, listed — ClipSolo">
+<meta name="twitter:description" content="A ledger of what ClipSolo does today, what is still in the lab, and what it will never do — with the reasons next to each one.">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!--/launch-meta-->
+</head>
+<body class="aurora">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>ClipSolo</a>
+  <nav class="nav-links" aria-label="Main">
+      <a href="record.html">Record</a>
+      <div class="nav-item">
+        <a class="nav-link" href="tools.html">Tools</a>
+        <div class="mega">
+          <a href="record.html"><span class="mono">Record</span><b>Screen, camera and mic</b><i>Tab, window or screen</i></a>
+          <a href="trim-video.html"><span class="mono">Trim</span><b>Cut the boring middle</b><i>In and out points</i></a>
+          <a href="mp4-to-gif.html"><span class="mono">GIF</span><b>MP4 to GIF</b><i>560px · 8s · loops</i></a>
+          <a href="webm-to-mp4.html"><span class="mono">Convert</span><b>WebM to MP4</b><i>Plays everywhere</i></a>
+          <a href="mov-to-mp4.html"><span class="mono">Convert</span><b>MOV to MP4</b><i>For phones</i></a>
+          <a href="video-to-audio.html"><span class="mono">Audio</span><b>Video to WAV</b><i>Pull the track out</i></a>
+        </div>
+      </div>
+      <a href="features.html" aria-current="page">Index</a>
+      <a href="embed.html">Embed</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="record.html">Open recorder <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero hero--center" style="padding-bottom:34px">
+  <div class="wrap">
+    <div class="hero__center">
+      <div class="eyebrow"><i></i>The index</div>
+      <h1>Everything this site does —<br>and everything it won't.</h1>
+      <p class="lede">Most feature pages exist to flatter the product. This is a ledger: the tools that run today, the lab work with honest status, and the refusal list — with reasons instead of "coming soon" theater.</p>
+      <div class="chips">
+        <span class="chip">Live now <b id="statLive">—</b></span>
+    <span class="chip">In the lab <b id="statLab">—</b></span>
+    <span class="chip">Honest no <b id="statNo">—</b></span>
+    <span class="chip">Fake countdowns <b>0</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ledger" aria-label="The ledger">
+  <div class="wrap">
+
+  <div class="filters" role="group" aria-label="Filter the ledger">
+    <span class="meta">Filter</span>
+    <button class="chip" type="button" data-filter="all" aria-pressed="true">All <b id="fAll">—</b></button>
+    <button class="chip" type="button" data-filter="live" aria-pressed="false">Live <b id="fLive">—</b></button>
+    <button class="chip" type="button" data-filter="lab" aria-pressed="false">Lab <b id="fLab">—</b></button>
+  </div>
+
+  <!-- 01 · LIVE -->
+  <div class="xsec" id="sec-live" data-kind="live">
+    <div class="xhead">
+      <div><p class="meta">01 — live now</p><h2>It runs today.</h2></div>
+      <span class="xcount" id="cntLive"></span>
+    </div>
+    <p class="xlead">No demos that aren't, no "early access". Every card is a working page — click through and see for yourself.</p>
+    <div class="xgrid" id="gridLive">
+      <a class="sheet card" href="record.html">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-monitor" aria-hidden="true"></span>
+        <h3>Screen recorder</h3>
+        <p>Records a screen, window, or tab — webcam bubble and mic included. Unlimited, no watermark, stays on your machine.</p>
+        <span class="golink">Open the recorder <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="record.html#studio">
+        <span class="stamp stamp-live">Live</span>
+        <h3>Studio frames</h3>
+        <p>Put the take on a background with padding and rounded corners, then save a second copy. It renders here on your device — your original recording stays exactly as it was.</p>
+        <span class="golink">Open the recorder <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="tools.html#webcam">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-camera" aria-hidden="true"></span>
+        <h3>Webcam recorder</h3>
+        <p>The camera-only twin. One button, talking-head takes, zero setup.</p>
+        <span class="golink">Open the tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="tools.html#voice">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-mic" aria-hidden="true"></span>
+        <h3>Voice recorder</h3>
+        <p>Mic only, one button, saved locally. Great for voice notes and quick takes.</p>
+        <span class="golink">Open the tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="tools.html#screenshot">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-scissors" aria-hidden="true"></span>
+        <h3>Screenshot tool</h3>
+        <p>Capture any screen — or pull a still from a video — then pixelate anything private before you share it.</p>
+        <span class="golink">Open the tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="tools.html#workbench">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-clip" aria-hidden="true"></span>
+        <h3>Video workbench</h3>
+        <p>Drop a video and chain the moves: trim, compress, GIF, WAV, MP4. The file never uploads — the bench is just JavaScript.</p>
+        <span class="golink">Open the bench <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="webm-to-mp4.html">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-tab" aria-hidden="true"></span>
+        <h3>WebM → MP4</h3>
+        <p>The format your editor won't open, converted in real time in this tab.</p>
+        <span class="golink">Open the converter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="mov-to-mp4.html">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-phone" aria-hidden="true"></span>
+        <h3>MOV → MP4</h3>
+        <p>iPhone and Mac files, made openable outside Apple. ProRes gets an honest refusal — not a spinner.</p>
+        <span class="golink">Open the converter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="trim-video.html">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-scissors" aria-hidden="true"></span>
+        <h3>Trim a video</h3>
+        <p>Cut the boring ends and keep the middle — real time, in this tab, original untouched.</p>
+        <span class="golink">Open the trimmer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="video-to-audio.html">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-mic" aria-hidden="true"></span>
+        <h3>Video → audio (WAV)</h3>
+        <p>Pull the sound out as a 16-bit WAV. Fast, lossless, no real-time render.</p>
+        <span class="golink">Open the extractor <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="mp4-to-gif.html">
+        <span class="stamp stamp-live">Live</span>
+        <span class="doodle dg-spark" aria-hidden="true"></span>
+        <h3>MP4 → GIF</h3>
+        <p>Pick the seconds that carry the point and get a loop that plays anywhere, no player needed.</p>
+        <span class="golink">Open the GIF maker <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+      <a class="sheet card" href="embed.html">
+        <span class="stamp stamp-live">Live</span>
+        <h3>ClipSolo Embed</h3>
+        <p>The recorder as a product of yours: one script tag on your site, and your users record their screen without an account. The clip is encoded in their browser and posted to your endpoint — nothing is stored on our side, and it is free.</p>
+        <span class="golink">See the embed <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 L19 5 M9 5 L19 5 L19 15"/></svg></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 02 · LAB -->
+  <div class="xsec" id="sec-lab" data-kind="lab">
+    <div class="xhead">
+      <div><p class="meta">02 — in the lab</p><h2>It's being built — with honest status.</h2></div>
+      <span class="xcount" id="cntLab"></span>
+    </div>
+    <p class="xlead">Real work, real status. If something graduates, it moves up a section. If it can't, it moves down — and the reason comes with it.</p>
+    <div class="xgrid" id="gridLab">
+      <div class="sheet card flat">
+        <span class="stamp">In the lab</span>
+        <h3>Share links</h3>
+        <p>One click when you stop → a link that plays anywhere. Waiting on a quiet backend (Cloudflare), not on effort. Until it ships, "download" is the honest word — and we use it.</p>
+      </div>
+      <div class="sheet card flat">
+        <span class="stamp">In the lab</span>
+        <h3>Video redaction</h3>
+        <p>Pixelate any region and export the whole recording redacted. Next in line on the bench.</p>
+      </div>
+      <div class="sheet card flat">
+        <span class="stamp">In the lab</span>
+        <h3>Captions</h3>
+        <p>A local Whisper model — downloaded only when you ask (~40–75 MB). Your audio never leaves the machine.</p>
+      </div>
+      <div class="sheet card flat">
+        <span class="stamp">In the lab</span>
+        <h3>Beautify export</h3>
+        <p>Padding, gradient, rounded corners, shadow. For recordings that deserve a frame.</p>
+      </div>
+      <div class="sheet card flat">
+        <span class="stamp">In the lab</span>
+        <h3>Music bed</h3>
+        <p>Your own audio file, dropped under the video and trimmed to length.</p>
+      </div>
+    </div>
+    </div>
+
+  <!-- 03 · NO -->
+  <div class="xsec" id="sec-no" data-kind="no">
+    <div class="xhead">
+      <div><p class="meta">03 — honest no</p><h2>It will never happen. Here's why.</h2></div>
+      <span class="xcount" id="cntNo"></span>
+    </div>
+    <p class="xlead">Every refusal has a reason, and none of the reasons are "roadmap". This is the part of the page we're proudest of.</p>
+    <ul class="sheet nono" id="gridNo">
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>AVI → MP4</h3>
+        <p>Your browser can't decode 20-year-old codecs — and we won't fake a progress bar over a failure.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>OS-wide auto-zoom</h3>
+        <p>A browser can't see your clicks outside its own tab. That's why Cap is a native app — and why we won't cosplay as one.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>Server-side anything</h3>
+        <p>Unlimited cloud storage, team workspaces, viewer analytics — all of it needs a server we run, holding your files and your viewers' behavior. Storage costs money forever, accounts mean identities and permissions, and analytics means watching. Hard no by design; your files stay yours.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>AI titles &amp; summaries</h3>
+        <p>Needs GPU servers. The day that's free to run, it'll be here. Until then — no theater.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>Native apps</h3>
+        <p>You already have one — it's called a browser. Phone screen recording is a different machine, so we're a desktop-browser tool, and we say so.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>4K theater</h3>
+        <p>We capture your screen the size it is. No upscaling, no "up to 4K" asterisks.</p></div>
+      </li>
+    </ul>
+    </div>
+
+  <p class="xnote">That's the whole site — <span id="cntAll"></span>. If a card here ever lies, it's a bug, and bugs get fixed.</p>
+
+</div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="final__panel">
+      <h2>Your next recording takes thirty seconds.</h2>
+      <p>Open the recorder, pick a tab, hit record. The file is on your disk before the tab stops loading.</p>
+      <div class="ctas">
+        <a class="btn" href="record.html">Start recording — free <span class="arr">→</span></a>
+        <a class="btn ghost" href="tools.html">Browse the tools</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h4>Tools</h4>
+        <a href="record.html">Screen recorder</a><a href="tools.html">All tools</a><a href="trim-video.html">Trim video</a>
+      </div>
+      <div class="f-col">
+        <h4>Convert</h4>
+        <a href="mp4-to-gif.html">MP4 → GIF</a><a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a>
+      </div>
+      <div class="f-col">
+        <h4>For developers</h4>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h4>The promise</h4>
+        <span>Local files only</span><span>No account</span><span>No watermark</span>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* count the ledger, live from the page itself — it can't drift */
+(function(){
+  function count(gridId, cntId, word){
+    var g = document.getElementById(gridId), c = document.getElementById(cntId);
+    var n = g ? g.children.length : 0;
+    if(c) c.textContent = n + ' ' + word;
+    return n;
+  }
+  var a = count('gridLive','cntLive','cards');
+  var b = count('gridLab','cntLab','cards');
+  var c = count('gridNo','cntNo','refusals');
+  var sl = document.getElementById('statLive'), sa = document.getElementById('statLab'),
+      sn = document.getElementById('statNo'), all = document.getElementById('cntAll');
+  if(sl) sl.textContent = a;
+  if(sa) sa.textContent = b;
+  if(sn) sn.textContent = c;
+  if(all) all.textContent = (a + b + c) + ' cards, no countdowns';
+  var fa = document.getElementById('fAll'), fl = document.getElementById('fLive'), fb = document.getElementById('fLab');
+  if(fa) fa.textContent = a + b + c;
+  if(fl) fl.textContent = a;
+  if(fb) fb.textContent = b;
+})();
+/* filter the card file — All / Live / Lab. Counts above are totals and never change. */
+(function(){
+  var chips = [].slice.call(document.querySelectorAll('.filters .chip'));
+  var secs = [].slice.call(document.querySelectorAll('.ledger .xsec'));
+  if(!chips.length) return;
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var f = chip.getAttribute('data-filter');
+      chips.forEach(function(c){ c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+      secs.forEach(function(s){ s.hidden = !(f === 'all' || s.getAttribute('data-kind') === f); });
+    });
+  });
+})();
+</script>
+<script>
+/* v3: slam things onto the page as they scroll into view. One observer, unobserved after firing.
+   When a slam ends, .in is swapped for .rv-done — which hands the element back to its hover animations.
+   Any failure here — or reduced motion — simply shows everything. */
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.sheet,.polaroid,.shelf-tape,.stamp,.toast,.cell'));
+  function settle(el){el.classList.remove('in');el.classList.add('rv-done');}
+  try{
+    if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(function(e){e.classList.add('rv-done');});return;}
+    var io=new IntersectionObserver(function(es){
+      /* stagger: at most six elements per batch, 60 ms apart — never a dozen slams at once */
+      var n=0;
+      es.forEach(function(x){
+        if(!x.isIntersecting)return;
+        var el=x.target;io.unobserve(el);
+        el.style.setProperty('--d',Math.min(n++,5)*60+'ms');
+        el.addEventListener('animationend',function(e){
+          if(e.target!==el||(e.animationName!=='slam'&&e.animationName!=='toastin'))return;
+          settle(el);
+        });
+        el.classList.add('in');
+      });
+    },{threshold:.2});
+    els.forEach(function(e){io.observe(e);});
+    /* belt and braces: a slam that never reports back (paused tab, odd engine) is shown anyway */
+    setTimeout(function(){els.forEach(function(e){if(e.classList.contains('in'))settle(e);});},3500);
+  }catch(err){els.forEach(function(e){e.classList.add('rv-done');});}
+})();
+/* About tab: the pupils drift toward the pointer. Skipped for touch and for reduced motion. */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var eyes=[].slice.call(document.querySelectorAll('.ico-eyes')), raf=0, px=0, py=0;
+  if(!eyes.length) return;
+  function look(){
+    raf=0;
+    eyes.forEach(function(el){
+      var r=el.getBoundingClientRect(); if(!r.width) return;
+      var dx=px-(r.left+r.width/2), dy=py-(r.top+r.height/2), d=Math.hypot(dx,dy)||1, k=Math.min(d/80,1)*2.2;
+      el.style.setProperty('--ex',(dx/d*k).toFixed(2)); el.style.setProperty('--ey',(dy/d*k).toFixed(2));
+    });
+  }
+  addEventListener('pointermove',function(e){
+    if(e.pointerType==='touch') return;
+    px=e.clientX; py=e.clientY; if(!raf) raf=requestAnimationFrame(look);
+  },{passive:true});
+})();
+</script>
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+</body>
+</html>

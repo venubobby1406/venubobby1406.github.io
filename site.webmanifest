@@ -1,0 +1,18 @@
+{
+  "name": "ClipSolo — the screen recorder that keeps the file",
+  "short_name": "ClipSolo",
+  "description": "Record your screen, trim it, convert it — right in your browser. No install, no account, no upload.",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#FAF8F4",
+  "theme_color": "#F7F5F0",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -1,0 +1,74 @@
+/* ============================================================
+   ClipSolo — recorder.css
+   The recorder's own furniture: the floating camera bubble and
+   the restore pill. The bubble is a real circle again (the
+   rewrite had dropped its CSS, so it rendered as a flat square),
+   in the glass language: a soft light ring, no ink outline, no
+   offset shadow.
+   ============================================================ */
+
+#liveBubble{
+  position:fixed;left:24px;bottom:24px;width:188px;height:188px;z-index:9999;
+  cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;
+}
+#liveBubble .bubble-circle{
+  overflow:hidden;width:100%;height:100%;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.22);
+  background:#0E0F13;
+  box-shadow:0 26px 52px -22px rgba(0,0,0,.75), 0 0 0 6px rgba(255,255,255,.05);
+}
+#liveBubble video{display:block;width:100%;height:100%;object-fit:cover}
+#liveBubble .bubble-x{
+  position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.26);background:rgba(20,22,26,.88);color:#EDEDEA;
+  font:500 14px/1 var(--sans);display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 8px 18px -8px rgba(0,0,0,.85);
+}
+#liveBubble .bubble-x:hover{background:var(--red);color:#fff;border-color:transparent}
+#liveBubble.dragging,#bubbleRestore.dragging{cursor:grabbing}
+
+#bubbleRestore{
+  position:fixed;left:24px;bottom:24px;z-index:9999;display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border:1px solid rgba(255,255,255,.16);border-radius:999px;
+  background:rgba(16,17,20,.88);color:#EDEDEA;font:600 12px/1 var(--sans);cursor:grab;
+  touch-action:none;user-select:none;-webkit-user-select:none;
+  box-shadow:0 18px 36px -18px rgba(0,0,0,.8);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+}
+#bubbleRestore:hover{background:rgba(28,30,35,.95)}
+#bubbleRestore svg{display:block}
+
+@media (max-width:560px){
+  #liveBubble{width:150px;height:150px}
+  #bubbleRestore{left:16px;bottom:16px}
+}
+
+/* ---------- the studio frame ---------- */
+.studio{margin-top:22px;padding:20px 22px 22px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.6)}
+.studio__head{margin-bottom:18px}
+.studio__head .hint{margin:6px 0 0;max-width:62ch}
+.studio__grid{display:grid;grid-template-columns:1fr 300px;gap:30px;align-items:start}
+.studio__controls{display:flex;flex-direction:column;gap:14px}
+.studio__row{display:grid;grid-template-columns:86px 1fr auto;align-items:center;gap:14px}
+.studio__label{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.studio__value{font-family:var(--mono);font-size:11px;color:var(--ink-2);min-width:48px;text-align:right;font-variant-numeric:tabular-nums}
+.studio__swatches{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.swatch{width:26px;height:26px;border-radius:8px;border:1px solid rgba(21,22,26,.16);background:var(--sw);cursor:pointer;padding:0;transition:transform .14s var(--ease),box-shadow .14s var(--ease)}
+.swatch:hover{transform:translateY(-1px)}
+.swatch.is-on{box-shadow:0 0 0 2px var(--ink)}
+.studio__custom{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.studio__custom input{width:26px;height:26px;padding:0;border:1px solid rgba(21,22,26,.16);border-radius:8px;background:none;cursor:pointer}
+.studio__custom span{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.studio__row input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;background:transparent;accent-color:var(--red);cursor:pointer}
+.studio__row input[type=range]::-webkit-slider-runnable-track{height:3px;background:rgba(21,22,26,.16);border-radius:2px}
+.studio__row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-6.5px;border-radius:50%;background:var(--ink);border:2px solid #fff;box-shadow:0 1px 4px rgba(21,22,26,.3)}
+.studio__row input[type=range]::-moz-range-track{height:3px;background:rgba(21,22,26,.16);border-radius:2px}
+.studio__row input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid #fff}
+.studio__preview{position:relative}
+.studio__frame{position:relative;aspect-ratio:16/9;display:grid;place-items:center;overflow:hidden;border-radius:12px;background:#0E0F13}
+.studio__video{width:100%;height:100%;object-fit:contain;display:block;border-radius:0}
+@media (max-width:900px){
+  .studio__grid{grid-template-columns:1fr}
+  .studio__preview{max-width:420px}
+}

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# nothing here is private, but there is nothing to crawl either
+Disallow: /404.html
+
+Sitemap: https://venubobby1406.github.io/sitemap.xml

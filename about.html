@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — ClipSolo</title>
+<meta name="description" content="Why ClipSolo exists, the house rules it will not break, and what is on the road next.">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<style>
+  .blockmeta{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  .prose h2{font-size:clamp(22px,2.2vw,28px);letter-spacing:-.03em;margin:0 0 14px}
+  .prose p{font-size:16px;line-height:1.7;color:var(--ink-2);margin:0 0 14px;max-width:66ch}
+  .prose strong{color:var(--ink);font-weight:700}
+  .prose .mark{background:linear-gradient(transparent 58%,rgba(255,239,190,.9) 0)!important;padding:0 .06em}
+  .rules{display:flex;flex-direction:column;margin-top:22px;border-top:1px solid var(--line)}
+  .rule{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .rule .rn{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.14em;color:var(--red);padding-top:4px}
+  .rule h3{font-size:17px;letter-spacing:-.02em;margin:0 0 5px}
+  .rule p{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-2);max-width:70ch}
+  .rm{display:flex;flex-direction:column;margin-top:22px;border-top:1px solid var(--line)}
+  .rmrow{display:grid;grid-template-columns:1fr auto;gap:6px 18px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start}
+  .rmrow b{font-size:16px;letter-spacing:-.01em}
+  .rmrow p{grid-column:1/-1;margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-2);max-width:70ch}
+  .stamp{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:5px;white-space:nowrap}
+  .stamp-live{color:var(--ok);background:rgba(30,122,82,.08);border:1px solid rgba(30,122,82,.28)}
+  .stamp-lab{color:#9A6A00;background:rgba(255,239,190,.7);border:1px solid rgba(154,106,0,.28)}
+  .stamp-no{color:var(--red-deep);background:rgba(226,59,46,.07);border:1px solid rgba(198,44,33,.26)}
+  @media (max-width:620px){.rmrow{grid-template-columns:1fr}}
+  </style>
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/about.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="About — ClipSolo">
+<meta property="og:description" content="Why ClipSolo exists, the house rules it will not break, and what is on the road next.">
+<meta property="og:url" content="https://venubobby1406.github.io/about.html">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo — record your screen, keep the file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About — ClipSolo">
+<meta name="twitter:description" content="Why ClipSolo exists, the house rules it will not break, and what is on the road next.">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!--/launch-meta-->
+</head>
+<body class="aurora">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>ClipSolo</a>
+  <nav class="nav-links" aria-label="Main">
+      <a href="record.html">Record</a>
+      <div class="nav-item">
+        <a class="nav-link" href="tools.html">Tools</a>
+        <div class="mega">
+          <a href="record.html"><span class="mono">Record</span><b>Screen, camera and mic</b><i>Tab, window or screen</i></a>
+          <a href="trim-video.html"><span class="mono">Trim</span><b>Cut the boring middle</b><i>In and out points</i></a>
+          <a href="mp4-to-gif.html"><span class="mono">GIF</span><b>MP4 to GIF</b><i>560px · 8s · loops</i></a>
+          <a href="webm-to-mp4.html"><span class="mono">Convert</span><b>WebM to MP4</b><i>Plays everywhere</i></a>
+          <a href="mov-to-mp4.html"><span class="mono">Convert</span><b>MOV to MP4</b><i>For phones</i></a>
+          <a href="video-to-audio.html"><span class="mono">Audio</span><b>Video to WAV</b><i>Pull the track out</i></a>
+        </div>
+      </div>
+      <a href="features.html">Index</a>
+      <a href="embed.html">Embed</a>
+      <a href="about.html" aria-current="page">About</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="record.html">Open recorder <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero hero--center" style="padding-bottom:34px">
+  <div class="wrap">
+    <div class="hero__center">
+      <div class="eyebrow"><i></i>About</div>
+      <h1>Screen recording should be a tab, not a subscription.</h1>
+      <p class="lede">We got tired of recorders that make you sign up, install, watermark and time-cap the simplest thing a computer can do: show your screen. So we're building the one we wanted to use.</p>
+      <div class="chips">
+        <span class="chip">No install</span>
+    <span class="chip">No account</span>
+    <span class="chip">No watermark</span>
+    <span class="chip">No time limit</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="story" style="padding-top:8px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">01 — The story</span>
+      <p class="hint">Why this exists, how it is built, and what it costs to run.</p>
+    </div>
+    
+    <article class="prose" id="problem" style="margin-top:26px">
+      <p class="blockmeta">01 — the problem</p>
+      <h2>Screen recording got <span class="mark">gatekept.</span></h2>
+      <p>Showing someone your screen should be one button. Instead it became an industry: <strong>sign-ups before you can press record</strong>, watermarks burned into the video, five-minute caps on the free plan, share links that quietly expire, and upgrade prompts parked exactly where the stop button should be.</p>
+        <p>The tools that respect you exist — OBS, QuickTime, the built-in grabbers — but they're built for a different job: streaming, editing, heavy capture. There was nothing in the gap between <strong>"I want to show you this right now"</strong> and everything on the market.</p>
+    </article>
+    
+    <article class="prose" id="building" style="margin-top:44px">
+      <p class="blockmeta">02 — what we're building</p>
+      <h2>A recorder that lives in <span class="mark">a tab.</span></h2>
+      <p>No install, no account, no watermark, no time limit. Screen plus a <strong>camera bubble that lands exactly where you dragged it</strong>. Record a bug, a walkthrough, a demo — hit stop — and get a link the moment you're done.</p>
+        <p>Sharing needs somewhere to live, so there's honest hosting attached: your link stays up 30 days and you hold the <strong>delete token</strong>. The recording itself is yours from second one — download it, keep it, do whatever.</p>
+    </article>
+    
+    <article class="prose" id="rules" style="margin-top:44px">
+      <p class="blockmeta">03 — house rules</p>
+      <h2>Six rules we <span class="mark">don't</span> plan to break.</h2>
+      <p>Opening a tab and pressing record should not require an identity. Accounts will exist later for exactly one optional thing — managing your links. They will never guard the recorder.</p>
+        <p>Not on the video, not on the player, not "only on the free plan". Your recording is not our billboard.</p>
+        <p>A three-hour recording is your business, not our upsell trigger. The stop button is the only thing that ends a recording.</p>
+        <p>No fake countdowns, no "your video expires — upgrade!" emails, no upgrade prompt jammed under the stop button. Free means free.</p>
+        <p>The little floating circle — drag it anywhere, it lands exactly there in the video. In the free plan. Obviously.</p>
+        <p>One sponsor slot pays the bills. We don't sell viewer insights, we don't train anything on recordings, and there's no "we may share with partners" clause — because there is no clause.</p>
+    </article>
+    
+    <article class="prose" id="free" style="margin-top:44px">
+      <p class="blockmeta">04 — how it stays free</p>
+      <h2>Honest math, not a <span class="mark">paywall.</span></h2>
+      <p>Playback needs storage, and storage costs money — so here's the deal instead of a pricing page: <strong>links live 30 days, then the bytes are recycled.</strong> That one rule keeps storage bounded and hosting boring-cheap, cheap enough that a single sponsor slot on the landing page covers it.</p>
+        <p>The recorder, the tools, the links: <strong>free forever.</strong> If money ever enters the picture it will be for heavy storage or teams — never as a hostage on basics.</p>
+    </article>
+    
+    <article class="prose" id="roadmap" style="margin-top:44px">
+      <p class="blockmeta">05 — where we are</p>
+      <h2>The roadmap, <span class="mark">unfiltered.</span></h2>
+      <p>Browser tab, unlimited length, camera bubble, dual versions (with camera / screen only), delete token. Being used and tested daily.</p>
+        <p>A link that's ready the moment you stop recording. Cloudflare Worker + storage, 30-day lifecycle, private delete token.</p>
+        <p>Screenshot, webcam and voice recorders, plus the video workbench — trim, convert, compress, GIF and audio extract, all in the tab. Nothing uploaded, ever.</p>
+        <p>See and manage your links from one place. Optional forever — never required to record.</p>
+        <p>The browser is the point. Nothing to install, nothing to update, nothing to uninstall.</p>
+    </article>
+  </div>
+</section>
+
+<section class="sec" id="rules" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">02 — House rules</span>
+      <p class="hint">Six promises. None of them are “coming soon”.</p>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <span class="rn">01</span>
+        <div><h3>No account to record.</h3>
+        <p>Opening a tab and pressing record should not require an identity. Accounts will exist later for exactly one optional thing — managing your links. They will never guard the recorder.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">02</span>
+        <div><h3>No watermark. Anywhere.</h3>
+        <p>Not on the video, not on the player, not "only on the free plan". Your recording is not our billboard.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">03</span>
+        <div><h3>No time limits.</h3>
+        <p>A three-hour recording is your business, not our upsell trigger. The stop button is the only thing that ends a recording.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">04</span>
+        <div><h3>No dark patterns.</h3>
+        <p>No fake countdowns, no "your video expires — upgrade!" emails, no upgrade prompt jammed under the stop button. Free means free.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">05</span>
+        <div><h3>The camera bubble is included.</h3>
+        <p>The little floating circle — drag it anywhere, it lands exactly there in the video. In the free plan. Obviously.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">06</span>
+        <div><h3>Your data isn't the price.</h3>
+        <p>One sponsor slot pays the bills. We don't sell viewer insights, we don't train anything on recordings, and there's no "we may share with partners" clause — because there is no clause.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="roadmap" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">03 — What is next</span>
+      <p class="hint">Live, building, later, and never — in that order, with nothing hidden.</p>
+    </div>
+    <div class="rm">
+      <div class="rmrow">
+        <b>v1 recorder</b><span class="stamp stamp-live">Live</span>
+        <p>Browser tab, unlimited length, camera bubble, dual versions (with camera / screen only), delete token. Being used and tested daily.</p>
+      </div>
+      <div class="rmrow">
+        <b>Share links</b><span class="stamp stamp-lab">Building now</span>
+        <p>A link that's ready the moment you stop recording. Cloudflare Worker + storage, 30-day lifecycle, private delete token.</p>
+      </div>
+      <div class="rmrow">
+        <b>Free tools</b><span class="stamp stamp-live">Live</span>
+        <p>Screenshot, webcam and voice recorders, plus the video workbench — trim, convert, compress, GIF and audio extract, all in the tab. Nothing uploaded, ever.</p>
+      </div>
+      <div class="rmrow">
+        <b>Optional link management</b><span class="stamp">Later</span>
+        <p>See and manage your links from one place. Optional forever — never required to record.</p>
+      </div>
+      <div class="rmrow">
+        <b>Native apps</b><span class="stamp stamp-no">Pass</span>
+        <p>The browser is the point. Nothing to install, nothing to update, nothing to uninstall.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="final__panel">
+      <h2>Bored of reading? The recorder is right there.</h2>
+      <p>No download. No account. No watermark. That's the whole point of this page.</p>
+      <div class="ctas">
+        <a class="btn" href="record.html">Start recording — free <span class="arr">→</span></a>
+        <a class="btn ghost" href="tools.html">Explore the tools</a>
+      </div>
+      <p class="mono" style="margin-top:18px">3 · 2 · 1 — nothing starts until you click</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h4>Tools</h4>
+        <a href="record.html">Screen recorder</a><a href="tools.html">All tools</a><a href="trim-video.html">Trim video</a>
+      </div>
+      <div class="f-col">
+        <h4>Convert</h4>
+        <a href="mp4-to-gif.html">MP4 → GIF</a><a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a>
+      </div>
+      <div class="f-col">
+        <h4>For developers</h4>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h4>The promise</h4>
+        <span>Local files only</span><span>No account</span><span>No watermark</span>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* v3: slam things onto the page as they scroll into view. One observer, unobserved after firing.
+   When a slam ends, .in is swapped for .rv-done — which hands the element back to its hover animations.
+   Any failure here — or reduced motion — simply shows everything. */
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.sheet,.polaroid,.shelf-tape,.stamp,.toast,.cell'));
+  function settle(el){el.classList.remove('in');el.classList.add('rv-done');}
+  try{
+    if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(function(e){e.classList.add('rv-done');});return;}
+    var io=new IntersectionObserver(function(es){
+      /* stagger: at most six elements per batch, 60 ms apart — never a dozen slams at once */
+      var n=0;
+      es.forEach(function(x){
+        if(!x.isIntersecting)return;
+        var el=x.target;io.unobserve(el);
+        el.style.setProperty('--d',Math.min(n++,5)*60+'ms');
+        el.addEventListener('animationend',function(e){
+          if(e.target!==el||(e.animationName!=='slam'&&e.animationName!=='toastin'))return;
+          settle(el);
+        });
+        el.classList.add('in');
+      });
+    },{threshold:.2});
+    els.forEach(function(e){io.observe(e);});
+    /* belt and braces: a slam that never reports back (paused tab, odd engine) is shown anyway */
+    setTimeout(function(){els.forEach(function(e){if(e.classList.contains('in'))settle(e);});},3500);
+  }catch(err){els.forEach(function(e){e.classList.add('rv-done');});}
+})();
+/* About tab: the pupils drift toward the pointer. Skipped for touch and for reduced motion. */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var eyes=[].slice.call(document.querySelectorAll('.ico-eyes')), raf=0, px=0, py=0;
+  if(!eyes.length) return;
+  function look(){
+    raf=0;
+    eyes.forEach(function(el){
+      var r=el.getBoundingClientRect(); if(!r.width) return;
+      var dx=px-(r.left+r.width/2), dy=py-(r.top+r.height/2), d=Math.hypot(dx,dy)||1, k=Math.min(d/80,1)*2.2;
+      el.style.setProperty('--ex',(dx/d*k).toFixed(2)); el.style.setProperty('--ey',(dy/d*k).toFixed(2));
+    });
+  }
+  addEventListener('pointermove',function(e){
+    if(e.pointerType==='touch') return;
+    px=e.clientX; py=e.clientY; if(!raf) raf=requestAnimationFrame(look);
+  },{passive:true});
+})();
+</script>
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+</body>
+</html>

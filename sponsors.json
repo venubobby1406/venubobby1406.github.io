@@ -1,0 +1,7 @@
+{
+  "_comment": "Sponsor slot. Drop a sponsor here and the footer shows them. Keep it to one, text-only, no tracking, no cookies. Leave sponsor: null and the slot disappears entirely.",
+  "sponsor": null,
+  "label": "Sponsored by",
+  "url": "",
+  "blurb": ""
+}

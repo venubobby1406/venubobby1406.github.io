@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ClipSolo — the screen recorder that keeps the file</title>
+<meta name="description" content="Record your screen with camera bubble and mic, right in your browser. No account, no upload, no watermark, no time limit. The file lands on your disk the moment you stop.">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<link rel="stylesheet" href="recorder.css">
+<script src="studio.js" defer></script>
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/record.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="ClipSolo — the screen recorder that keeps the file">
+<meta property="og:description" content="Record your screen with camera bubble and mic, right in your browser. No account, no upload, no watermark, no time limit. The file lands on your disk the moment you stop.">
+<meta property="og:url" content="https://venubobby1406.github.io/record.html">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo — record your screen, keep the file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ClipSolo — the screen recorder that keeps the file">
+<meta name="twitter:description" content="Record your screen with camera bubble and mic, right in your browser. No account, no upload, no watermark, no time limit. The file lands on your disk the moment you stop.">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!--/launch-meta-->
+</head>
+<body class="aurora">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="record.html"><i></i>ClipSolo</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="record.html" aria-current="page">Record</a>
+      <a href="tools.html">Tools</a>
+      <a href="features.html">Index</a>
+      <a href="embed.html">Embed</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="tools.html">All tools <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================ HERO ============================ -->
+<section class="apphero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><i></i>The recorder · free · no account</div>
+      <h1>Hit REC. Keep the file.</h1>
+      <p class="lede">Screen, camera bubble and microphone, recorded in your browser. When you stop, the video is already on your disk — nothing was uploaded, and nothing was waiting.</p>
+      <div class="chips">
+        <span class="chip static">No time limit</span>
+        <span class="chip static">No watermark</span>
+        <span class="chip static">No account</span>
+        <span class="chip static">Nothing uploaded</span>
+      </div>
+    </div>
+    <div class="apphero__side">
+      <span class="mono">Runs on</span>
+      <p>Chrome · Edge · Brave · Firefox</p>
+      <span class="mono">Needs</span>
+      <p>A browser with screen capture. No install, no extension, no sign-in.</p>
+      <span class="mono">Asks for</span>
+      <p>Screen, camera and mic — and nothing else.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ THE RECORDER ============================ -->
+<section class="sec" id="recorder" style="padding-top:8px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">01 — Record</span>
+      <p class="hint">Pick what to capture. The browser asks which screen, window or tab to share — that is the only permission it ever asks for.</p>
+    </div>
+
+    <div class="panel" id="panel-setup" style="margin-top:34px">
+      <div class="panel__split">
+        <div>
+          <h3>New recording</h3>
+          <p class="hint">Two switches. Both on by default.</p>
+          <div class="opts">
+            <label class="optrow"><input type="checkbox" class="check" id="optCam" checked><span>Camera bubble<small>Your face, composited into the video exactly where you drag it</small></span></label>
+            <label class="optrow"><input type="checkbox" class="check" id="optMic" checked><span>Microphone<small>System audio comes along on most setups — tab audio on Mac and Linux</small></span></label>
+          </div>
+          <button class="recbtn" id="btnStart"><span class="recbtn__dot" aria-hidden="true"></span>Start recording</button>
+        </div>
+        <div>
+          <div class="stepslist">
+            <div><span class="num">01</span><p>Pick a tab, a window, or the whole screen.</p></div>
+            <div><span class="num">02</span><p>Hit REC. The timer runs on this page, not on a server.</p></div>
+            <div><span class="num">03</span><p>Stop, and the file is already in your downloads.</p></div>
+          </div>
+          <p class="mono" style="margin-top:24px">No upload · no queue · no watermark</p>
+        </div>
+      </div>
+    </div>
+<!-- ============================ RECORDING ============================ -->
+<div class="hidden" id="panel-rec" style="margin-top:34px">
+  <div class="stage">
+    <div class="stage__head"><span class="blinkdot" aria-hidden="true"></span>recording…</div>
+    <span class="stage__timer" id="timer">00:00</span>
+    <div class="stage__btns">
+      <button class="btn" id="btnPause">Pause</button>
+      <button class="btn hidden" id="btnFloat" title="Float the camera over other windows">Float bubble</button>
+      <button class="btn" id="btnStop"><i class="stopc" aria-hidden="true"></i>Stop &amp; save</button>
+    </div>
+    <p class="stage__hint">The browser's own “Stop sharing” bar also ends the take — the file is saved either way.</p>
+  </div>
+</div>
+
+<!-- ============================ RESULT ============================ -->
+<div class="hidden" id="panel-result" style="margin-top:34px">
+  <div class="panel">
+    <h3>Your recording</h3>
+    <p class="hint">Saved on this device — download it, or record again.</p>
+    <div class="frame" style="margin-top:18px">
+      <video class="preview" id="preview" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture></video>
+      <p class="frame__meta" id="meta"></p>
+    </div>
+    <div class="toggle hidden" id="versionToggle">
+      <button class="chip choice" id="verWith">With camera bubble</button>
+      <button class="chip choice" id="verWithout">Screen only</button>
+    </div>
+    <div class="toggle hidden" id="qualityToggle">
+      <button class="chip choice" id="qOrig">Original</button>
+      <button class="chip choice" id="q720" title="Re-encode at 720p — click again while it runs to cancel">720p</button>
+      <button class="chip choice" id="q360" title="Re-encode at 360p — the smallest — click again while it runs to cancel">360p</button>
+    </div>
+
+    <!-- ============================ STUDIO FRAME ============================ -->
+    <div class="studio" id="studio">
+      <div class="studio__head">
+        <span class="mono">Studio frame</span>
+        <p class="hint">Put the picture on a background, with padding and rounded corners — the way a real studio shot is framed. It renders here on your device, and your original recording stays exactly as it was.</p>
+      </div>
+      <div class="studio__grid">
+        <div class="studio__controls">
+          <div class="studio__row">
+            <span class="studio__label">Background</span>
+            <div class="studio__swatches" id="studioBg">
+              <button class="swatch is-on" type="button" data-bg="none" title="No background" style="--sw:#15161A"></button>
+              <button class="swatch" type="button" data-bg="#F7F5F0" title="Warm white" style="--sw:#F7F5F0"></button>
+              <button class="swatch" type="button" data-bg="#FFFFFF" title="White" style="--sw:#FFFFFF"></button>
+              <button class="swatch" type="button" data-bg="#1B1D22" title="Graphite" style="--sw:#1B1D22"></button>
+              <button class="swatch" type="button" data-bg="#E23B2E" title="Signal red" style="--sw:#E23B2E"></button>
+              <label class="studio__custom" title="Custom colour"><input type="color" id="studioColor" value="#15161A"><span>Custom</span></label>
+            </div>
+          </div>
+          <div class="studio__row">
+            <span class="studio__label">Padding</span>
+            <input type="range" id="studioPad" min="0" max="120" step="4" value="0" aria-label="Frame padding">
+            <span class="studio__value" id="studioPadV">0 px</span>
+          </div>
+          <div class="studio__row">
+            <span class="studio__label">Corners</span>
+            <input type="range" id="studioRadius" min="0" max="48" step="2" value="0" aria-label="Corner radius">
+            <span class="studio__value" id="studioRadiusV">0 px</span>
+          </div>
+          <div class="btnrow" style="margin-top:16px">
+            <button class="btn" id="studioRender" type="button">Render styled copy</button>
+            <a class="btn btn-primary hidden" id="studioDownload" download>Download styled copy</a>
+          </div>
+          <p class="mono" id="studioNote" style="margin-top:12px">Renders in real time — a 20-second clip takes about 20 seconds.</p>
+        </div>
+        <div class="studio__preview">
+          <div class="studio__frame" id="studioFrame">
+            <video class="studio__video" id="studioVideo" muted playsinline loop></video>
+          </div>
+          <p class="mono" style="margin-top:10px;text-align:center">live preview</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="frame" style="margin-top:18px">
+      <video class="preview" id="preview" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture></video>
+      <p class="frame__meta" id="meta"></p>
+    </div>
+    <p class="hint hidden" id="qNote">A copy is re-encoded on your device right here — it takes about as long as the video itself, and you can use other tabs while it works.</p>
+    <div class="btnrow">
+      <a class="btn btn-primary" id="btnDownload" download>Download video</a>
+      <button class="btn" id="btnAgain">Record again</button>
+      <button class="btn btn-danger" id="btnDelete" title="Delete this recording permanently">Delete recording</button>
+    </div>
+    <p class="mono" style="margin-top:16px">The file stays on this device — it was never uploaded.</p>
+  </div>
+</div>
+
+  </div>
+</section>
+
+<p class="note wrap" id="msg" role="status"></p>
+
+<!-- ============================ WHAT YOU GET ============================ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow"><i></i>02 — What you get</div>
+        <h2>Three things the others charge for.</h2>
+      </div>
+      <p class="side">No plan picker, no card, no trial that quietly ends. The recorder is the whole product.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>Camera bubble in the file</h3>
+        <p>Your face is composited into the recording as it happens — drag it anywhere and it lands in the video exactly there.</p>
+        <div class="meta">Live · on-device</div>
+      </div>
+      <div class="case">
+        <h3>Unlimited length</h3>
+        <p>Pause and resume as often as you like. The only limit is your disk and your tab — not a counter on somebody else's dashboard.</p>
+        <div class="meta">No time cap</div>
+      </div>
+      <div class="case">
+        <h3>Quality copies on demand</h3>
+        <p>Original, 720p or 360p. Each copy is re-encoded here while you keep working, and downloads under its own name.</p>
+        <div class="meta">Original · 720p · 360p</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ HONEST LIMITS ============================ -->
+<section class="sec" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow"><i></i>03 — Honest limits</div>
+        <h2>What this does not do.</h2>
+      </div>
+      <p class="side">Every recorder has a catch. Ours is that we refuse to put your screen on a server — so here is the honest list instead of a surprise.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>No share links yet</h3>
+        <p>A link means somebody else holds the file. We would rather ship nothing than quietly upload your screen, so the file stays yours to send however you like.</p>
+        <div class="meta">Not built</div>
+      </div>
+      <div class="case">
+        <h3>No accounts, no cloud, no tracking</h3>
+        <p>There is nothing to sign in to and nothing to profile. The site has no cookies, no analytics, and no upload endpoint at all.</p>
+        <div class="meta">By design</div>
+      </div>
+      <div class="case">
+        <h3>No AI editing, captions or redaction</h3>
+        <p>Those need a server or a hundred-megabyte model download. Not yet — and we will say so here rather than on a pricing page.</p>
+        <div class="meta">Later, maybe</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="sec" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow"><i></i>04 — Straight answers</div>
+        <h2>Questions, answered straight.</h2>
+      </div>
+      <p class="side">If something here is wrong, tell us and we will fix the page and this list at the same time.</p>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Where does the recording go?</summary>
+        <p>Straight to your downloads folder. The file is written by your browser, on your machine — there is no upload step to wait for, and nothing is stored on a server.</p>
+      </details>
+      <details>
+        <summary>Which browsers work?</summary>
+        <p>Chrome, Edge and Brave are the smoothest. Firefox records screen and microphone; system audio depends on what the browser exposes. Safari is limited for recording, and fine for the file tools.</p>
+      </details>
+      <details>
+        <summary>Does it use my data or eat my battery?</summary>
+        <p>No data — nothing is sent anywhere. Battery use is the same as any other screen capture: the encoding costs, not the network.</p>
+      </details>
+      <details>
+        <summary>Can I use it for work?</summary>
+        <p>Yes. Bug reports, tutorials, product demos — anything you are allowed to capture. People use it for client work every day; we just do not take a copy of it.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h4>Record</h4>
+        <a href="record.html">Screen recorder</a><a href="tools.html">All tools</a><a href="features.html">Everything, listed</a>
+      </div>
+      <div class="f-col">
+        <h4>Convert</h4>
+        <a href="mp4-to-gif.html">MP4 → GIF</a><a href="trim-video.html">Trim video</a><a href="webm-to-mp4.html">WebM → MP4</a><a href="video-to-audio.html">Video → audio</a>
+      </div>
+      <div class="f-col">
+        <h4>For developers</h4>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h4>The promise</h4>
+        <span>Local files only</span><span>No account</span><span>No watermark</span>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<!-- live self-view bubble (full-screen shares, while the page is visible): drag to move, ✕ to hide -->
+<div id="liveBubble" class="hidden" title="Drag to move · ✕ to hide">
+  <div class="bubble-circle"><video id="liveBubbleVid" muted autoplay playsinline></video></div>
+  <button class="bubble-x" id="liveBubbleClose" title="Hide preview">×</button>
+</div>
+
+<!-- restore pill: appears while recording when the bubble is hidden; click to bring it back, drag to move -->
+<button id="bubbleRestore" class="hidden" title="Show camera preview">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+  Camera
+</button>
+
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const msg = $('msg');
+  const liveBubble = $('liveBubble'), liveBubbleVid = $('liveBubbleVid'), liveBubbleClose = $('liveBubbleClose'), bubbleRestore = $('bubbleRestore');
+  // Picture-in-Picture is the only always-on-top window a page can own (Loom/Cap use a native one;
+  // a website cannot float over the desktop any other way). A PiP window IS on screen, so a
+  // full-screen share records it — window/tab shares never do. pipSupported hides the button where
+  // the API is missing; isPip() is the single source of truth for the float state.
+  const pipSupported = !!document.pictureInPictureEnabled && !!HTMLVideoElement.prototype.requestPictureInPicture;
+  const isPip = () => document.pictureInPictureElement === liveBubbleVid;
+  const setMsg = (t, err) => { msg.textContent = t || ''; msg.className = 'note' + (err ? ' err' : ''); };
+
+  const show = id => { ['panel-setup','panel-rec','panel-result'].forEach(p => $(p).classList.toggle('hidden', p !== id)); };
+
+  let displayStream = null, micStream = null, camStream = null;
+  let recorder = null, chunks = [], drawTimer = null, audioCtx = null;
+  let recorder2 = null, chunks2 = null, stopsLeft = 0, recBubbleHidden = false, screenMode = false;
+  let el = { rafId: null, lastTick: 0, seconds: 0, paused: false };
+  let lastBlob = null, lastBlob2 = null, lastExt = 'webm', lastDuration = 0;
+  let urlWith = null, urlWithout = null, version = 'with', lastTs = '';
+  let qSize = 'orig', qBlobs = {}, qUrls = {}, qBusy = null, lastSrcH = 0;   // on-demand 720p / 360p copies
+
+  const fmt = s => String(Math.floor(s/60)).padStart(2,'0') + ':' + String(Math.floor(s%60)).padStart(2,'0');
+  const safeStop = st => { if (st) st.getTracks().forEach(t => { try { t.stop(); } catch(_){} }); };
+
+  async function playHidden(vid, stream, waitMs = 1500){
+    vid.srcObject = stream; vid.muted = true; vid.playsInline = true;
+    await vid.play().catch(()=>{});
+    if (waitMs && !vid.videoWidth) {
+      await new Promise(res => { vid.onloadedmetadata = res; setTimeout(res, waitMs); });
+    }
+  }
+
+  function buildMime(){
+    const c = [
+      'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+      'video/mp4',
+      'video/webm;codecs=vp9,opus',
+      'video/webm;codecs=vp8,opus',
+      'video/webm'
+    ];
+    const m = (window.MediaRecorder && c.find(x => MediaRecorder.isTypeSupported(x))) || '';
+    return { mime: m, ext: m.includes('mp4') ? 'mp4' : 'webm' };
+  }
+
+  async function start(){
+    setMsg('');
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia){
+      setMsg('Screen recording is not supported in this browser. Use desktop Chrome, Edge or Firefox.', true);
+      return;
+    }
+    try {
+      // 1) screen (+ system/tab audio where supported)
+      displayStream = await navigator.mediaDevices.getDisplayMedia({
+        video: { frameRate: 30 }, audio: true
+      });
+
+      // 2) camera bubble (optional)
+      const wantCam = $('optCam').checked;
+      if (wantCam){
+        try { camStream = await navigator.mediaDevices.getUserMedia({ video: { width: 480, height: 480 } }); }
+        catch(e){ setMsg('Camera unavailable — recording without the bubble.'); }
+      }
+
+      // 3) mic (optional)
+      const wantMic = $('optMic').checked;
+      if (wantMic){
+        try { micStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation:true, noiseSuppression:true } }); }
+        catch(e){ setMsg('Microphone unavailable — recording without it.'); }
+      }
+
+      // hidden video elements for compositing
+      const screenVid = document.createElement('video');
+      await playHidden(screenVid, displayStream);
+
+      const settings = displayStream.getVideoTracks()[0].getSettings();
+      const W = settings.width  || screenVid.videoWidth  || 1280;
+      const H = settings.height || screenVid.videoHeight || 720;
+
+      // what did the user share? 'monitor' (full screen) or 'window'/'browser'. Full-screen shares
+      // also show the on-screen self-view bubble while the page is visible; in every compositing
+      // mode the draw loop adds its own bubble whenever the page is hidden, so the recording
+      // never loses it (see draw()).
+      screenMode = settings.displaySurface === 'monitor';
+
+      const canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d', { alpha:false });
+
+      // no wait for camera frames: the recording starts right away and the bubble's spot is
+      // painted from the first frame (dark disc + ring); the face fades in when the camera warms
+      let camVid = null;
+      if (camStream){ camVid = document.createElement('video'); await playHidden(camVid, camStream, 0); }
+
+      // draw loop. Raw screen every tick; the circular camera bubble (bottom-left) is drawn only
+      // when the raw screen cannot contain the on-screen one: while the page is visible, the
+      // full-screen share captures the on-screen self-view bubble exactly once; while the page is
+      // hidden (user switched away) there is nothing on screen to capture, so the composite takes
+      // over; and while the bubble floats in a PiP window, that window is already on screen — a
+      // full-screen share records it as-is, so the composite must step aside there too (docking or
+      // closing the float brings it back). Window/tab shares never capture a PiP window, so they
+      // always composite. Interval-driven, not rAF: rAF stops when the page is hidden — precisely
+      // when the composite must keep drawing (regression found 18 Oct).
+      const pageHidden = () => document.visibilityState === 'hidden';
+      const showCompositeBubble = () => !recBubbleHidden && (!screenMode || (pageHidden() && !isPip()));
+      // bubble radius ≈ the on-screen bubble as captured (188 px at 1080p ≈ 0.09·min), so the
+      // recorded size stays consistent whether the page is visible or hidden
+      const draw = () => {
+        ctx.drawImage(screenVid, 0, 0, W, H);
+        if (camVid && showCompositeBubble()){
+          const r  = Math.round(Math.min(W, H) * 0.09);
+          const mg = Math.round(r * 0.4);
+          const cx = r + mg, cy = H - r - mg;
+          ctx.save();
+          ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.closePath(); ctx.clip();
+          if (camVid.videoWidth){
+            const s = Math.max((2*r)/camVid.videoWidth, (2*r)/camVid.videoHeight);
+            const dw = camVid.videoWidth*s, dh = camVid.videoHeight*s;
+            ctx.drawImage(camVid, cx - dw/2, cy - dh/2, dw, dh);
+          } else {
+            // camera still warming up — keep the bubble's spot from the very first frame
+            ctx.fillStyle = '#14171c'; ctx.fillRect(cx - r, cy - r, 2*r, 2*r);
+          }
+          ctx.restore();
+          ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
+          ctx.lineWidth = Math.max(4, r*0.055); ctx.strokeStyle = 'rgba(255,255,255,.92)'; ctx.stroke();
+        }
+      };
+
+      // with a camera + canvas.captureStream the video always comes from the canvas; the draw loop
+      // guarantees exactly one bubble per frame in every situation.
+      const composited = !!camStream && !!canvas.captureStream;
+      let videoTrack;
+      if (composited){
+        draw();
+        drawTimer = setInterval(draw, 33);
+        videoTrack = canvas.captureStream(30).getVideoTracks()[0];
+        try { videoTrack.contentHint = 'text'; } catch(_){}   // screen content — keep text legible at a smaller budget
+      } else {
+        videoTrack = displayStream.getVideoTracks()[0];
+        if (camStream) setMsg('Camera bubble not supported in this browser — recording the screen directly.');
+      }
+
+      // audio mix: system/tab audio + mic
+      const audioTracks = [];
+      const sysAudio = displayStream.getAudioTracks();
+      if (sysAudio.length || micStream){
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const dest = audioCtx.createMediaStreamDestination();
+        if (sysAudio.length) audioCtx.createMediaStreamSource(new MediaStream(sysAudio)).connect(dest);
+        if (micStream)       audioCtx.createMediaStreamSource(micStream).connect(dest);
+        audioTracks.push(...dest.stream.getAudioTracks());
+      }
+
+      const mixed = new MediaStream([videoTrack, ...audioTracks]);
+
+      // 4) record. Camera recordings run a second recorder on the raw screen track,
+      //    so the result also offers a clean "screen only" version without the bubble.
+      const { mime, ext } = buildMime();
+      lastExt = ext;
+      // size discipline (owner, 18 Oct: 1 minute = 33.1 MB with bubble vs 5.9 MB screen-only): the
+      // canvas re-encode spends ~5x the raw-screen path on text-heavy screens, so the composite
+      // gets a resolution-scaled budget — ~2.5 Mbps at 1080p30 (0.04 bits per pixel-frame × 30),
+      // clamped 1.2–4 Mbps. The raw-screen recorder keeps the roomier 5 Mbps cap: its encoder is
+      // frugal on its own (under 1 Mbps on the same content) but needs headroom on busy screens.
+      const baseOpts = { videoBitsPerSecond: 5_000_000 };
+      if (mime) baseOpts.mimeType = mime;
+      const withOpts = { videoBitsPerSecond: composited
+        ? Math.min(4_000_000, Math.max(1_200_000, Math.round(canvas.width * canvas.height * 1.2)))
+        : baseOpts.videoBitsPerSecond };
+      if (mime) withOpts.mimeType = mime;
+      recorder = new MediaRecorder(mixed, withOpts);
+      chunks = []; recorder2 = null; chunks2 = null;
+      recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+      recorder.onstop = onRecStop;
+      recorder.start(1000);
+
+      if (composited){
+        try {
+          const clean = new MediaStream([displayStream.getVideoTracks()[0], ...audioTracks]);
+          recorder2 = new MediaRecorder(clean, baseOpts);
+          chunks2 = [];
+          recorder2.ondataavailable = e => { if (chunks2 && e.data && e.data.size) chunks2.push(e.data); };
+          recorder2.onstop = onRecStop;
+          recorder2.start(1000);
+        } catch(_){ recorder2 = null; chunks2 = null; }
+      }
+      stopsLeft = recorder2 ? 2 : 1;   // how many stop events the result must wait for
+
+      // stop from the browser's "Stop sharing" bar
+      displayStream.getVideoTracks()[0].onended = () => { if (recorder && recorder.state !== 'inactive') stop(); };
+
+      // timer
+      el = { rafId:null, lastTick: Date.now(), seconds: 0, paused: false };
+      $('timer').textContent = '00:00';
+      el.rafId = setInterval(() => {
+        const now = Date.now();
+        if (!el.paused) el.seconds += (now - el.lastTick) / 1000;
+        el.lastTick = now;
+        $('timer').textContent = fmt(el.seconds);
+      }, 250);
+
+      window.onbeforeunload = () => (recorder && recorder.state === 'recording') ? 'Recording in progress — leave?' : undefined;
+
+      $('btnPause').textContent = 'Pause';
+      // full-screen shares get the on-screen self-view bubble back while the page is visible: the
+      // share captures it from the screen, and the draw loop only adds the composited one once the
+      // page is hidden — so the video keeps exactly one bubble at all times. The same element feeds
+      // the optional "Float bubble" window (PiP), so it carries the camera in every share mode.
+      recBubbleHidden = false;
+      if (camStream){
+        try { liveBubbleVid.srcObject = camStream; await liveBubbleVid.play(); } catch(_){}
+      }
+      syncBubbleUI();
+      show('panel-rec');
+    } catch (e) {
+      cleanup();
+      if (e && (e.name === 'NotAllowedError')) setMsg('Permission denied — you cancelled the screen pick, or the browser blocked capture. Try again and choose a screen.', true);
+      else setMsg('Could not start recording: ' + (e && e.message ? e.message : e), true);
+      show('panel-setup');
+    }
+  }
+
+  function pauseResume(){
+    if (!recorder) return;
+    if (recorder.state === 'recording'){
+      recorder.pause();
+      if (recorder2 && recorder2.state === 'recording') recorder2.pause();
+      el.paused = true; $('btnPause').textContent = 'Resume';
+    }
+    else if (recorder.state === 'paused'){
+      recorder.resume();
+      if (recorder2 && recorder2.state === 'paused') recorder2.resume();
+      el.paused = false; $('btnPause').textContent = 'Pause';
+    }
+  }
+
+  function stop(){
+    const live = r => r && r.state !== 'inactive';
+    try { if (live(recorder)) recorder.stop(); } catch(_){}
+    try { if (live(recorder2)) recorder2.stop(); } catch(_){}
+  }
+
+  // fired once per recorder that stops. dataavailable always fires before stop on the same
+  // recorder, so once every stop event has arrived, every chunk has been flushed — then build
+  // the result. (A recorder's state flips to 'inactive' the instant stop() is called, so
+  // waiting on state instead would finalize before the other recorder's final chunk arrives —
+  // that crashed recorder2's handler and truncated the "screen only" version; found 18 Oct.)
+  function onRecStop(){
+    stopsLeft = Math.max(0, stopsLeft - 1);
+    if (stopsLeft === 0) finalize();
+  }
+
+  function finalize(){
+    if (!recorder) return;
+    recorder = null; recorder2 = null;
+
+    const type = lastExt === 'mp4' ? 'video/mp4' : 'video/webm';
+    lastBlob = new Blob(chunks, { type });
+    lastBlob2 = (chunks2 && chunks2.length) ? new Blob(chunks2, { type }) : null;
+    lastDuration = el.seconds;
+    chunks2 = null;
+
+    if (drawTimer){ clearInterval(drawTimer); drawTimer = null; }
+    if (el.rafId){ clearInterval(el.rafId); el.rafId = null; }
+    window.onbeforeunload = undefined;
+
+    urlWith = URL.createObjectURL(lastBlob);
+    urlWithout = lastBlob2 ? URL.createObjectURL(lastBlob2) : null;
+    version = 'with';
+    lastTs = new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+
+    resetQuality();
+    $('versionToggle').classList.toggle('hidden', !lastBlob2);
+    renderVersion();
+    syncQualityChips();
+
+    cleanup();
+    show('panel-result');
+  }
+
+  function cleanup(){
+    safeStop(displayStream); safeStop(micStream); safeStop(camStream);
+    displayStream = micStream = camStream = null;
+    if (audioCtx){ try { audioCtx.close(); } catch(_){} audioCtx = null; }
+    if (drawTimer){ clearInterval(drawTimer); drawTimer = null; }
+    liveBubble.classList.add('hidden');
+    bubbleRestore.classList.add('hidden');
+    $('btnFloat').classList.add('hidden');
+    if (isPip()){ try { document.exitPictureInPicture().catch(()=>{}); } catch(_){} }
+    try { liveBubbleVid.srcObject = null; } catch(_){}
+  }
+
+  // on-demand copies: drop the cached ones (and stop a running re-encode) when the recording they
+  // belong to goes away
+  function resetQuality(){
+    if (qBusy){ try { qBusy.cancel(); } catch(_){} qBusy = null; }
+    for (const k in qUrls){ try { URL.revokeObjectURL(qUrls[k]); } catch(_){} }
+    qBlobs = {}; qUrls = {}; qSize = 'orig'; lastSrcH = 0;
+  }
+
+  // the quality chips describe the original recording: "Original · 1080p" (its true height, kept in
+  // lastSrcH so activating a copy cannot shrink the label), and the resize options appear only when
+  // there is room to drop (never upscales); audio-only takes get no quality row at all
+  function syncQualityChips(){
+    const h = lastSrcH;
+    $('qOrig').textContent = h ? 'Original · ' + h + 'p' : 'Original';
+    const show = !!lastBlob && h > 0;
+    $('qualityToggle').classList.toggle('hidden', !show);
+    $('qNote').classList.toggle('hidden', !show);
+    $('q720').classList.toggle('hidden', !(show && h > 720));
+    $('q360').classList.toggle('hidden', !(show && h > 360));
+  }
+
+  function clearResult(){
+    const prev = $('preview');
+    prev.pause(); prev.removeAttribute('src'); prev.load();
+    if (urlWith){ try { URL.revokeObjectURL(urlWith); } catch(_){} urlWith = null; }
+    if (urlWithout){ try { URL.revokeObjectURL(urlWithout); } catch(_){} urlWithout = null; }
+    lastBlob = null; lastBlob2 = null;
+    resetQuality();
+  }
+
+  // result panel: switch the player + download between "with camera bubble" / "screen only" and
+  // the original / 720p / 360p copy of the chosen version
+  function renderVersion(){
+    const dual = !!lastBlob2;
+    const wantWith = !dual || version === 'with';
+    const key = (wantWith ? 'with' : 'without') + ':' + qSize;
+    const small = qSize !== 'orig' && !!qBlobs[key];
+    const blob = small ? qBlobs[key] : (wantWith ? lastBlob : lastBlob2);
+    const url  = small ? qUrls[key]  : (wantWith ? urlWith : urlWithout);
+
+    const prev = $('preview');
+    prev.src = url;
+
+    const mb = (blob.size / (1024*1024)).toFixed(1);
+    const label = dual ? (wantWith ? 'with camera bubble' : 'screen only') : '';
+    const tag = small ? label + (label ? ' · ' : '') + qSize + 'p copy' : label;
+    $('meta').textContent = tag
+      ? `${fmt(lastDuration)} · ${mb} MB · ${lastExt.toUpperCase()} · ${tag} · stays on your device`
+      : `${fmt(lastDuration)} · ${mb} MB · ${lastExt.toUpperCase()} · stays on your device`;
+
+    const dl = $('btnDownload');
+    dl.href = url;
+    dl.download = `recording-${lastTs}${dual ? (wantWith ? '-with-camera' : '-screen-only') : ''}${small ? '-' + qSize + 'p' : ''}.${lastExt}`;
+
+    $('verWith').classList.toggle('active', dual && wantWith);
+    $('verWithout').classList.toggle('active', dual && !wantWith);
+    $('qOrig').classList.toggle('active', qSize === 'orig');
+    $('q720').classList.toggle('active', small && qSize === 720);
+    $('q360').classList.toggle('active', small && qSize === 360);
+    syncQualityChips();
+  }
+
+  function again(){
+    clearResult();
+    setMsg('');
+    show('panel-setup');
+  }
+
+  // permanent delete: wipes the recording from page memory (it was never uploaded)
+  function deleteRecording(){
+    clearResult();
+    const b = $('btnDelete');
+    b.dataset.armed = ''; b.textContent = '🗑 Delete recording';
+    setMsg('Recording deleted permanently. Nothing was uploaded, and nothing is left in this page.');
+    show('panel-setup');
+  }
+
+  $('btnStart').addEventListener('click', start);
+  $('btnPause').addEventListener('click', pauseResume);
+  $('btnStop').addEventListener('click', stop);
+  $('btnAgain').addEventListener('click', again);
+  $('btnDelete').addEventListener('click', () => {
+    const b = $('btnDelete');
+    if (!b.dataset.armed){
+      b.dataset.armed = '1';
+      b.textContent = 'Click again to delete forever';
+      setTimeout(() => { if (b.dataset.armed){ b.dataset.armed = ''; b.textContent = '🗑 Delete recording'; } }, 4000);
+      return;
+    }
+    deleteRecording();
+  });
+
+  $('verWith').addEventListener('click', () => { if (lastBlob2){ version = 'with'; renderVersion(); } });
+  $('verWithout').addEventListener('click', () => { if (lastBlob2){ version = 'without'; renderVersion(); } });
+
+  // Resolution copies, on demand after the recording: the finished blob plays in a hidden video
+  // element; every frame is drawn into a smaller canvas and the canvas is recorded again — the same
+  // canvas + bitrate pipeline the live with-bubble track uses, so the budget really binds (a plain
+  // media-element re-record ignored it on real content). It takes about as long as the video and
+  // keeps going in a background tab; clicking the running chip again cancels.
+  const blobFor = () => (lastBlob2 && version === 'without') ? lastBlob2 : lastBlob;
+  function qualityCopy(size){
+    const v = version;
+    const key = v + ':' + size;
+    const chip = $(size === 720 ? 'q720' : 'q360');
+    if (qBusy){ if (qBusy.key === key) qBusy.cancel(); return; }
+    if (qBlobs[key]){ qSize = size; renderVersion(); return; }
+    const src = blobFor();
+    if (!src) return;
+    const base = size + 'p';
+    const media = document.createElement('video');
+    media.src = URL.createObjectURL(src);
+    media.muted = true;          // no speaker output while it re-records
+    media.playsInline = true;
+    const canvas = document.createElement('canvas');
+    let rec = null, cancelled = false, tick = null, draw = null, job = null;
+    const finish = () => {
+      if (tick){ clearInterval(tick); tick = null; }
+      if (draw){ clearInterval(draw); draw = null; }
+      try { media.pause(); } catch(_){}
+      try { URL.revokeObjectURL(media.src); } catch(_){}
+      if (qBusy === job) qBusy = null;
+      chip.textContent = base;
+    };
+    media.addEventListener('error', () => { finish(); setMsg('Could not re-encode this recording.', true); });
+    media.addEventListener('ended', () => { try { if (rec && rec.state !== 'inactive') rec.stop(); } catch(_){} });
+    media.addEventListener('canplay', () => {
+      let chunks = [], stream;
+      const srcW = media.videoWidth, srcH = media.videoHeight;
+      if (!srcW || !srcH){ finish(); setMsg('There is no picture in this recording to resize.', true); return; }
+      try {
+        // target size: the chosen height, same shape, even numbers; never bigger than the source
+        const scale = Math.min(1, size / srcH);
+        const tW = Math.max(2, Math.round(srcW * scale / 2) * 2);
+        const tH = Math.max(2, Math.round(srcH * scale / 2) * 2);
+        canvas.width = tW; canvas.height = tH;
+        const ctx = canvas.getContext('2d');
+        stream = canvas.captureStream(30);
+        const vt = stream.getVideoTracks()[0];
+        if (vt) vt.contentHint = 'text';                        // sharp screen text, same as the live composite
+        try {
+          const at = media.captureStream().getAudioTracks()[0]; // mute only affects the speakers — audio still flows
+          if (at) stream.addTrack(at);
+        } catch(_){}
+        const bits = Math.min(2_800_000, Math.max(200_000, Math.round(tW * tH * (size === 720 ? 0.5 : 0.8))));
+        const { mime } = buildMime();
+        const opts = { videoBitsPerSecond: bits };
+        if (mime) opts.mimeType = mime;
+        rec = new MediaRecorder(stream, opts);
+        draw = setInterval(() => { try { ctx.drawImage(media, 0, 0, tW, tH); } catch(_){} }, 33);
+      } catch(e){ finish(); setMsg('Could not re-encode: ' + (e && e.message ? e.message : e), true); return; }
+      rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop = () => {
+        const wasCancelled = cancelled, wasCurrent = qBusy === job;
+        finish();
+        if (wasCancelled || !chunks.length) return;
+        const out = new Blob(chunks, { type: chunks[0].type });
+        qBlobs[key] = out;
+        qUrls[key] = URL.createObjectURL(out);
+        if (wasCurrent){ qSize = size; version = v; renderVersion(); }
+      };
+      rec.start(1000);
+      job = { key, cancel(){ cancelled = true; try { if (rec.state !== 'inactive') rec.stop(); } catch(_){} try { media.pause(); } catch(_){} } };
+      qBusy = job;
+      tick = setInterval(() => { chip.textContent = base + ' — ' + Math.min(99, Math.round(media.currentTime ? (media.currentTime / (media.duration || 1)) * 100 : 0)) + '%'; }, 400);
+      media.play().catch(e => { finish(); setMsg('Could not re-encode: ' + (e && e.message ? e.message : e), true); });
+    }, { once: true });
+  }
+  $('preview').addEventListener('loadedmetadata', () => {
+    if (qSize === 'orig' && $('preview').videoHeight) lastSrcH = $('preview').videoHeight;   // the recording's true height, not a copy's
+    syncQualityChips();
+  });
+  $('qOrig').addEventListener('click', () => { qSize = 'orig'; renderVersion(); });
+  $('q720').addEventListener('click', () => qualityCopy(720));
+  $('q360').addEventListener('click', () => qualityCopy(360));
+
+  // live bubble: drag to move, ✕ to hide (hide lasts for this recording only); "Float bubble" pops
+  // the same camera feed into a Picture-in-Picture window that stays on top of everything.
+  function syncBubbleUI(){
+    const pip = isPip();
+    const canView = !!recorder && !!camStream && screenMode;   // the in-page bubble exists on full-screen shares only
+    liveBubble.classList.toggle('hidden', !(canView && !pip && !recBubbleHidden));
+    bubbleRestore.classList.toggle('hidden', !(canView && !pip && recBubbleHidden));
+    const fb = $('btnFloat');
+    fb.classList.toggle('hidden', !(recorder && camStream && pipSupported));
+    fb.textContent = pip ? 'Dock bubble' : 'Float bubble';
+    fb.title = pip ? 'Bring the camera back into the page'
+      : screenMode ? 'Float the camera over other windows — a full-screen take records the floating window as-is'
+                   : 'Float the camera over other windows — your video still gets the drawn bubble';
+  }
+
+  $('btnFloat').addEventListener('click', async () => {
+    if (isPip()){ try { await document.exitPictureInPicture(); } catch(_){} return; }
+    if (recBubbleHidden) recBubbleHidden = false;
+    try {
+      await liveBubbleVid.requestPictureInPicture();
+      setMsg(screenMode
+        ? 'Bubble is floating over everything — a full-screen take records that window as-is, so park it in a corner.'
+        : 'Bubble is floating over everything — this is just for you; the video still gets the drawn bubble.');
+    } catch(e){
+      setMsg('Could not float the bubble: ' + (e && e.message ? e.message : 'not available in this browser.'), true);
+    }
+  });
+  liveBubbleVid.addEventListener('enterpictureinpicture', syncBubbleUI);
+  liveBubbleVid.addEventListener('leavepictureinpicture', () => { setMsg(''); syncBubbleUI(); });
+
+  liveBubbleClose.addEventListener('click', e => {
+    e.stopPropagation();
+    const r = liveBubble.getBoundingClientRect();
+    recBubbleHidden = true;   // the composite stays off too — ✕ means "no bubble in this take"
+    syncBubbleUI();
+    const w = bubbleRestore.offsetWidth, h = bubbleRestore.offsetHeight;
+    const x = Math.min(Math.max(r.left + r.width/2 - w/2, 8), window.innerWidth - w - 8);
+    const y = Math.min(Math.max(r.top + r.height/2 - h/2, 8), window.innerHeight - h - 8);
+    bubbleRestore.style.left = x + 'px';
+    bubbleRestore.style.top = y + 'px';
+    bubbleRestore.style.bottom = 'auto';
+    bubbleRestore.style.right = 'auto';
+  });
+
+  // restore pill: click to bring the bubble back, drag to move the pill itself
+  bubbleRestore.addEventListener('click', () => {
+    if (bubbleRestore._dragged){ bubbleRestore._dragged = false; return; }
+    recBubbleHidden = false;
+    syncBubbleUI();
+    try { liveBubbleVid.play(); } catch(_){}
+  });
+  (function draggableRestore(){
+    let drag = false, ox = 0, oy = 0;
+    bubbleRestore.addEventListener('pointerdown', e => {
+      const r = bubbleRestore.getBoundingClientRect();
+      drag = true; bubbleRestore._dragged = false; ox = e.clientX - r.left; oy = e.clientY - r.top;
+      bubbleRestore.style.left = r.left + 'px';
+      bubbleRestore.style.top = r.top + 'px';
+      bubbleRestore.style.bottom = 'auto';
+      bubbleRestore.style.right = 'auto';
+      bubbleRestore.classList.add('dragging');
+      try { bubbleRestore.setPointerCapture(e.pointerId); } catch(_){}
+    });
+    bubbleRestore.addEventListener('pointermove', e => {
+      if (!drag) return;
+      bubbleRestore._dragged = true;
+      const w = bubbleRestore.offsetWidth, h = bubbleRestore.offsetHeight;
+      const x = Math.min(Math.max(e.clientX - ox, 0), window.innerWidth - w);
+      const y = Math.min(Math.max(e.clientY - oy, 0), window.innerHeight - h);
+      bubbleRestore.style.left = x + 'px';
+      bubbleRestore.style.top = y + 'px';
+    });
+    const endDrag = e => {
+      if (!drag) return;
+      drag = false;
+      bubbleRestore.classList.remove('dragging');
+      try { bubbleRestore.releasePointerCapture(e.pointerId); } catch(_){}
+    };
+    bubbleRestore.addEventListener('pointerup', endDrag);
+    bubbleRestore.addEventListener('pointercancel', endDrag);
+  })();
+  (function draggableBubble(){
+    let drag = false, ox = 0, oy = 0;
+    liveBubble.addEventListener('pointerdown', e => {
+      if (e.target === liveBubbleClose) return;
+      const r = liveBubble.getBoundingClientRect();
+      drag = true; ox = e.clientX - r.left; oy = e.clientY - r.top;
+      liveBubble.style.left = r.left + 'px';
+      liveBubble.style.top = r.top + 'px';
+      liveBubble.style.bottom = 'auto';
+      liveBubble.classList.add('dragging');
+      try { liveBubble.setPointerCapture(e.pointerId); } catch(_){}
+      e.preventDefault();
+    });
+    liveBubble.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const w = liveBubble.offsetWidth, h = liveBubble.offsetHeight;
+      const x = Math.min(Math.max(e.clientX - ox, 0), window.innerWidth - w);
+      const y = Math.min(Math.max(e.clientY - oy, 0), window.innerHeight - h);
+      liveBubble.style.left = x + 'px';
+      liveBubble.style.top = y + 'px';
+    });
+    const endDrag = e => {
+      if (!drag) return;
+      drag = false;
+      liveBubble.classList.remove('dragging');
+      try { liveBubble.releasePointerCapture(e.pointerId); } catch(_){}
+    };
+    liveBubble.addEventListener('pointerup', endDrag);
+    liveBubble.addEventListener('pointercancel', endDrag);
+  })();
+})();
+</script>
+<script>
+/* About tab: the pupils drift toward the pointer. Skipped for touch and for reduced motion. */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var eyes=[].slice.call(document.querySelectorAll('.ico-eyes')), raf=0, px=0, py=0;
+  if(!eyes.length) return;
+  function look(){
+    raf=0;
+    eyes.forEach(function(el){
+      var r=el.getBoundingClientRect(); if(!r.width) return;
+      var dx=px-(r.left+r.width/2), dy=py-(r.top+r.height/2), d=Math.hypot(dx,dy)||1, k=Math.min(d/80,1)*2.2;
+      el.style.setProperty('--ex',(dx/d*k).toFixed(2)); el.style.setProperty('--ey',(dy/d*k).toFixed(2));
+    });
+  }
+  addEventListener('pointermove',function(e){
+    if(e.pointerType==='touch') return;
+    px=e.clientX; py=e.clientY; if(!raf) raf=requestAnimationFrame(look);
+  },{passive:true});
+})();
+</script>
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+</body>
+</html>

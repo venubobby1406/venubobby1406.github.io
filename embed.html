@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>document.documentElement.className+=' js'</script>
+<title>ClipSolo Embed — a screen recorder for your product</title>
+<meta name="description" content="Drop one script tag on your site and your users can record their screen with a camera bubble and their voice. The clip is encoded in their browser and posted straight to your endpoint. No account, nothing stored on our side, free.">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<style>
+  /* the code card — a dark slab, the one place this page breaks the warm paper */
+  .apphero .wrap > div{min-width:0}          /* the code card must not stretch the column */
+  .codeblock{margin-top:26px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:#0E0F13;overflow:hidden;
+    box-shadow:0 30px 60px -40px rgba(30,20,14,.55);min-width:0}
+  .codeblock__bar{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.08);
+    font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#7E828B}
+  .codeblock__bar i{width:8px;height:8px;border-radius:50%;background:#33363C}
+  .codeblock__bar .copy{margin-left:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#C6C8CD;
+    border-radius:7px;padding:5px 10px;font:500 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+  .codeblock__bar .copy:hover{background:rgba(255,255,255,.14);color:#fff}
+  .codeblock pre{margin:0;padding:16px 18px;overflow-x:auto;max-width:100%;
+    font:500 12.5px/1.85 ui-monospace,SFMono-Regular,Consolas,monospace;color:#E4E6EA;white-space:pre}
+  .codeblock .tag{color:#F0A49C}
+  .codeblock .att{color:#9FC7E8}
+  .codeblock .str{color:#C6E39C}
+  .codeblock .cmt{color:#6D7078}
+  /* the live demo */
+  .embedcard{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:start;margin-top:26px;
+    padding:26px 28px;border:1px solid var(--line);border-radius:var(--r-lg);background:rgba(255,255,255,.72)}
+  .embedcard h3{font-size:20px;letter-spacing:-.02em;margin-bottom:10px}
+  .embedcard p{font-size:14.5px;line-height:1.62;color:var(--ink-2)}
+  .embedcard .btnrow{margin-top:18px}
+  .embedcard ul{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+  .embedcard li{display:flex;gap:10px;align-items:baseline;font-size:14px;color:var(--ink-2)}
+  .embedcard li b{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.12em;color:var(--red);flex:none}
+  /* the honest list of limits */
+  .lims{display:grid;grid-template-columns:repeat(2,1fr);gap:0 40px;margin-top:26px;border-top:1px solid var(--line)}
+  .lims div{padding:16px 0;border-bottom:1px solid var(--line)}
+  .lims b{display:block;font-size:14.5px;margin-bottom:4px}
+  .lims span{font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+  @media (max-width:820px){.embedcard{grid-template-columns:1fr;gap:22px}.lims{grid-template-columns:1fr}}
+</style>
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/embed.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="ClipSolo Embed — a screen recorder for your product">
+<meta property="og:description" content="One script tag. Your users record their screen, the clip is encoded in their browser and posted to your endpoint. No account, nothing stored on our side, free.">
+<meta property="og:url" content="https://venubobby1406.github.io/embed.html">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo Embed — one script tag, your endpoint, nothing on our servers">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ClipSolo Embed — a screen recorder for your product">
+<meta name="twitter:description" content="One script tag. Your users record their screen, the clip is encoded in their browser and posted to your endpoint. No account, nothing stored on our side, free.">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"ClipSolo Embed","codeSampleType":"full HTML","url":"https://venubobby1406.github.io/embed.html","programmingLanguage":"JavaScript","description":"An embeddable screen recorder. One script tag; the recording is encoded in the visitor's browser and posted to your own endpoint. No account, no cloud storage, free.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://venubobby1406.github.io/about.html"}
+</script>
+<!--/launch-meta-->
+</head>
+<body class="aurora">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="record.html"><i></i>ClipSolo</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="record.html">Record</a>
+      <a href="tools.html">Tools</a>
+      <a href="features.html">Index</a>
+      <a href="embed.html" aria-current="page">Embed</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="record.html">Open recorder <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================ HERO ============================ -->
+<section class="apphero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><i></i>ClipSolo Embed · for the people who build the product</div>
+      <h1>Put a record button<br>in your product.</h1>
+      <p class="lede">Your users record their screen — camera bubble, microphone, system audio — right inside your site. The clip is encoded in their browser and posted to your endpoint. No ClipSolo account, no clip on our servers, no per-seat fee.</p>
+      <div class="chips">
+        <span class="chip static">Free</span>
+        <span class="chip static">No account for your users</span>
+        <span class="chip static">Nothing stored here</span>
+        <span class="chip static">Self-hostable</span>
+      </div>
+      <div class="btnrow" style="margin-top:22px">
+        <button class="btn" type="button" data-clipsolo>Try the embed <span class="arr">→</span></button>
+        <a class="btn ghost" href="#snippet">Read the snippet</a>
+      </div>
+    </div>
+    <div>
+      <div class="codeblock">
+        <div class="codeblock__bar"><i></i><i></i><i></i><span>index.html</span><button class="copy" type="button" data-copy="#snippet-code">Copy</button></div>
+<pre id="snippet-code"><span class="cmt">&lt;!-- one tag, then a button --&gt;</span>
+<span class="tag">&lt;script</span>
+  <span class="att">src</span>=<span class="str">"https://venubobby1406.github.io/embed.js"</span>
+  <span class="att">data-endpoint</span>=<span class="str">"https://api.yoursite.com/recordings"</span>
+  <span class="att">data-label</span>=<span class="str">"Record a bug"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="tag">&lt;button</span> <span class="att">data-clipsolo</span><span class="tag">&gt;</span>Record a bug<span class="tag">&lt;/button&gt;</span></pre>
+      </div>
+      <p class="note" style="color:var(--muted);font-size:13px">One file. No dependencies, no build step, no key to copy around.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SNIPPET ============================ -->
+<section class="sec" id="snippet" style="padding-top:26px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">01 — The snippet</span>
+      <p class="hint">Drop the script anywhere on the page, then mark any button with <code>data-clipsolo</code>. That button opens the recorder. Nothing else is required.</p>
+    </div>
+
+    <div class="codeblock">
+      <div class="codeblock__bar"><i></i><i></i><i></i><span>the whole integration</span><button class="copy" type="button" data-copy="#snippet-full">Copy</button></div>
+<pre id="snippet-full"><span class="cmt">&lt;!-- 1 · load the recorder once --&gt;</span>
+<span class="tag">&lt;script</span>
+  <span class="att">src</span>=<span class="str">"https://venubobby1406.github.io/embed.js"</span>
+  <span class="att">data-endpoint</span>=<span class="str">"https://api.yoursite.com/recordings"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="cmt">&lt;!-- 2 · any button becomes a record button --&gt;</span>
+<span class="tag">&lt;button</span> <span class="att">data-clipsolo</span><span class="tag">&gt;</span>Record a bug<span class="tag">&lt;/button&gt;</span>
+
+<span class="cmt">// 3 · your endpoint receives the clip as multipart/form-data:</span>
+<span class="cmt">//    file (webm), width, height, duration</span></pre>
+    </div>
+
+    <div class="steps" style="margin-top:44px">
+      <div class="step">
+        <span class="num">01</span>
+        <h3>Your visitor clicks</h3>
+        <p>The recorder opens over your page. Screen, window or tab — whatever the browser offers, plus the system audio it exposes.</p>
+        <div class="meta">No install · no app</div>
+      </div>
+      <div class="step">
+        <span class="num">02</span>
+        <h3>It is encoded in their browser</h3>
+        <p>The camera bubble is composited onto the canvas and the whole thing is written to a file in memory. It never passes through our servers, because we have none.</p>
+        <div class="meta">Canvas · MediaRecorder</div>
+      </div>
+      <div class="step">
+        <span class="num">03</span>
+        <h3>It lands in your system</h3>
+        <p>The file is POSTed to your endpoint as multipart/form-data. Store it in S3, R2, your own bucket, a webhook, an n8n flow — wherever your product already keeps things.</p>
+        <div class="meta">Your endpoint · your storage</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CONFIG ============================ -->
+<section class="sec" id="config" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">02 — Every knob</span>
+      <p class="hint">Everything is set with attributes on the script tag. If you prefer an object, set <code>window.ClipSolo = { … }</code> before the script loads.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Attribute</th><th>Default</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>data-endpoint</th><td>—</td><td>Where the finished clip is POSTed (multipart: <code>file</code>, <code>width</code>, <code>height</code>, <code>duration</code>). Leave it out and the visitor simply downloads the file.</td></tr>
+          <tr><th>data-label</th><td>Record</td><td>The label shown on the button in your page.</td></tr>
+          <tr><th>data-accent</th><td>#E23B2E</td><td>The accent colour of the recorder UI — the red is the REC colour, the rest follows your accent.</td></tr>
+          <tr><th>data-camera</th><td>on</td><td>Set to <code>off</code> to hide the camera bubble entirely.</td></tr>
+          <tr><th>data-frame</th><td>on</td><td>Set to <code>off</code> to drop the studio frame and record the raw screen.</td></tr>
+          <tr><th>data-pad</th><td>48</td><td>Frame padding in pixels (0–120).</td></tr>
+          <tr><th>data-radius</th><td>24</td><td>Frame corner radius in pixels (0–48).</td></tr>
+          <tr><th>data-bg</th><td>#1B1D22</td><td>Frame background colour.</td></tr>
+          <tr><th>data-max</th><td>900</td><td>Longest clip in seconds before it stops itself.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">The studio frame is baked into the clip as it records. Cap can frame a take too — but theirs is a desktop app someone installs, and this is one script tag on your own site.</p>
+    <p class="table-note">The camera, the microphone and the frame are also switches <i>inside</i> the recorder — your visitor decides for their own take, and their choice is never sent anywhere.</p>
+  </div>
+</section>
+
+<!-- ============================ COMPARE ============================ -->
+<section class="sec" id="compare" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">03 — Against the others</span>
+      <p class="hint">Every competitor encodes in the browser too. The difference is where the file goes next, and whose account it needs.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th></th><th>Loom</th><th>Cap</th><th>Tella</th>
+            <th class="us"><span class="us-mark"><i></i>ClipSolo Embed</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>Where the clip is encoded</th><td>The visitor's browser</td><td>The visitor's browser</td><td>The visitor's browser</td><td class="us">The visitor's browser</td></tr>
+          <tr><th>Where the clip lands</th><td>Loom's cloud</td><td>Your S3 or their cloud</td><td>Tella's cloud</td><td class="us">Your endpoint. Only yours.</td></tr>
+          <tr><th>Does your user need their account</th><td>Yes</td><td>Yes for cloud</td><td>Yes</td><td class="us">No</td></tr>
+          <tr><th>Studio frame on the clip</th><td>No</td><td>Yes</td><td>No</td><td class="us">Yes</td></tr>
+          <tr><th>Can you host the recorder yourself</th><td>No</td><td>The desktop app</td><td>No</td><td class="us">Yes — it is one file</td></tr>
+          <tr><th>Cost to you</th><td>Per-seat plans</td><td>$58 once, plus storage</td><td>Per-seat plans</td><td class="us">Free</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Correct as of October 2026 — we revise this when they do. We are not claiming to be cheaper than a free tier; we are claiming the file does not have to live on somebody else’s disk.</p>
+  </div>
+</section>
+
+<!-- ============================ LIVE ============================ -->
+<section class="sec" id="try" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">04 — This is the real thing</span>
+      <p class="hint">The button below is the embed itself, running on this page. No screenshot, no mock-up.</p>
+    </div>
+    <div class="embedcard">
+      <div>
+        <h3>Record a clip, right here</h3>
+        <p>This page loads <code>embed.js</code> with no endpoint, so the finished clip downloads to your machine — exactly what happens if you skip <code>data-endpoint</code>. Set an endpoint and the same clip is POSTed to your server instead of downloaded.</p>
+        <div class="btnrow">
+          <button class="btn" type="button" data-clipsolo>Open the recorder <span class="arr">→</span></button>
+        </div>
+      </div>
+      <div>
+        <ul>
+          <li><b>01</b><span>Pick a source — screen, window or tab, with system audio where the browser exposes it.</span></li>
+          <li><b>02</b><span>The camera bubble is drawn on the clip as it records, not afterwards.</span></li>
+          <li><b>03</b><span>Stop, and the file goes to your endpoint — or to your downloads, if you did not set one.</span></li>
+        </ul>
+        <p class="note" style="font-size:13.5px;color:var(--muted)">Recording needs a Chromium browser for screen capture. Chrome and Edge are the safe bet; Firefox records screen and microphone, but exposes fewer sources.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ LIMITS ============================ -->
+<section class="sec" id="limits" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">05 — What it does not do yet</span>
+      <p class="hint">The honest list. If something here matters to you, tell us and we will build it — we would rather you knew first.</p>
+    </div>
+    <div class="lims">
+      <div><b>No trimming inside the embed</b><span>The main app trims before you export. The embed records and hands over the file as it is.</span></div>
+      <div><b>WebM output</b><span>VP9 or VP8, the format the browser encodes natively. Convert it to MP4 in your pipeline — or with our local converter.</span></div>
+      <div><b>No share links</b><span>A share link needs a server holding the file. That is the one thing we do not do by default — you host it, or nobody hosts it.</span></div>
+      <div><b>No team workspaces</b><span>There are no seats, no permissions and no dashboard. The embed is a recorder and a POST, nothing else.</span></div>
+      <div><b>No transcript</b><span>Speech-to-text is a server job. Your endpoint can do it — the clip arrives as a normal file.</span></div>
+      <div><b>Not on iOS Safari</b><span>getDisplayMedia is not available there. The recorder will tell the visitor plainly instead of failing silently.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PRICE ============================ -->
+<section class="sec" id="pricing" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">06 — Price</span>
+      <p class="hint">One file, no server on our side, no per-seat maths. There is nothing to meter, so there is nothing to charge for.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>The embed</h3>
+        <p>The recorder, the camera bubble, the studio frame and the POST to your endpoint. Free, with no account and no cap we impose on you.</p>
+        <div class="meta">Free · self-host if you want</div>
+      </div>
+      <div class="case">
+        <h3>Your own copy</h3>
+        <p>Download <code>embed.js</code> and serve it from your own domain. Nothing of ours is loaded at runtime, so there is no third-party script in your page and no vendor to depend on.</p>
+        <div class="meta">MIT-style · your host · your CSP</div>
+      </div>
+      <div class="case">
+        <h3>A managed plan</h3>
+        <p>Not built. If you want us to host it, keep it updated, brand it with your colours and your name, and answer your email — we will sell that as a paid plan. We are not selling it yet.</p>
+        <div class="meta">Not built · not sold</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="sec" id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">07 — Straight answers</span>
+      <p class="hint">If something here is wrong, tell us and we will fix the page and this list at the same time.</p>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Does anything about the recording reach ClipSolo?</summary>
+        <p>No. There is no upload endpoint on our side and no account to create. The file is encoded in the visitor’s browser and goes where you tell it to go. If you self-host the script, there is not even a request to our domain.</p>
+      </details>
+      <details>
+        <summary>What does my endpoint receive?</summary>
+        <p>A multipart/form-data POST with the clip as <code>file</code> (a WebM blob), plus <code>width</code>, <code>height</code> and <code>duration</code>. That is the whole contract — there is no SDK to install on your server.</p>
+      </details>
+      <details>
+        <summary>Does my user need to install anything?</summary>
+        <p>No. It is a web page. They click your button, choose what to share, and record. The only browser requirement is screen capture support, which in practice means Chrome or Edge.</p>
+      </details>
+      <details>
+        <summary>Can I put it behind my own login?</summary>
+        <p>Yes, and you should. The embed only opens the recorder — whatever you do with the file is your logic. Add your own session check before you render the button if it matters.</p>
+      </details>
+      <details>
+        <summary>Does it work on mobile?</summary>
+        <p>Phones have no screen to share, so there is nothing to record. The embed is for desktop browsers; the file tools on this site work on mobile.</p>
+      </details>
+      <details>
+        <summary>Is this the same code as the recorder on this site?</summary>
+        <p>The same ideas and the same look, written to be a single self-contained file with no dependency on the rest of the site. The bench here has more in it; the embed has exactly what an embed needs.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h4>Tools</h4>
+        <a href="record.html">Screen recorder</a><a href="trim-video.html">Trim video</a><a href="mp4-to-gif.html">MP4 → GIF</a>
+      </div>
+      <div class="f-col">
+        <h4>Convert</h4>
+        <a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a><a href="video-to-audio.html">Video → audio</a>
+      </div>
+      <div class="f-col">
+        <h4>For developers</h4>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h4>The promise</h4>
+        <span>Local files only</span><span>No account</span><span>No watermark</span>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<script src="embed.js" data-accent="#E23B2E" data-label="Record"></script>
+<script src="demos.js" defer></script>
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+<script>
+/* copy buttons for the code cards */
+(function () {
+  var buttons = document.querySelectorAll('[data-copy]');
+  Array.prototype.forEach.call(buttons, function (b) {
+    b.addEventListener('click', function () {
+      var pre = document.querySelector(b.getAttribute('data-copy'));
+      if (!pre) return;
+      var text = pre.innerText.replace(/^\n+|\n+$/g, '');
+      var label = b.textContent;
+      var done = function () {
+        b.textContent = 'Copied';
+        setTimeout(function () { b.textContent = label; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { b.textContent = 'Press ⌘C'; });
+      } else {
+        var sel = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(pre);
+        sel.removeAllRanges(); sel.addRange(range);
+        b.textContent = 'Selected';
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

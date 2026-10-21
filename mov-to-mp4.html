@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOV to MP4 — ClipSolo</title>
+<meta name="description" content="It's a QuickTime file — Apple's container. iPhones, Macs, and Final Cut speak it natively. Windows, Android, Slack, and Drive shrug at it. The bench b">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<style>
+  /* the bench — the live tool on every recipe page */
+  .status{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--muted);margin:14px 0 0}
+  .status.err{color:var(--red-deep)}
+  .status.nomargin{margin:0}
+  .clock{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.05em;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .sheet.tool{background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:20px;padding:22px 24px;
+    box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 20px 44px -30px rgba(30,20,14,.3)}
+  .doodle,.pin{display:none}
+  .wbdrop{display:grid;justify-items:center;gap:10px;text-align:center;padding:30px 22px;margin-top:18px;cursor:pointer;
+    border:1px dashed rgba(21,22,26,.26);border-radius:16px;background:rgba(255,255,255,.5)}
+  .wbdrop b{font-size:16px;letter-spacing:-.01em}
+  .wbmoves{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 14px;margin-top:16px;
+    border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72)}
+  .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+  .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
+    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);cursor:pointer;transition:transform .16s var(--ease),border-color .16s var(--ease)}
+  .wbmove:hover{transform:translateY(-1px);border-color:rgba(21,22,26,.3);color:var(--ink)}
+  .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  .wbwork{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:18px;
+    padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.6)}
+  .wbwork video{display:block;width:100%;border-radius:12px;background:#0E0F13}
+  .wbmeta{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+  .wblink{border:0;background:transparent;padding:0;color:var(--red);font:600 13px/1.4 var(--sans);cursor:pointer;text-align:left}
+  .wblink:hover{text-decoration:underline}
+  .wrange{display:grid;grid-template-columns:44px 1fr 52px;align-items:center;gap:10px;margin-bottom:10px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .wrange input[type=range]{width:100%;accent-color:var(--red)}
+  .wmodes{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+  .wmode,.wpreset,.wspeed{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:8px;color:var(--ink-2);
+    font:600 12px/1.2 var(--sans);padding:7px 11px;cursor:pointer}
+  .wmode.on,.wpreset.on,.wspeed.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .wpreset,.wspeed{display:flex;flex-direction:column;gap:3px;text-align:left}
+  .wpreset small,.wspeed small{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;opacity:.7}
+  .wpresets,.wspeeds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .wpane{border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
+  .wdesc{font-size:13.5px;color:var(--ink-2);margin:0 0 10px}
+  .wprog{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .wbar{flex:1;height:4px;border-radius:3px;background:rgba(21,22,26,.1);overflow:hidden}
+  .wbar span{display:block;height:100%;width:0;background:var(--red);border-radius:3px}
+  .wres{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .wres video{max-width:340px;width:100%;border-radius:12px;background:#0E0F13}
+  .wres img{max-width:240px;border-radius:12px;background:#0E0F13}
+  /* overrides for the styles workbench.js injects itself — it stays untouched */
+  html body .wbmoves{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);gap:8px}
+  html body .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  html body .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
+    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);transition:transform .16s var(--ease),border-color .16s var(--ease)}
+  html body .wbmove:hover{color:var(--ink);border-color:rgba(21,22,26,.3);transform:translateY(-1px)}
+  html body .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  html body.wb-dropping{outline:2px dashed rgba(226,59,46,.55);outline-offset:-10px}
+  html body.wb-dropping::after{
+    content:"DROP IT — THE BENCH HAS IT";top:80px;transform:translateX(-50%);
+    font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+    background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
+  }
+  /* the recipe's own bits */
+  .crumb{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+  .crumb a{color:var(--muted);text-decoration:none}
+  .crumb a:hover{color:var(--ink)}
+  .specstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:30px;border-top:1px solid var(--line)}
+  .specstrip .rrow{padding:16px 20px 0;border-left:1px solid var(--line)}
+  .specstrip .rrow:first-child{border-left:0;padding-left:0}
+  .specstrip .rrow b{display:block;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted)}
+  .specstrip .rrow span{display:block;margin-top:7px;font-size:14.5px;line-height:1.5;color:var(--ink)}
+  .howlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+  .howlist li{display:flex;gap:14px;align-items:baseline;font-size:15px;line-height:1.55;color:var(--ink-2)}
+  .howlist li b{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;color:var(--red);flex:none}
+  .prose p{font-size:16px;line-height:1.7;color:var(--ink-2);margin:0 0 14px;max-width:64ch}
+  .nolist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+  .nolist li{position:relative;padding:14px 0 14px 30px;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink-2)}
+  .nolist li::before{content:"→";position:absolute;left:0;top:15px;color:var(--red);font-family:var(--mono);font-size:12px}
+  .faq details .body{padding:0 40px 20px 0;color:var(--ink-2);font-size:14.5px;line-height:1.65}
+  .relchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .relchip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(21,22,26,.14);
+    border-radius:999px;background:#fff;color:var(--ink-2);font:600 12.5px/1 var(--sans);cursor:pointer;text-decoration:none;
+    transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
+  .relchip:hover{border-color:rgba(21,22,26,.34);color:var(--ink);transform:translateY(-1px)}
+  .bnote{display:block;margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted)}
+  /* the old two-column shell, kept as hooks for the page script (it toggles
+     .bench-open and scrolls .benchcol into view when a file lands) */
+  .tlayout{display:block}
+  .benchcol{position:static;width:auto}
+  .tlayout.bench-open #wbWork{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:34px}
+  @media (max-width:900px){.tlayout.bench-open #wbWork{grid-template-columns:1fr}}
+  @media (max-width:900px){
+    .wbwork{grid-template-columns:1fr}
+    .specstrip{grid-template-columns:repeat(2,1fr);gap:18px 0}
+    .specstrip .rrow:nth-child(odd){border-left:0;padding-left:0}
+  }
+</style>
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/mov-to-mp4.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="MOV to MP4 — ClipSolo">
+<meta property="og:description" content="It's a QuickTime file — Apple's container. iPhones, Macs, and Final Cut speak it natively. Windows, Android, Slack, and Drive shrug at it. The bench b">
+<meta property="og:url" content="https://venubobby1406.github.io/mov-to-mp4.html">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo — record your screen, keep the file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MOV to MP4 — ClipSolo">
+<meta name="twitter:description" content="It's a QuickTime file — Apple's container. iPhones, Macs, and Final Cut speak it natively. Windows, Android, Slack, and Drive shrug at it. The bench b">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"HowTo","name":"MOV to MP4","description":"It's a QuickTime file — Apple's container. iPhones, Macs, and Final Cut speak it natively. Windows, Android, Slack, and Drive shrug at it. The bench b","step":[{"@type":"HowToStep","position":1,"text":"01 every frame of your .mov gets decoded in this tab"},{"@type":"HowToStep","position":2,"text":"02 it's repainted onto a canvas at 30 fps while you watch"},{"@type":"HowToStep","position":3,"text":"03 and handed to the MP4 encoder as it goes"}]}
+</script>
+<!--/launch-meta-->
+</head>
+<body class="aurora">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>ClipSolo</a>
+  <nav class="nav-links" aria-label="Main">
+      <a href="record.html">Record</a>
+      <div class="nav-item">
+        <a class="nav-link" href="tools.html" aria-current="page">Tools</a>
+        <div class="mega">
+          <a href="record.html"><span class="mono">Record</span><b>Screen, camera and mic</b><i>Tab, window or screen</i></a>
+          <a href="trim-video.html"><span class="mono">Trim</span><b>Cut the boring middle</b><i>In and out points</i></a>
+          <a href="mp4-to-gif.html"><span class="mono">GIF</span><b>MP4 to GIF</b><i>560px · 8s · loops</i></a>
+          <a href="webm-to-mp4.html"><span class="mono">Convert</span><b>WebM to MP4</b><i>Plays everywhere</i></a>
+          <a href="mov-to-mp4.html"><span class="mono">Convert</span><b>MOV to MP4</b><i>For phones</i></a>
+          <a href="video-to-audio.html"><span class="mono">Audio</span><b>Video to WAV</b><i>Pull the track out</i></a>
+        </div>
+      </div>
+      <a href="features.html">Index</a>
+      <a href="embed.html">Embed</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="record.html">Open recorder <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="apphero apphero--left">
+  <div class="wrap">
+    <nav class="crumb"><a href="tools.html">Tools</a><span>/</span><span>MOV to MP4</span></nav>
+    <div class="eyebrow"><i></i>MOV → MP4 · runs in this tab</div>
+    <h1>Your iPhone made a file nothing else wants to open.</h1>
+    <p class="lede">It's a QuickTime file — Apple's container. iPhones, Macs, and Final Cut speak it natively. Windows, Android, Slack, and Drive shrug at it. The bench beside this text turns it into an MP4 while you watch — nothing uploads, nothing installs.</p>
+    <div class="specstrip">
+      <div class="rrow"><b>The situation</b><span>a .mov file — great on iPhones and Macs, a fair-weather friend to everything else</span></div>
+      <div class="rrow"><b>The fix</b><span>re-encode to MP4 (H.264), sound included, in this tab</span></div>
+      <div class="rrow"><b>The price</b><span>real time — a 2-minute clip takes ~2 minutes. It plays while it works.</span></div>
+      <div class="rrow"><b>The catch</b><span>ProRes or an unlucky HEVC file? Your browser may refuse to decode it — we'll say so in one second. MP4 export itself needs Chrome or Edge.</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="tool" style="padding-top:8px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">01 — The bench</span>
+      <p class="hint">Drop a file anywhere on this page. It is decoded, re-encoded and handed back to you here — nothing is uploaded.</p>
+    </div>
+    <div class="tlayout"><div class="benchcol">
+<section class="sheet tool" id="workbench">
+      <span class="pin" aria-hidden="true"></span>
+      <div class="cardhead">
+        <span class="doodle dg-monitor" aria-hidden="true"></span>
+        <h3>MOV → MP4</h3>
+      </div>
+      <p class="desc">Drop the .mov anywhere on this page. The bench reads the file, suggests the moves, and chains them without a re-drop.</p>
+
+      <div class="wbdrop" id="wbDrop">
+        <span class="doodle dg-download up" aria-hidden="true"></span>
+        <b>Drop a video here</b>
+        <p class="status nomargin" id="wbDropSt">MOV · MP4 · WebM — processed locally, nothing uploaded</p>
+        <button class="btn" id="wbPick" type="button">Choose a video file</button>
+      </div>
+      <input type="file" id="wbFile" accept="video/*,audio/*" hidden>
+      <div class="wbmoves" id="wbMoves" style="display:none"></div>
+
+      <div class="wbwork" id="wbWork" style="display:none">
+        <div>
+          <video id="wbPrev" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture playsinline></video>
+          <p class="wbmeta"><span id="wbMeta"></span><button class="wblink" id="wbChange" type="button">choose another file</button></p>
+        </div>
+        <div>
+          <div class="wrange">
+            <span>Start</span><input type="range" id="wbIn" min="0" max="100" step="0.05" value="0"><span class="clock" id="wbInL">0:00.0</span>
+          </div>
+          <div class="wrange">
+            <span>End</span><input type="range" id="wbOut" min="0" max="100" step="0.05" value="0"><span class="clock" id="wbOutL">0:00.0</span>
+          </div>
+          <div class="wmodes" id="wbModes">
+            <button class="wmode" data-pane="trim" type="button">Trim</button>
+            <button class="wmode" data-pane="mp4" type="button">To MP4</button>
+            <button class="wmode" data-pane="compress" type="button">Compress</button>
+            <button class="wmode" data-pane="gif" type="button">GIF</button>
+            <button class="wmode" data-pane="audio" type="button">Audio</button>
+            <button class="wmode" data-pane="speed" type="button">Speed</button>
+          </div>
+          <div class="wpane" id="pane-trim" style="display:none">
+            <button class="btn" id="wbGoTrim" type="button">Trim &amp; save</button>
+            <p class="status" id="wbTrimSt">Renders in real time — a 30-second cut takes ~30 seconds. The preview plays while it renders.</p>
+          </div>
+          <div class="wpane" id="pane-mp4" style="display:none">
+            <p class="wdesc" id="wbMp4Info">Converts the whole file to MP4 — the format that opens everywhere.</p>
+            <button class="btn" id="wbGoMp4" type="button">Convert to MP4</button>
+            <p class="status" id="wbMp4St">Renders in real time, same as trimming.</p>
+          </div>
+          <div class="wpane" id="pane-compress" style="display:none">
+            <div class="wpresets" id="wbPresets">
+              <button class="wpreset" data-bps="700000" type="button"><b>Email</b><small>~0.7 Mbps · smallest</small></button>
+              <button class="wpreset on" data-bps="1600000" type="button"><b>Web</b><small>~1.6 Mbps · balanced</small></button>
+              <button class="wpreset" data-bps="3200000" type="button"><b>Crisp</b><small>~3.2 Mbps · sharp text</small></button>
+            </div>
+            <p class="wdesc" id="wbEst"></p>
+            <button class="btn" id="wbGoComp" type="button">Compress &amp; save</button>
+            <p class="status" id="wbCompSt">Re-encodes at the chosen bitrate — real time, like the rest.</p>
+          </div>
+          <div class="wpane" id="pane-gif" style="display:none">
+            <p class="wdesc">Uses the Start → End range above (max 8 seconds), 10 fps, up to 560px wide — GIFs are heavy, so we keep them light.</p>
+            <button class="btn" id="wbGoGif" type="button">Make GIF</button>
+            <p class="status" id="wbGifSt">Loops forever. Obviously.</p>
+            <p class="wdesc">Sharing from a computer? WhatsApp Web sends GIFs as documents, not animations. An MP4 of the same range plays inline — and it's smaller.</p>
+            <button class="wblink" id="wbGoGifMp4" type="button">Save this range as MP4 →</button>
+          </div>
+          <div class="wpane" id="pane-audio" style="display:none">
+            <p class="wdesc">Pulls the sound out of the whole file as a 16-bit WAV. Fast — no real-time render.</p>
+            <button class="btn" id="wbGoAudio" type="button">Extract audio (WAV)</button>
+            <p class="status" id="wbAudioSt">Works with video and audio files.</p>
+          </div>
+          <div class="wpane" id="pane-speed" style="display:none">
+            <div class="wpresets" id="wbSpeeds">
+              <button class="wspeed" data-rate="2" type="button"><b>2×</b><small>watchable fast</small></button>
+              <button class="wspeed on" data-rate="4" type="button"><b>4×</b><small>timelapse</small></button>
+              <button class="wspeed" data-rate="8" type="button"><b>8×</b><small>very long clips</small></button>
+            </div>
+            <p class="wdesc" id="wbSpeedEst">Pick a speed — the whole file is sped up, no trimming.</p>
+            <button class="btn" id="wbGoSpeed" type="button">Speed it up &amp; save</button>
+            <p class="status" id="wbSpeedSt">Speeds up the whole file, real time at the accelerated rate.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wprog" id="wbProg" style="display:none">
+        <div class="wbar"><span id="wbBar"></span></div>
+        <span class="mono" id="wbPct">0%</span>
+      </div>
+      <div class="wres" id="wbRes" style="display:none">
+        <video id="wbOutV" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture playsinline style="display:none"></video>
+        <audio id="wbOutA" controls controlsList="nodownload noplaybackrate noremoteplayback" style="display:none"></audio>
+        <img id="wbOutG" alt="Your GIF" style="display:none">
+        <a class="btn btn-primary" id="wbDl" href="#" download><span class="doodle dg-download" aria-hidden="true"></span>Download</a>
+        <button class="wblink" id="wbChain" type="button" style="display:none">↻ put this result back on the bench</button>
+      </div>
+    </section>
+      <span class="bnote" id="specBrowser">Checking what this browser can do…</span>
+      <span class="bnote">Renders in real time · file never leaves this tab · original untouched</span>
+    </div></div>
+    <ol class="howlist" style="margin-top:26px">
+      <li><b>01</b><span>every frame of your .mov gets decoded in this tab</span></li>
+          <li><b>02</b><span>it's repainted onto a canvas at 30 fps while you watch</span></li>
+          <li><b>03</b><span>and handed to the MP4 encoder as it goes</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="why" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">02 — First, the honest question</span>
+      <p class="hint">Before you use it, it is fair to ask whether you need it at all.</p>
+    </div>
+    <div class="prose" style="margin-top:6px">
+      
+        
+        <h2>Do you even need the swap?</h2>
+        <p>Here's the awkward part: .mov and .mp4 are close cousins — same container family, often the exact same H.264 video inside. VLC opens both. Premiere, Final Cut, and DaVinci open .mov like it's their job, because it is.</p>
+        <p>Where it actually breaks: Windows' built-in players, Android galleries, Slack and Drive previews, half the web, and every group chat that's ever said "can you send that again?" The bench works either way — we're just not going to invent a reason for you to click.</p>
+        <p>Rule of thumb: Mac to Mac, skip this page. iPhone to anything that isn't Apple, convert.</p>
+      
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="catch" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">03 — When not to use this</span>
+      <p class="hint">Every tool has a job it is bad at. Here is this one's.</p>
+    </div>
+    <ul class="nolist" style="margin-top:6px">
+      <li>it's headed to Final Cut, Premiere, or DaVinci → they open .mov natively; don't convert</li>
+          <li>it's ProRes → that's the format editors want, and no browser can decode it anyway</li>
+          <li>it's staying Mac to Mac → AirDrop it and move on</li>
+          <li>you only need a moment of it → trim first, convert less</li>
+          <li>it's going into a chat box → a GIF or a short clip, straight from the .mov</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">04 — Questions people actually ask</span>
+      <p class="hint">Asked, answered, no padding.</p>
+    </div>
+    <div class="faq">
+        <details>
+          <summary>Is it really free?</summary>
+          <div class="body">Everything on this site is free forever. The plan is one quiet sponsor slot and ads we'd be embarrassed by — never your files, never your data. The about page has the receipts.</div>
+        </details>
+        <details>
+          <summary>Does it upload my file?</summary>
+          <div class="body">No. The bench is JavaScript running in this tab. Your recording touches nothing but your own machine — you can even go offline after the page loads and it still works.</div>
+        </details>
+        <details>
+          <summary>Will converting hurt the quality?</summary>
+          <div class="body">A little — every re-encode does. The export keeps your file's own resolution in H.264, so screen recordings and phone videos come out looking the same on a normal screen. The original .mov never changes. Keep it.</div>
+        </details>
+        <details>
+          <summary>What if my .mov won't decode?</summary>
+          <div class="body">Some .mov files hold codecs browsers won't touch — ProRes, certain HEVC variants. The bench says so in the first second instead of faking a spinner. For those files, a desktop tool or VLC is the honest fix — converting them was never a browser job.</div>
+        </details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="also" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">05 — Same file, other moves</span>
+      <p class="hint">The bench can chain these without re-dropping the file.</p>
+    </div>
+    <div class="relchips" style="margin-top:6px">
+      <button class="relchip" data-mode="trim" type="button">Trim the edges</button>
+          <button class="relchip" data-mode="gif" type="button">Make a GIF</button>
+          <button class="relchip" data-mode="audio" type="button">Pull the audio</button>
+          <button class="relchip" data-mode="compress" type="button">Shrink it</button>
+          <a class="relchip" href="tools.html">The whole bench ↗</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h4>Tools</h4>
+        <a href="record.html">Screen recorder</a><a href="trim-video.html">Trim video</a><a href="mp4-to-gif.html">MP4 → GIF</a>
+      </div>
+      <div class="f-col">
+        <h4>Convert</h4>
+        <a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a><a href="video-to-audio.html">Video → audio</a>
+      </div>
+      <div class="f-col">
+        <h4>For developers</h4>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h4>The promise</h4>
+        <span>Local files only</span><span>No account</span><span>No watermark</span>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* v3: slam things onto the page as they scroll into view. One observer, unobserved after firing.
+   When a slam ends, .in is swapped for .rv-done — which hands the element back to its hover animations.
+   Any failure here — or reduced motion — simply shows everything. */
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.sheet,.polaroid,.shelf-tape,.stamp,.toast,.cell'));
+  function settle(el){el.classList.remove('in');el.classList.add('rv-done');}
+  try{
+    if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(function(e){e.classList.add('rv-done');});return;}
+    var io=new IntersectionObserver(function(es){
+      /* stagger: at most six elements per batch, 60 ms apart — never a dozen slams at once */
+      var n=0;
+      es.forEach(function(x){
+        if(!x.isIntersecting)return;
+        var el=x.target;io.unobserve(el);
+        el.style.setProperty('--d',Math.min(n++,5)*60+'ms');
+        el.addEventListener('animationend',function(e){
+          if(e.target!==el||(e.animationName!=='slam'&&e.animationName!=='toastin'))return;
+          settle(el);
+        });
+        el.classList.add('in');
+      });
+    },{threshold:.2});
+    els.forEach(function(e){io.observe(e);});
+    /* belt and braces: a slam that never reports back (paused tab, odd engine) is shown anyway */
+    setTimeout(function(){els.forEach(function(e){if(e.classList.contains('in'))settle(e);});},3500);
+  }catch(err){els.forEach(function(e){e.classList.add('rv-done');});}
+})();
+/* About tab: the pupils drift toward the pointer. Skipped for touch and for reduced motion. */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var eyes=[].slice.call(document.querySelectorAll('.ico-eyes')), raf=0, px=0, py=0;
+  if(!eyes.length) return;
+  function look(){
+    raf=0;
+    eyes.forEach(function(el){
+      var r=el.getBoundingClientRect(); if(!r.width) return;
+      var dx=px-(r.left+r.width/2), dy=py-(r.top+r.height/2), d=Math.hypot(dx,dy)||1, k=Math.min(d/80,1)*2.2;
+      el.style.setProperty('--ex',(dx/d*k).toFixed(2)); el.style.setProperty('--ey',(dy/d*k).toFixed(2));
+    });
+  }
+  addEventListener('pointermove',function(e){
+    if(e.pointerType==='touch') return;
+    px=e.clientX; py=e.clientY; if(!raf) raf=requestAnimationFrame(look);
+  },{passive:true});
+})();
+</script>
+<script>
+/* related chips switch the bench mode */
+Array.prototype.forEach.call(document.querySelectorAll('.relchip[data-mode]'), function(c){
+  c.addEventListener('click', function(){
+    var chip=document.querySelector('.wmode[data-pane="'+c.getAttribute('data-mode')+'"]');
+    if(chip) chip.click();
+    var b=document.querySelector('.benchcol');
+    if(b){ var r=b.getBoundingClientRect(); if(r.top<0 || r.bottom>window.innerHeight) b.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
+/* the receipt promised honesty — live-check this browser against the catch */
+(function(){
+  var el=document.getElementById('specBrowser');
+  if(!el) return;
+  var can=false;
+  try{ can = !!(window.MediaRecorder && MediaRecorder.isTypeSupported && (MediaRecorder.isTypeSupported('video/mp4') || MediaRecorder.isTypeSupported('video/mp4;codecs=avc1.42E01E,mp4a.40.2'))); }catch(e){}
+  el.textContent = can ? 'This browser can output MP4 ✓' : 'This browser cannot output MP4 — Chrome or Edge can';
+  el.style.color = can ? 'var(--ink)' : 'var(--rec-text)';
+})();
+/* the dropzone's own handlers stop propagation, so workbench.js's document-level drop listener never runs
+   when the file lands on the dropzone — the "DROP IT" overlay would hang over the bench. Clear it in capture. */
+(function(){
+  function clear(){ setTimeout(function(){ document.body.classList.remove('wb-dropping'); }, 0); }
+  document.addEventListener('drop', clear, true);
+  document.addEventListener('dragleave', function(e){ if(!e.relatedTarget) clear(); }, true);
+})();
+/* when a file lands, workbench.js flips #wbWork to display:grid — open the whole bench up */
+(function(){
+  var tl=document.querySelector('.tlayout'), work=document.getElementById('wbWork');
+  if(!tl || !work || !window.MutationObserver) return;
+  function sync(){
+    var open = work.style.display !== 'none' && work.style.display !== '';
+    tl.classList.toggle('bench-open', open);
+    if(!open) return;
+    document.body.classList.remove('wb-dropping');
+    var r=work.getBoundingClientRect();
+    if(r.bottom < 120 || r.top > window.innerHeight - 120){
+      var b=document.querySelector('.benchcol');
+      if(b && b.scrollIntoView) b.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+  new MutationObserver(sync).observe(work, {attributes:true, attributeFilter:['style']});
+  sync();
+})();
+</script>
+<script src="vendor/gif.js"></script>
+<script src="vendor/gif-worker-src.js"></script>
+<script>window.WB_CONFIG = {mode:'mp4', anywhere:true};</script>
+<script src="workbench.js"></script>
+<script src="gif-share.js"></script>
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+</body>
+</html>

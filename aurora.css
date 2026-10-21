@@ -1,0 +1,164 @@
+/* ============================================================
+   ClipSolo — aurora.css
+   Direction 02 "Aurora Glass" — a theme layer over tally.css.
+
+   The technique (soft radial glow fields, a dithered grain, a
+   curved horizon, frosted surfaces) is taken from the best
+   glass UIs on the web. The colour, the geometry and the
+   rhythm are ours: a warm coral/amber sunrise instead of the
+   blue everyone else ships, and an off-centre horizon at 38%.
+
+   Loaded after tally.css. Remove one <link> to go back to the
+   flat "Tally" skin.
+   ============================================================ */
+
+body.aurora{
+  --bg:#FAF8F4;
+  --bg-2:#F2EFE9;
+  --surface:rgba(255,255,255,.68);
+  --ink:#15161A;
+  --ink-2:#4A4D55;
+  --muted:#787C85;
+  --line:rgba(21,22,26,.09);
+  --line-2:rgba(21,22,26,.17);
+  --r:12px;
+  --r-lg:20px;
+  --glass:0 1px 0 rgba(255,255,255,.9) inset, 0 18px 40px -22px rgba(30,20,14,.2);
+  --glass-hover:0 1px 0 rgba(255,255,255,.95) inset, 0 30px 54px -26px rgba(30,20,14,.3);
+  background-color:var(--bg);
+}
+
+/* ---------- the sunrise ---------- */
+.aurora-field{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:
+    radial-gradient(ellipse 58% 40% at 50% 112%, rgba(255,108,68,.42), rgba(255,108,68,0) 68%),
+    radial-gradient(ellipse 44% 32% at 14% 116%, rgba(247,166,60,.34), rgba(247,166,60,0) 70%),
+    radial-gradient(ellipse 42% 30% at 84% 114%, rgba(232,110,152,.28), rgba(232,110,152,0) 70%),
+    radial-gradient(ellipse 78% 44% at 48% 106%, rgba(255,196,128,.24), rgba(255,196,128,0) 68%),
+    radial-gradient(ellipse 38% 26% at 66% 100%, rgba(146,120,255,.16), rgba(146,120,255,0) 70%);
+}
+.aurora-field__glow{position:absolute;inset:-8% -6%;z-index:0;will-change:transform;transform:translate3d(0,var(--par,0px),0)}
+.aurora-field__horizon{position:absolute;inset:0;z-index:1;width:100%;height:100%}
+.aurora-field__sky{fill:url(#skyGradient)}
+.aurora-field__line{fill:none;stroke:rgba(21,22,26,.11);stroke-width:1;vector-effect:non-scaling-stroke}
+.aurora-field__grain{
+  /* no mix-blend-mode here: measured at 1440px, blending the grain cost ~10 ms
+     per scroll frame (28.2 ms vs 17.8 ms). The plain alpha noise is visually
+     the same and free. */
+  position:absolute;inset:0;z-index:2;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.35' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.10 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:220px 220px;
+}
+.aurora-field--sm .aurora-field__grain{display:none}
+.aurora-field--sm .aurora-field__horizon{display:none}
+
+/* ---------- glass surfaces ---------- */
+body.aurora .nav{
+  background:rgba(250,248,244,.72);
+  -webkit-backdrop-filter:blur(11px) saturate(1.5);
+  backdrop-filter:blur(11px) saturate(1.5);
+  border-bottom:1px solid rgba(21,22,26,.07);
+}
+body.aurora .nav .btn.ghost{background:rgba(255,255,255,.5)}
+body.aurora .nav .btn.ghost:hover{background:#fff}
+
+body.aurora .tool{
+  background:rgba(255,255,255,.6);
+  -webkit-backdrop-filter:blur(10px) saturate(1.35);
+  backdrop-filter:blur(10px) saturate(1.35);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:var(--glass);
+}
+body.aurora .tool:hover{
+  background:rgba(255,255,255,.78);
+  transform:translateY(-4px);
+  box-shadow:var(--glass-hover);
+}
+body.aurora .tool .demo{
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  margin:10px;
+  box-shadow:0 14px 34px -20px rgba(0,0,0,.6);
+}
+body.aurora .tool .demo__note{border-radius:0 0 15px 15px}
+
+body.aurora .case{
+  background:rgba(255,255,255,.6);
+  -webkit-backdrop-filter:blur(10px) saturate(1.35);
+  backdrop-filter:blur(10px) saturate(1.35);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:var(--glass);
+}
+
+body.aurora .steps{border-top-color:rgba(21,22,26,.12)}
+body.aurora .step{border-right-color:rgba(21,22,26,.1)}
+body.aurora .sec-head{border-top-color:rgba(21,22,26,.85)}
+body.aurora .faq{border-top-color:rgba(21,22,26,.85)}
+body.aurora .faq details{border-bottom-color:rgba(21,22,26,.09)}
+body.aurora .faq summary:hover{color:var(--red)}
+
+body.aurora .btn{border-radius:12px;box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 8px 20px -14px rgba(21,22,26,.6)}
+body.aurora .btn.ghost{background:rgba(255,255,255,.55);border-color:rgba(21,22,26,.12)}
+body.aurora .btn.ghost:hover{background:#fff;border-color:rgba(21,22,26,.5)}
+body.aurora .btn:hover{box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 12px 26px -14px rgba(21,22,26,.6)}
+
+/* ---------- the dark band gets its own warm aurora ---------- */
+body.aurora .bench{
+  background:
+    radial-gradient(ellipse 52% 58% at 12% 4%, rgba(226,59,46,.26), rgba(226,59,46,0) 62%),
+    radial-gradient(ellipse 46% 50% at 92% 96%, rgba(247,166,60,.16), rgba(247,166,60,0) 62%),
+    #0E0F13;
+}
+body.aurora .bench .demo{background:rgba(23,24,28,.72);border-color:rgba(255,255,255,.08)}
+
+/* ---------- the final panel ---------- */
+body.aurora .final{
+  position:relative;overflow:hidden;
+  background:transparent;
+  border-top:1px solid rgba(21,22,26,.08);
+}
+body.aurora .final__panel{
+  position:relative;z-index:1;
+  border-radius:28px;padding:64px 40px;text-align:center;
+  background:rgba(255,255,255,.6);
+  -webkit-backdrop-filter:blur(11px) saturate(1.35);
+  backdrop-filter:blur(11px) saturate(1.35);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:var(--glass-hover);
+}
+
+/* ---------- marquee: no jank ---------- */
+body.aurora .marquee{background:rgba(242,239,233,.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+body.aurora .marquee__track{will-change:transform;transform:translateZ(0);contain:paint}
+
+/* ---------- a wash behind the glass, so glass reads as glass ---------- */
+body.aurora #tools,body.aurora #use{position:relative}
+body.aurora #tools::before,body.aurora #use::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 58% 46% at 18% 6%, rgba(255,132,84,.13), rgba(255,132,84,0) 62%),
+    radial-gradient(ellipse 52% 44% at 88% 76%, rgba(247,166,60,.10), rgba(247,166,60,0) 62%),
+    radial-gradient(ellipse 40% 30% at 60% 40%, rgba(146,120,255,.07), rgba(146,120,255,0) 64%);
+}
+body.aurora #tools .wrap,body.aurora #use .wrap{position:relative;z-index:1}
+
+/* ---------- softness ---------- */
+body.aurora .hero::before{display:none}
+body.aurora .hero .wrap{position:relative;z-index:2}
+body.aurora .marquee{position:relative;z-index:3}
+body.aurora .demo{box-shadow:0 30px 70px -44px rgba(30,20,14,.6)}
+body.aurora .rec__toast{border-radius:10px}
+
+/* ---------- reveal on scroll (JS adds .js-reveal, so no-JS shows everything) ---------- */
+body.js-reveal .reveal{
+  opacity:0;transform:translateY(18px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease);
+}
+body.js-reveal .reveal.is-in{opacity:1;transform:none}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  body.aurora .aurora-field__glow{transform:none}
+  body.js-reveal .reveal{opacity:1;transform:none}
+}
