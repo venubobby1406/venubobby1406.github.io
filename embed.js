@@ -8,7 +8,7 @@
 
      <script src="https://YOUR-CDN/clipsolo/embed.js"
              data-endpoint="https://api.yoursite.com/recordings"
-             data-accent="#E23B2E"
+             data-accent="#D63125"
              data-label="Record a bug"></script>
      <button data-clipsolo>Record a bug</button>
 
@@ -16,7 +16,7 @@
      data-endpoint   where the finished clip is POSTed (multipart: file,
                      plus name/email/width/height/duration fields).
                      Leave it out and the visitor just downloads the file.
-     data-accent     button colour, default #E23B2E
+     data-accent     button colour, default #D63125
      data-label      button text, default "Record"
      data-camera     on|off — show the camera bubble, default on
      data-frame      on|off — the studio frame (background + padding),
@@ -33,7 +33,7 @@
   if (window.ClipSoloEmbed) return;
 
   var CFG = {
-    endpoint: '', accent: '#E23B2E', label: 'Record', camera: 'on', frame: 'on',
+    endpoint: '', accent: '#D63125', label: 'Record', camera: 'on', frame: 'on',
     pad: 48, radius: 24, bg: '#1B1D22', max: 900
   };
 
