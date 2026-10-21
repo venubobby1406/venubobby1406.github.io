@@ -57,18 +57,7 @@
   .wres video{max-width:340px;width:100%;border-radius:12px;background:#0E0F13}
   .wres img{max-width:240px;border-radius:12px;background:#0E0F13}
   /* overrides for the styles workbench.js injects itself — it stays untouched */
-  html body .wbmoves{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);gap:8px}
-  html body .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-  html body .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
-    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);transition:transform .16s var(--ease),border-color .16s var(--ease)}
-  html body .wbmove:hover{color:var(--ink);border-color:rgba(21,22,26,.3);transform:translateY(-1px)}
-  html body .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
-  html body.wb-dropping{outline:2px dashed rgba(226,59,46,.55);outline-offset:-10px}
-  html body.wb-dropping::after{
-    content:"DROP IT — THE BENCH HAS IT";top:80px;transform:translateX(-50%);
-    font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
-    background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
-  }
+
   /* the recipe's own bits */
   .crumb{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--muted);margin-bottom:18px}
@@ -170,19 +159,7 @@
   .toolcard .demo{border-radius:14px;border:1px solid rgba(255,255,255,.08);margin:0 0 18px}
   /* workbench.js injects its own warm-paper styling for these — override it from
      the page (higher specificity) so the bench wears the glass skin too */
-  html body .wbmoves{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);gap:8px}
-  html body .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-  html body .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
-    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);transition:transform .16s var(--ease),border-color .16s var(--ease)}
-  html body .wbmove:hover{color:var(--ink);border-color:rgba(21,22,26,.3);transform:translateY(-1px)}
-  html body .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
-  html body .wbmove:disabled{opacity:.5;cursor:default;pointer-events:none}
-  html body.wb-dropping{outline:2px dashed rgba(226,59,46,.55);outline-offset:-10px}
-  html body.wb-dropping::after{
-    content:"DROP IT — THE BENCH HAS IT";top:80px;transform:translateX(-50%);
-    font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
-    background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
-  }
+
   @media (max-width:820px){.wbwork{grid-template-columns:1fr}}
 }
 
@@ -221,14 +198,42 @@
   .sheet.card:hover .golink svg{transform:translate(2px,-2px)}
   .sheet.nono{list-style:none;margin:22px 0 0;padding:0;background:rgba(255,255,255,.72);border:1px solid var(--line);
     border-radius:18px;padding:6px 22px;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -30px rgba(30,20,14,.3)}
+  @media (max-width:1000px){.xgrid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:800px){.xgrid{grid-template-columns:1fr}}
+}
+
+/* ---------- status.html ----------
+   The house rules, the roadmap and the refusal list moved here from About
+   and the Index, so their styles moved with them. */
+@scope (.page-status) {
+  .rules{display:flex;flex-direction:column;margin-top:22px;border-top:1px solid var(--line)}
+  .rule{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .rule .rn{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.14em;color:var(--red);padding-top:4px}
+  .rule h3{font-size:17px;letter-spacing:-.02em;margin:0 0 5px}
+  .rule p{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-2);max-width:70ch}
+  .rm{display:flex;flex-direction:column;margin-top:22px;border-top:1px solid var(--line)}
+  .rmrow{display:grid;grid-template-columns:1fr auto;gap:6px 18px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start}
+  .rmrow b{font-size:16px;letter-spacing:-.01em}
+  .rmrow p{grid-column:1/-1;margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-2);max-width:70ch}
+  .stamp{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:5px;white-space:nowrap}
+  .stamp-live{color:var(--ok);background:rgba(30,122,82,.08);border:1px solid rgba(30,122,82,.28)}
+  .stamp-lab{color:#9A6A00;background:rgba(255,239,190,.7);border:1px solid rgba(154,106,0,.28)}
+  .stamp-no{color:var(--red-deep);background:rgba(226,59,46,.07);border:1px solid rgba(198,44,33,.26)}
+  .stamp.stamp-live{align-self:flex-start;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ok);background:rgba(30,122,82,.08);border:1px solid rgba(30,122,82,.28);
+    border-radius:5px;padding:3px 7px;transform:none}
+  .stamp.stamp-lab{align-self:flex-start;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;
+    text-transform:uppercase;color:#9A6A00;background:rgba(255,239,190,.7);border:1px solid rgba(154,106,0,.28);
+    border-radius:5px;padding:3px 7px;transform:none}
+  .sheet.nono{list-style:none;margin:22px 0 0;padding:0;background:rgba(255,255,255,.72);border:1px solid var(--line);
+    border-radius:18px;padding:6px 22px;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -30px rgba(30,20,14,.3)}
   .nono-row{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:15px 0;border-bottom:1px solid var(--line);align-items:start}
   .nono-row:last-child{border-bottom:0}
   .no-x{color:var(--red);margin-top:2px}
   .no-x svg{width:16px;height:16px}
   .nono-row b{display:block;font-size:15px;margin-bottom:3px}
   .nono-row p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.55}
-  @media (max-width:1000px){.xgrid{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:800px){.xgrid{grid-template-columns:1fr}}
+  @media (max-width:620px){.rmrow{grid-template-columns:1fr}}
 }
 
 /* ---------- embed.html ---------- */
@@ -273,20 +278,6 @@
   .prose p{font-size:16px;line-height:1.7;color:var(--ink-2);margin:0 0 14px;max-width:66ch}
   .prose strong{color:var(--ink);font-weight:700}
   .prose .mark{background:linear-gradient(transparent 58%,rgba(255,239,190,.9) 0)!important;padding:0 .06em}
-  .rules{display:flex;flex-direction:column;margin-top:22px;border-top:1px solid var(--line)}
-  .rule{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
-  .rule .rn{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.14em;color:var(--red);padding-top:4px}
-  .rule h3{font-size:17px;letter-spacing:-.02em;margin:0 0 5px}
-  .rule p{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-2);max-width:70ch}
-  .rm{display:flex;flex-direction:column;margin-top:22px;border-top:1px solid var(--line)}
-  .rmrow{display:grid;grid-template-columns:1fr auto;gap:6px 18px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start}
-  .rmrow b{font-size:16px;letter-spacing:-.01em}
-  .rmrow p{grid-column:1/-1;margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-2);max-width:70ch}
-  .stamp{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:5px;white-space:nowrap}
-  .stamp-live{color:var(--ok);background:rgba(30,122,82,.08);border:1px solid rgba(30,122,82,.28)}
-  .stamp-lab{color:#9A6A00;background:rgba(255,239,190,.7);border:1px solid rgba(154,106,0,.28)}
-  .stamp-no{color:var(--red-deep);background:rgba(226,59,46,.07);border:1px solid rgba(198,44,33,.26)}
-  @media (max-width:620px){.rmrow{grid-template-columns:1fr}}
 }
 
 /* ---------- index.html ---------- */
@@ -295,3 +286,34 @@
   .toolgrid .demo__note{font-size:9px}
   .bench .localcard{margin-top:26px}
 }
+
+/* ---------- the workbench overrides (lifted out of their scope) ----------
+   These used to live in the inline <style> of the tools hub and the five tool
+   pages. @scope cannot match a selector that starts with html or body, so they
+   sit at the top level here instead: they only match .wbmoves / .wbmove /
+   .wb-dropping, which exist only on the workbench pages. */
+  html body .wbmoves{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);gap:8px}
+  html body .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  html body .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
+  font:600 12.5px/1.3 var(--sans);color:var(--ink-2);transition:transform .16s var(--ease),border-color .16s var(--ease)}
+  html body .wbmove:hover{color:var(--ink);border-color:rgba(21,22,26,.3);transform:translateY(-1px)}
+  html body .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  html body.wb-dropping{outline:2px dashed rgba(226,59,46,.55);outline-offset:-10px}
+  html body.wb-dropping::after{
+  content:"DROP IT — THE BENCH HAS IT";top:80px;transform:translateX(-50%);
+  font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
+  }
+  html body .wbmoves{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);gap:8px}
+  html body .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  html body .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
+  font:600 12.5px/1.3 var(--sans);color:var(--ink-2);transition:transform .16s var(--ease),border-color .16s var(--ease)}
+  html body .wbmove:hover{color:var(--ink);border-color:rgba(21,22,26,.3);transform:translateY(-1px)}
+  html body .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  html body .wbmove:disabled{opacity:.5;cursor:default;pointer-events:none}
+  html body.wb-dropping{outline:2px dashed rgba(226,59,46,.55);outline-offset:-10px}
+  html body.wb-dropping::after{
+  content:"DROP IT — THE BENCH HAS IT";top:80px;transform:translateX(-50%);
+  font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
+  }

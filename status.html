@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Status — ClipSolo</title>
+<meta name="description" content="What works today, what is being built, what will never exist, and the roadmap — the state of ClipSolo on one page.">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<link rel="stylesheet" href="pages.css">
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/status.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="Status — ClipSolo">
+<meta property="og:description" content="What works today, what is being built, what will never exist, and the roadmap — the state of ClipSolo on one page.">
+<meta property="og:url" content="https://venubobby1406.github.io/status.html">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo — record your screen, keep the file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Status — ClipSolo">
+<meta name="twitter:description" content="What works today, what is being built, what will never exist, and the roadmap — the state of ClipSolo on one page.">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!--/launch-meta-->
+</head>
+<body class="aurora page-status">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>ClipSolo</a>
+  <nav class="nav-links" aria-label="Main">
+      <a href="record.html">Record</a>
+      <div class="nav-item">
+        <a class="nav-link" href="tools.html">Tools</a>
+        <div class="mega">
+          <a href="record.html"><span class="mono">Record</span><b>Screen, camera and mic</b><i>Tab, window or screen</i></a>
+          <a href="trim-video.html"><span class="mono">Trim</span><b>Cut the boring middle</b><i>In and out points</i></a>
+          <a href="mp4-to-gif.html"><span class="mono">GIF</span><b>MP4 to GIF</b><i>560px · 8s · loops</i></a>
+          <a href="webm-to-mp4.html"><span class="mono">Convert</span><b>WebM to MP4</b><i>Plays everywhere</i></a>
+          <a href="mov-to-mp4.html"><span class="mono">Convert</span><b>MOV to MP4</b><i>For phones</i></a>
+          <a href="video-to-audio.html"><span class="mono">Audio</span><b>Video to WAV</b><i>Pull the track out</i></a>
+        </div>
+      </div>
+      <a href="features.html">Index</a>
+      <a href="embed.html">Embed</a>
+      <a href="about.html">About</a>
+  </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="record.html">Open recorder <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================ HEAD ============================ -->
+<section class="apphero apphero--left">
+  <div class="wrap">
+    <div class="eyebrow"><i></i>Status</div>
+    <h1>What works, what is being built,<br>what will never exist.</h1>
+    <p class="lede">The state of the product on one page. It changes when the product changes — last updated 21 October 2026.</p>
+  </div>
+</section>
+
+<!-- ============================ WORKS ============================ -->
+<section class="sec" id="works" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">01 — What works today</span>
+      <p class="hint">Everything here is built, tested and live. Open any of it and use it.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>Screen recorder</h3>
+        <p>Tab, window or the whole screen. Camera bubble, microphone and system audio. Unlimited length, pause and resume, and a second screen-only version of every take.</p>
+        <div class="meta">Live · record.html</div>
+      </div>
+      <div class="case">
+        <h3>Studio frames</h3>
+        <p>Background, padding and rounded corners on a finished take, rendered on your device. The original recording is never touched.</p>
+        <div class="meta">Live · in the recorder</div>
+      </div>
+      <div class="case">
+        <h3>Screenshot tool</h3>
+        <p>Capture a screen, window or tab, or pull a still out of a video, then pixelate anything private before you share it.</p>
+        <div class="meta">Live · tools.html</div>
+      </div>
+      <div class="case">
+        <h3>Webcam and voice recorders</h3>
+        <p>Camera-only and microphone-only takes, saved straight to your disk.</p>
+        <div class="meta">Live · tools.html</div>
+      </div>
+      <div class="case">
+        <h3>Video workbench</h3>
+        <p>Trim, compress, GIF, WAV and MP4, chained in one tab. The file is never re-uploaded.</p>
+        <div class="meta">Live · tools.html</div>
+      </div>
+      <div class="case">
+        <h3>Converters</h3>
+        <p>MP4 to GIF, WebM to MP4, MOV to MP4, video to WAV. Real time, in the tab.</p>
+        <div class="meta">Live · tools.html</div>
+      </div>
+      <div class="case">
+        <h3>ClipSolo Embed</h3>
+        <p>One script tag gives your own product a record button. The clip is encoded in the visitor's browser and posted to your endpoint.</p>
+        <div class="meta">Live · embed.html</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ BUILDING ============================ -->
+<section class="sec" id="building" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">02 — What is being built</span>
+      <p class="hint">Real work with a real reason. Nothing here is announced before it works.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>Share links</h3>
+        <p>The button, the upload, the seven-day expiry and the delete token are written and tested. What is missing is one free storage account, so today the share card sends the clip to your apps and the link button says plainly that it is not on yet.</p>
+        <div class="meta">Waiting on one signup</div>
+      </div>
+      <div class="case">
+        <h3>Video redaction</h3>
+        <p>The screenshot tool can pixelate a region of a still. Doing the same to a whole recording is next on the list, and it will not ship half-done.</p>
+        <div class="meta">Not built</div>
+      </div>
+      <div class="case">
+        <h3>Captions</h3>
+        <p>A local Whisper model, downloaded only when you ask for it (about 40–75 MB). Your audio stays on your machine.</p>
+        <div class="meta">Not built</div>
+      </div>
+      <div class="case">
+        <h3>A music bed</h3>
+        <p>Your own audio file, dropped under the video and trimmed to length.</p>
+        <div class="meta">Not built</div>
+      </div>
+      <div class="case">
+        <h3>Link management</h3>
+        <p>See and manage your links from one place. Optional forever — never required to record.</p>
+        <div class="meta">Later</div>
+      </div>
+      <div class="case">
+        <h3>Got a missing tool?</h3>
+        <p>This list grows from real requests. If something small would make your work easier, that is how it gets built.</p>
+        <div class="meta">Open</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ROADMAP ============================ -->
+<section class="sec" id="roadmap" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">03 — The roadmap</span>
+      <p class="hint">Live, building, later, and never — in that order, with nothing hidden.</p>
+    </div>
+    <div class="rm">
+      <div class="rmrow">
+        <b>v1 recorder</b><span class="stamp stamp-live">Live</span>
+        <p>Browser tab, unlimited length, camera bubble, dual versions (with camera / screen only), delete token. Being used and tested daily.</p>
+      </div>
+      <div class="rmrow">
+        <b>Share links</b><span class="stamp stamp-lab">Building now</span>
+        <p>The code is finished — the button, the upload, the expiry, the delete token. It waits on one free Cloudflare account to switch the service on: seven-day links, deleted by the storage layer itself, and a delete button the moment it lands.</p>
+      </div>
+      <div class="rmrow">
+        <b>Free tools</b><span class="stamp stamp-live">Live</span>
+        <p>Screenshot, webcam and voice recorders, plus the video workbench — trim, convert, compress, GIF and audio extract, all in the tab. Nothing uploaded, ever.</p>
+      </div>
+      <div class="rmrow">
+        <b>Optional link management</b><span class="stamp">Later</span>
+        <p>See and manage your links from one place. Optional forever — never required to record.</p>
+      </div>
+      <div class="rmrow">
+        <b>Native apps</b><span class="stamp stamp-no">Pass</span>
+        <p>The browser is the point. Nothing to install, nothing to update, nothing to uninstall.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ NEVER ============================ -->
+<section class="sec" id="never" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">04 — What will never happen</span>
+      <p class="hint">Every refusal has a reason, and none of the reasons are "roadmap".</p>
+    </div>
+    <ul class="sheet nono" id="gridNo">
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>AVI → MP4</h3>
+        <p>Your browser can't decode 20-year-old codecs — and we won't fake a progress bar over a failure.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>OS-wide auto-zoom</h3>
+        <p>A browser can't see your clicks outside its own tab. That's why Cap is a native app — and why we won't cosplay as one.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>Server-side anything</h3>
+        <p>Unlimited cloud storage, team workspaces, viewer analytics — all of it needs a server we run, holding your files and your viewers' behavior. Storage costs money forever, accounts mean identities and permissions, and analytics means watching. Hard no by design; your files stay yours.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>AI titles &amp; summaries</h3>
+        <p>Needs GPU servers. The day that's free to run, it'll be here. Until then — no theater.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>Native apps</h3>
+        <p>You already have one — it's called a browser. Phone screen recording is a different machine, so we're a desktop-browser tool, and we say so.</p></div>
+      </li>
+      <li class="nono-row">
+        <span class="no-x" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>
+        <div><h3>4K theater</h3>
+        <p>We capture your screen the size it is. No upscaling, no "up to 4K" asterisks.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ RULES ============================ -->
+<section class="sec" id="rules" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <span class="mono">05 — Six promises</span>
+      <p class="hint">None of them are "coming soon".</p>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <span class="rn">01</span>
+        <div><h3>No account to record.</h3>
+        <p>Opening a tab and pressing record should not require an identity. Accounts will exist later for exactly one optional thing — managing your links. They will never guard the recorder.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">02</span>
+        <div><h3>No watermark. Anywhere.</h3>
+        <p>Not on the video, not on the player, not "only on the free plan". Your recording is not our billboard.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">03</span>
+        <div><h3>No time limits.</h3>
+        <p>A three-hour recording is your business, not our upsell trigger. The stop button is the only thing that ends a recording.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">04</span>
+        <div><h3>No dark patterns.</h3>
+        <p>No fake countdowns, no "your video expires — upgrade!" emails, no upgrade prompt jammed under the stop button. Free means free.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">05</span>
+        <div><h3>The camera bubble is included.</h3>
+        <p>The little floating circle — drag it anywhere, it lands exactly there in the video. In the free plan. Obviously.</p></div>
+      </div>
+      <div class="rule">
+        <span class="rn">06</span>
+        <div><h3>Your data isn't the price.</h3>
+        <p>One sponsor slot pays the bills. We don't sell viewer insights, we don't train anything on recordings, and there's no "we may share with partners" clause — because there is no clause.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="final__panel">
+      <h2>Nothing on this page is a promise about a date.</h2>
+      <p>It is a list of what exists, what is next, and what will not. If it is out of date, tell us and we will fix it.</p>
+      <div class="ctas">
+        <a class="btn" href="record.html">Start recording — free <span class="arr">→</span></a>
+        <a class="btn ghost" href="tools.html">Explore the tools</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h4>Tools</h4>
+        <a href="record.html">Screen recorder</a><a href="tools.html">All tools</a><a href="trim-video.html">Trim video</a>
+      </div>
+      <div class="f-col">
+        <h4>Convert</h4>
+        <a href="mp4-to-gif.html">MP4 → GIF</a><a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a>
+      </div>
+      <div class="f-col">
+        <h4>For developers</h4>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h4>The promise</h4>
+        <span>Local files only</span><span>No account</span><span>No watermark</span>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <a href="status.html">Status</a>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+</body>
+</html>
