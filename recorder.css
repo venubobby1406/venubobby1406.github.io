@@ -55,6 +55,18 @@
 .share__url:hover{color:var(--red)}
 .share .btn[disabled]{opacity:.5;cursor:default;pointer-events:none}
 
+/* ---------- the bubble size picker ---------- */
+.optrow--size{align-items:center}
+.optrow__icon{width:20px;height:20px;flex:none;border-radius:50%;border:2px solid rgba(21,22,26,.22);background:#0E0F13}
+.optrow__text{flex:1;font-size:15px}
+.optrow__text small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.seg{display:inline-flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.6)}
+.seg__btn{min-width:34px;height:26px;padding:0 8px;border:0;border-radius:7px;background:transparent;color:var(--ink-2);
+  font:600 12px/1 var(--mono);letter-spacing:.08em;cursor:pointer;transition:background .14s var(--ease),color .14s var(--ease)}
+.seg__btn:hover{background:rgba(21,22,26,.06);color:var(--ink)}
+.seg__btn.is-on{background:var(--ink);color:#fff}
+@media (max-width:560px){.optrow--size{flex-wrap:wrap}.seg{margin-left:32px}}
+
 /* ---------- the studio frame ---------- */
 .studio{margin-top:22px;padding:20px 22px 22px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.6)}
 .studio__head{margin-bottom:18px}

@@ -95,7 +95,16 @@
           <h3>New recording</h3>
           <p class="hint">Two switches. Both on by default.</p>
           <div class="opts">
-            <label class="optrow"><input type="checkbox" class="check" id="optCam" checked><span>Camera bubble<small>Your face, composited into the video exactly where you drag it</small></span></label>
+            <label class="optrow"><input type="checkbox" class="check" id="optCam" checked><span>Camera bubble<small>Your face, composited into the video exactly where you drag it — and it stays there next time</small></span></label>
+            <div class="optrow optrow--size hidden" id="bubbleSizeRow">
+              <span class="optrow__icon" aria-hidden="true"></span>
+              <span class="optrow__text">Bubble size<small>How big your face is in the recording</small></span>
+              <div class="seg" role="group" aria-label="Camera bubble size">
+                <button class="seg__btn" type="button" data-size="s">S</button>
+                <button class="seg__btn is-on" type="button" data-size="m">M</button>
+                <button class="seg__btn" type="button" data-size="l">L</button>
+              </div>
+            </div>
             <label class="optrow"><input type="checkbox" class="check" id="optMic" checked><span>Microphone<small>System audio comes along on most setups — tab audio on Mac and Linux</small></span></label>
           </div>
           <button class="recbtn" id="btnStart"><span class="recbtn__dot" aria-hidden="true"></span>Start recording</button>
@@ -237,8 +246,8 @@
     <div class="cases">
       <div class="case">
         <h3>Camera bubble in the file</h3>
-        <p>Your face is composited into the recording as it happens — drag it anywhere and it lands in the video exactly there.</p>
-        <div class="meta">Live · on-device</div>
+        <p>Your face is composited into the recording as it happens — drag it anywhere and it lands in the video exactly there. Pick its size, and it is still where you left it next time.</p>
+        <div class="meta">Live · on-device · remembered</div>
       </div>
       <div class="case">
         <h3>Unlimited length</h3>
@@ -371,6 +380,61 @@
   const $ = id => document.getElementById(id);
   const msg = $('msg');
   const liveBubble = $('liveBubble'), liveBubbleVid = $('liveBubbleVid'), liveBubbleClose = $('liveBubbleClose'), bubbleRestore = $('bubbleRestore');
+
+  /* ---------- the bubble's size and where it sits ----------
+     Loom and Cap both let you resize the bubble and they keep it where you put it — and they
+     draw it into the file at that spot, whatever you were recording. We do the same: the spot is
+     stored as a fraction of the page (so it survives a different window size), and the composited
+     bubble is drawn there in every mode. The preference is remembered on this device only —
+     localStorage, no account, nothing sent anywhere. */
+  const BUBBLE_PX = { s: 124, m: 188, l: 280 };      /* the on-screen bubble */
+  const BUBBLE_R  = { s: 0.057, m: 0.09, l: 0.134 }; /* the radius in the file, as a share of the short side */
+  const BUBBLE_STORE = 'clipsolo.bubble';
+  let bubbleSize = 'm';
+  let bubbleSpot = null;                              /* {fx, fy} — the centre, as a fraction of the page */
+
+  function applyBubbleSize(){
+    /* the same size on screen and in the file — pick it once, it is used everywhere */
+    const px = BUBBLE_PX[bubbleSize] || BUBBLE_PX.m;
+    liveBubble.style.width = px + 'px';
+    liveBubble.style.height = px + 'px';
+    document.querySelectorAll('#bubbleSizeRow .seg__btn').forEach(b => {
+      b.classList.toggle('is-on', b.dataset.size === bubbleSize);
+      b.setAttribute('aria-pressed', b.dataset.size === bubbleSize ? 'true' : 'false');
+    });
+    if (bubbleSpot) applyBubbleSpot();   // the centre stays put when the size changes
+  }
+  function saveBubblePref(){
+    try { localStorage.setItem(BUBBLE_STORE, JSON.stringify({ size: bubbleSize, spot: bubbleSpot })); } catch(_){}
+  }
+  function loadBubblePref(){
+    let p = null;
+    try { p = JSON.parse(localStorage.getItem(BUBBLE_STORE) || 'null'); } catch(_){}
+    if (!p) return;
+    if (p.size && BUBBLE_PX[p.size]) bubbleSize = p.size;
+    if (p.spot && typeof p.spot.fx === 'number' && typeof p.spot.fy === 'number') bubbleSpot = p.spot;
+    applyBubbleSize();
+    if (bubbleSpot) applyBubbleSpot();
+  }
+  function applyBubbleSpot(){
+    if (!bubbleSpot) return;
+    const px = liveBubble.offsetWidth || BUBBLE_PX[bubbleSize] || BUBBLE_PX.m;
+    const x = Math.min(Math.max(bubbleSpot.fx * window.innerWidth - px/2, 0), window.innerWidth - px);
+    const y = Math.min(Math.max(bubbleSpot.fy * window.innerHeight - px/2, 0), window.innerHeight - px);
+    liveBubble.style.left = x + 'px';
+    liveBubble.style.top = y + 'px';
+    liveBubble.style.bottom = 'auto';
+  }
+  function rememberSpot(){
+    const r = liveBubble.getBoundingClientRect();
+    if (!r.width) return;
+    bubbleSpot = {
+      fx: Math.min(Math.max((r.left + r.width/2) / window.innerWidth, 0), 1),
+      fy: Math.min(Math.max((r.top + r.height/2) / window.innerHeight, 0), 1)
+    };
+    saveBubblePref();
+  }
+  loadBubblePref();
   // Picture-in-Picture is the only always-on-top window a page can own (Loom/Cap use a native one;
   // a website cannot float over the desktop any other way). A PiP window IS on screen, so a
   // full-screen share records it — window/tab shares never do. pipSupported hides the button where
@@ -477,9 +541,18 @@
       const draw = () => {
         ctx.drawImage(screenVid, 0, 0, W, H);
         if (camVid && showCompositeBubble()){
-          const r  = Math.round(Math.min(W, H) * 0.09);
+          const r  = Math.round(Math.min(W, H) * (BUBBLE_R[bubbleSize] || BUBBLE_R.m));
           const mg = Math.round(r * 0.4);
-          const cx = r + mg, cy = H - r - mg;
+          // where it sits: the spot the user dragged it to (a fraction of the page), or the
+          // bottom-left default when they never moved it
+          let cx, cy;
+          if (bubbleSpot){
+            cx = Math.round(bubbleSpot.fx * W);
+            cy = Math.round(bubbleSpot.fy * H);
+          } else {
+            cx = r + mg;
+            cy = H - r - mg;
+          }
           ctx.save();
           ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.closePath(); ctx.clip();
           if (camVid.videoWidth){
@@ -543,6 +616,7 @@
       recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
       recorder.onstop = onRecStop;
       recorder.start(1000);
+      applyBubbleSize();   // the preview becomes the real bubble for this take
 
       if (composited){
         try {
@@ -658,6 +732,9 @@
     $('btnFloat').classList.add('hidden');
     if (isPip()){ try { document.exitPictureInPicture().catch(()=>{}); } catch(_){} }
     try { liveBubbleVid.srcObject = null; } catch(_){}
+    recorder = null;
+    applyBubbleSize();      // back to the small preview, ready to place for the next take
+    syncBubbleUI();
   }
 
   // on-demand copies: drop the cached ones (and stop a running re-encode) when the recording they
@@ -840,7 +917,11 @@
   // the same camera feed into a Picture-in-Picture window that stays on top of everything.
   function syncBubbleUI(){
     const pip = isPip();
-    const canView = !!recorder && !!camStream && screenMode;   // the in-page bubble exists on full-screen shares only
+    // before recording, the bubble is on screen so you can place it (Loom and Cap let you do the
+    // same); during a recording the in-page bubble exists for full-screen shares only — a window
+    // or tab share cannot capture it, so the draw loop draws it into the file instead.
+    const camToggle = $('optCam');
+    const canView = !!recorder ? (!!camStream && screenMode) : !!(camToggle && camToggle.checked);
     liveBubble.classList.toggle('hidden', !(canView && !pip && !recBubbleHidden));
     bubbleRestore.classList.toggle('hidden', !(canView && !pip && recBubbleHidden));
     const fb = $('btnFloat');
@@ -937,15 +1018,39 @@
       const y = Math.min(Math.max(e.clientY - oy, 0), window.innerHeight - h);
       liveBubble.style.left = x + 'px';
       liveBubble.style.top = y + 'px';
+      rememberSpot();          // the file follows the bubble wherever you drop it
     });
     const endDrag = e => {
       if (!drag) return;
       drag = false;
       liveBubble.classList.remove('dragging');
+      rememberSpot();
       try { liveBubble.releasePointerCapture(e.pointerId); } catch(_){}
     };
     liveBubble.addEventListener('pointerup', endDrag);
     liveBubble.addEventListener('pointercancel', endDrag);
+  })();
+
+  // ---------- the size picker + the camera switch ----------
+  (function bubbleSizePicker(){
+    const row = $('bubbleSizeRow');
+    const cam = $('optCam');
+    if (!row) return;
+    const sync = () => {
+      row.classList.toggle('hidden', !(cam && cam.checked));
+    };
+    row.querySelectorAll('.seg__btn').forEach(b => {
+      b.addEventListener('click', () => {
+        bubbleSize = b.dataset.size || 'm';
+        applyBubbleSize();
+        saveBubblePref();
+        if (bubbleSpot) applyBubbleSpot();
+      });
+    });
+    if (cam) cam.addEventListener('change', () => { sync(); syncBubbleUI(); });
+    sync();
+    applyBubbleSize();
+    syncBubbleUI();     // the bubble is on screen before recording so you can place it
   })();
 })();
 </script>
