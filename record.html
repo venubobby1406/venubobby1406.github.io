@@ -544,13 +544,13 @@
           const r  = Math.round(Math.min(W, H) * (BUBBLE_R[bubbleSize] || BUBBLE_R.m));
           const mg = Math.round(r * 0.4);
           // where it sits: the spot the user dragged it to (a fraction of the page), or the
-          // bottom-left default when they never moved it
+          // bottom-right default when they never moved it
           let cx, cy;
           if (bubbleSpot){
             cx = Math.round(bubbleSpot.fx * W);
             cy = Math.round(bubbleSpot.fy * H);
           } else {
-            cx = r + mg;
+            cx = W - r - mg;
             cy = H - r - mg;
           }
           ctx.save();
