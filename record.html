@@ -184,17 +184,35 @@
       </div>
     </div>
 
-    <div class="frame" style="margin-top:18px">
-      <video class="preview" id="preview" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture></video>
-      <p class="frame__meta" id="meta"></p>
-    </div>
     <p class="hint hidden" id="qNote">A copy is re-encoded on your device right here — it takes about as long as the video itself, and you can use other tabs while it works.</p>
     <div class="btnrow">
       <a class="btn btn-primary" id="btnDownload" download>Download video</a>
       <button class="btn" id="btnAgain">Record again</button>
       <button class="btn btn-danger" id="btnDelete" title="Delete this recording permanently">Delete recording</button>
     </div>
-    <p class="mono" style="margin-top:16px">The file stays on this device — it was never uploaded.</p>
+
+    <!-- ============================ SHARE ============================ -->
+    <div class="share" id="share">
+      <div class="share__head">
+        <span class="mono">Share</span>
+        <p class="hint">Send the file straight from here, or put it on a link. Sharing is the one thing that leaves your machine — so it is your call, every time, and the link says when it dies.</p>
+      </div>
+      <div class="btnrow" style="margin-top:14px">
+        <button class="btn" id="shareLink" type="button">Get a link</button>
+        <button class="btn ghost hidden" id="shareSend" type="button">Send to an app</button>
+      </div>
+      <p class="share__note" id="shareNote" style="margin-top:12px"></p>
+      <div class="share__link hidden" id="shareLinkBox">
+        <a class="share__url" id="shareUrl" href="#" target="_blank" rel="noopener"></a>
+        <div class="btnrow" style="margin-top:10px">
+          <button class="btn sm" id="shareCopy" type="button">Copy link</button>
+          <button class="btn sm btn-danger" id="shareDelete" type="button">Delete this link</button>
+        </div>
+        <p class="share__note expiry" id="shareExpiry" style="margin-top:10px"></p>
+      </div>
+    </div>
+
+    <p class="mono" style="margin-top:16px">The file stays on this device. It is only uploaded if you ask for a link.</p>
   </div>
 </div>
 
@@ -245,9 +263,9 @@
     </div>
     <div class="cases">
       <div class="case">
-        <h3>No share links yet</h3>
-        <p>A link means somebody else holds the file. We would rather ship nothing than quietly upload your screen, so the file stays yours to send however you like.</p>
-        <div class="meta">Not built</div>
+        <h3>Share links: built, not switched on</h3>
+        <p>The button, the upload, the seven-day expiry and the delete token are written and tested. What is missing is one free Cloudflare account to hold the files — so the share card sends the clip straight to your apps, and the link button says plainly that it is not on yet.</p>
+        <div class="meta">Waiting on one signup</div>
       </div>
       <div class="case">
         <h3>No accounts, no cloud, no tracking</h3>
@@ -950,5 +968,6 @@
 </script>
 <script src="sponsors.js" defer></script>
 <script src="pro.js" defer></script>
+<script src="share.js" defer></script>
 </body>
 </html>
