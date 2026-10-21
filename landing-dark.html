@@ -33,13 +33,15 @@
           Tools
           <svg class="nav__chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="menu" id="toolsMenu" role="menu" aria-labelledby="toolsBtn" hidden>
-          <a class="menu__item" role="menuitem" href="record.html"><span class="menu__tag">Record</span><span class="menu__title">Screen, camera and mic</span><span class="menu__note">Tab, window or screen</span></a>
-          <a class="menu__item" role="menuitem" href="trim-video.html"><span class="menu__tag">Trim</span><span class="menu__title">Cut the boring middle</span><span class="menu__note">In and out points</span></a>
-          <a class="menu__item" role="menuitem" href="mp4-to-gif.html"><span class="menu__tag">GIF</span><span class="menu__title">MP4 to GIF</span><span class="menu__note">560px · 8s · loops</span></a>
-          <a class="menu__item" role="menuitem" href="webm-to-mp4.html"><span class="menu__tag">Convert</span><span class="menu__title">WebM to MP4</span><span class="menu__note">Plays everywhere</span></a>
-          <a class="menu__item" role="menuitem" href="mov-to-mp4.html"><span class="menu__tag">Convert</span><span class="menu__title">MOV to MP4</span><span class="menu__note">For phones</span></a>
-          <a class="menu__item" role="menuitem" href="video-to-audio.html"><span class="menu__tag">Audio</span><span class="menu__title">Video to WAV</span><span class="menu__note">Pull the track out</span></a>
+        <div class="menu" id="toolsMenu" hidden>
+          <ul>
+            <li><a class="menu__item" href="record.html"><span class="menu__tag">Record</span><span class="menu__title">Screen, camera and mic</span><span class="menu__note">Tab, window or screen</span></a></li>
+            <li><a class="menu__item" href="trim-video.html"><span class="menu__tag">Trim</span><span class="menu__title">Cut the boring middle</span><span class="menu__note">In and out points</span></a></li>
+            <li><a class="menu__item" href="mp4-to-gif.html"><span class="menu__tag">GIF</span><span class="menu__title">MP4 to GIF</span><span class="menu__note">560px · 8s · loops</span></a></li>
+            <li><a class="menu__item" href="webm-to-mp4.html"><span class="menu__tag">Convert</span><span class="menu__title">WebM to MP4</span><span class="menu__note">Plays everywhere</span></a></li>
+            <li><a class="menu__item" href="mov-to-mp4.html"><span class="menu__tag">Convert</span><span class="menu__title">MOV to MP4</span><span class="menu__note">For phones</span></a></li>
+            <li><a class="menu__item" href="video-to-audio.html"><span class="menu__tag">Audio</span><span class="menu__title">Video to WAV</span><span class="menu__note">Pull the track out</span></a></li>
+          </ul>
         </div>
       </div>
 
@@ -158,7 +160,7 @@
     <div class="sec-head">
       <p class="kicker">02 — Every tool, working right now</p>
       <h2 class="sec-title">Six tools. Zero installs.</h2>
-      <p class="sec-lede">Each one is a working page, not a screenshot. Open any card and use it — it runs in this tab.</p>
+      <p class="sec-lede">The picture on each card is a drawing. The tool behind it is real — open any card and use it. Every one of them is a working page, not a waitlist.</p>
     </div>
 
     <div class="grid-3 tool-grid">
@@ -325,7 +327,7 @@
       <li><span class="band__tool-tag">Record</span><span class="band__tool-name">Screen, camera bubble, mic, system audio</span><span class="band__tool-state">In the tab</span></li>
       <li><span class="band__tool-tag">Trim</span><span class="band__tool-name">In and out points, real-time render</span><span class="band__tool-state">In the tab</span></li>
       <li><span class="band__tool-tag">Convert</span><span class="band__tool-name">WebM, MOV and MP4, plus GIF and WAV</span><span class="band__tool-state">In the tab</span></li>
-      <li><span class="band__tool-tag">Frame</span><span class="band__tool-name">Studio frames, padding and rounded corners</span><span class="band__tool-state">In the tab</span></li>
+      <li><span class="band__tool-tag">In the recorder</span><span class="band__tool-name">Studio frame — padding and rounded corners</span><span class="band__tool-state">In the tab</span></li>
     </ul>
   </div>
 </section>
@@ -361,28 +363,21 @@
           <tr>
             <th scope="row">Account required</th>
             <td>Yes</td>
-            <td>Yes for cloud</td>
+            <td>No</td>
             <td>No</td>
             <td class="is-us">No</td>
           </tr>
           <tr>
             <th scope="row">Where the file goes</th>
             <td>Their cloud</td>
-            <td>Your disk or their cloud</td>
+            <td>Your disk or cloud</td>
             <td>Your disk or paid cloud</td>
             <td class="is-us">Your disk. Always.</td>
           </tr>
           <tr>
-            <th scope="row">Editing after recording</th>
-            <td>In their app</td>
-            <td>Paid editor</td>
-            <td>Paid editor</td>
-            <td class="is-us">In the tab, free</td>
-          </tr>
-          <tr>
             <th scope="row">Price</th>
-            <td>Free + paid plans</td>
             <td>Free + paid</td>
+            <td>Free + $58 once</td>
             <td>Free + paid editor</td>
             <td class="is-us">Free</td>
           </tr>
@@ -517,6 +512,12 @@
       </div>
     </div>
 
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="sponsor__label">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+
     <div class="footer__bottom">
       <span>© 2026 ClipSolo — the file is yours</span>
       <span class="live"><i aria-hidden="true"></i>No uploads today</span>
@@ -524,6 +525,8 @@
   </div>
 </footer>
 
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
 <script src="landing-dark.js" defer></script>
 </body>
 </html>
