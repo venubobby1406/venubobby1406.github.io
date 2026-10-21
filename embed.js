@@ -349,8 +349,8 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       if (statusEl) statusEl.textContent = 'Sent to your server (' + Math.round(blob.size / 1024) + ' KB).';
     } catch (e) {
-      if (statusEl) statusEl.textContent = 'Could not reach your endpoint (' + (e && e.message ? e.message : 'error') + '). The file was not sent.';
       fail('Your endpoint did not accept the recording. Nothing was uploaded.');
+      if (statusEl) statusEl.textContent = 'Could not reach your endpoint (' + (e && e.message ? e.message : 'error') + '). The file was not sent.';
     }
   }
 
