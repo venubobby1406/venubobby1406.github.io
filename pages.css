@@ -317,3 +317,8 @@
   font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
   background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
   }
+
+/* ---------- the draft notice on the legal pages ---------- */
+.draft-note{margin-top:18px;padding:11px 14px;border:1px solid rgba(154,106,0,.34);border-radius:10px;
+  background:rgba(255,239,190,.55);font-size:13.5px;line-height:1.55;color:var(--ink-2);max-width:70ch}
+.draft-note strong{color:var(--ink);font-weight:700}

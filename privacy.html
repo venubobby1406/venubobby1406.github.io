@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy — ClipSolo</title>
+<meta name="description" content="What ClipSolo collects: nothing. No cookies, no analytics, no accounts, no uploads. Your recordings are processed in your browser and never transmitted.">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="stylesheet" href="tally.css">
+<link rel="stylesheet" href="aurora.css">
+<link rel="stylesheet" href="pages.css">
+<!--launch-meta-->
+<link rel="canonical" href="https://venubobby1406.github.io/privacy.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipSolo">
+<meta property="og:title" content="Privacy — ClipSolo">
+<meta property="og:description" content="What ClipSolo collects: nothing. No cookies, no analytics, no accounts, no uploads. Your recordings are processed in your browser and never transmitted.">
+<meta property="og:url" content="https://venubobby1406.github.io/privacy.html">
+<meta property="og:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ClipSolo — record your screen, keep the file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy — ClipSolo">
+<meta name="twitter:description" content="What ClipSolo collects: nothing. No cookies, no analytics, no accounts, no uploads. Your recordings are processed in your browser and never transmitted.">
+<meta name="twitter:image" content="https://venubobby1406.github.io/assets/og.png">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!--/launch-meta-->
+</head>
+<body class="aurora page-privacy">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><i></i>ClipSolo</a>
+  <nav class="nav-links" aria-label="Main">
+      <a href="record.html">Record</a>
+      <div class="nav-item">
+        <a class="nav-link" href="tools.html">Tools</a>
+        <div class="mega">
+          <a href="record.html"><span class="mono">Record</span><b>Screen, camera and mic</b><i>Tab, window or screen</i></a>
+          <a href="trim-video.html"><span class="mono">Trim</span><b>Cut the boring middle</b><i>In and out points</i></a>
+          <a href="mp4-to-gif.html"><span class="mono">GIF</span><b>MP4 to GIF</b><i>560px · 8s · loops</i></a>
+          <a href="webm-to-mp4.html"><span class="mono">Convert</span><b>WebM to MP4</b><i>Plays everywhere</i></a>
+          <a href="mov-to-mp4.html"><span class="mono">Convert</span><b>MOV to MP4</b><i>For phones</i></a>
+          <a href="video-to-audio.html"><span class="mono">Audio</span><b>Video to WAV</b><i>Pull the track out</i></a>
+        </div>
+      </div>
+      <a href="features.html">Index</a>
+      <a href="embed.html">Embed</a>
+      <a href="about.html">About</a>
+  </nav>
+    <div class="nav-right">
+      <span class="nav-status"><i></i>Local only</span>
+      <a class="btn sm" href="record.html">Open recorder <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="apphero apphero--left">
+  <div class="wrap">
+    <div class="eyebrow"><i></i>Privacy</div>
+    <p class="draft-note"><strong>Draft</strong> — have this reviewed before you rely on it. The parts marked in square brackets need a real answer before publication.</p>
+    <h1>What we collect: nothing.</h1>
+    <p class="lede">This site is static files on a static host. There is no database behind it, no account to create and no upload endpoint — so there is nothing to collect.</p>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <h2 class="mono">01 — The short version</h2>
+      <p class="hint">If you only read one part, read this one.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>No cookies, no trackers, no pixels</h3>
+        <p>Nothing on this site sets a cookie, runs analytics, loads a tracking pixel or calls a third party. There is no CDN, no web font service and no remote script. The page you are reading is the whole page.</p>
+        <div class="meta">Nothing stored about you</div>
+      </div>
+      <div class="case">
+        <h3>No account, no email, no sign-up</h3>
+        <p>There is nowhere to create an account and no form that sends anything anywhere. If a future version adds one, it will say so on this page first.</p>
+        <div class="meta">No identity required</div>
+      </div>
+      <div class="case">
+        <h3>Your recordings never leave your machine</h3>
+        <p>Recording, trimming and converting all happen in your browser, through APIs your operating system already exposes. The file is written by your browser to your disk. No part of it is transmitted to us, because there is nowhere for it to go.</p>
+        <div class="meta">0 KB uploaded</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <h2 class="mono">02 — The details</h2>
+      <p class="hint">What the site stores on your own device, and what a host sees.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>Two keys in your browser's local storage</h3>
+        <p>If you paste a Pro licence key, it is kept in your browser's local storage so the page can show you are signed in. If you move the camera bubble, its size and position are kept the same way. Both stay on your device. Clearing site data removes them.</p>
+        <div class="meta">Local only</div>
+      </div>
+      <div class="case">
+        <h3>What the host can see</h3>
+        <p>Our host serves the page files. Like any web host, it can see the requests people makes — an IP address, a browser, a timestamp. We do not add anything to those requests: no identifiers, no user agents of our own, no logging on the site itself.</p>
+        <div class="meta">Host access only</div>
+      </div>
+      <div class="case">
+        <h3>The one outbound request</h3>
+        <p>If you press Share and ask for a link, the clip is sent to the storage service that holds shared links — the only time this site puts a file on a server. That service deletes clips on a set expiry, and you can delete one yourself with the button on the link. It is opt-in, every time.</p>
+        <div class="meta">Opt-in only</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:20px">
+  <div class="wrap">
+    <div class="secline">
+      <h2 class="mono">03 — Questions and changes</h2>
+      <p class="hint">Ask us, and tell us if something here is wrong.</p>
+    </div>
+    <div class="cases">
+      <div class="case">
+        <h3>Children</h3>
+        <p>This is a developer and creator tool. It is not directed at children, and we do not knowingly collect anything from anyone, of any age.</p>
+        <div class="meta">Nothing collected</div>
+      </div>
+      <div class="case">
+        <h3>Your rights</h3>
+        <p>There is no personal data held about you, so there is nothing to access, correct or erase. If a future feature changes that, this page changes with it — same day, not next quarter.</p>
+        <div class="meta">Nothing to erase</div>
+      </div>
+      <div class="case">
+        <h3>Contact and changes</h3>
+        <p>Questions go to [CONTACT EMAIL]. The operator is [LEGAL ENTITY], registered in [JURISDICTION]. This policy was last updated on [EFFECTIVE DATE] and changes only when the site does.</p>
+        <div class="meta">Tell us</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand"><i></i>ClipSolo</div>
+        <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
+      </div>
+      <div class="f-col">
+        <h2>Tools</h2>
+        <a href="record.html">Screen recorder</a><a href="tools.html">All tools</a><a href="trim-video.html">Trim video</a>
+      </div>
+      <div class="f-col">
+        <h2>Convert</h2>
+        <a href="mp4-to-gif.html">MP4 → GIF</a><a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a>
+      </div>
+      <div class="f-col">
+        <h2>For developers</h2>
+        <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
+      </div>
+      <div class="f-col">
+        <h2>Legal</h2>
+        <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+      </div>
+      <div class="f-col">
+        <h2>The promise</h2>
+        <span>Local files only</span><span>No account</span><span>No watermark</span>
+      </div>
+    </div>
+    <div class="sponsor" id="sponsorSlot" hidden>
+      <span class="mono" id="sponsorLabel">Sponsored by</span>
+      <a id="sponsorLink" target="_blank" rel="sponsored noopener">—</a>
+      <span class="sponsor__blurb" id="sponsorBlurb"></span>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 ClipSolo — the file is yours</span>
+      <a href="status.html">Status</a>
+      <span class="live"><i></i>No uploads today</span>
+    </div>
+  </div>
+</footer>
+
+<script src="sponsors.js" defer></script>
+<script src="pro.js" defer></script>
+</body>
+</html>

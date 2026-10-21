@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>document.documentElement.className+=' js'</script>
 <title>Free tools — ClipSolo</title>
-<meta name="description" content="Six tools that run in your browser: a screen recorder, a trimmer, MP4 to GIF, WebM and MOV to MP4, and video to WAV. No upload, no account, no watermark — every file stays on your machine.">
+<meta name="description" content="Six tools in one tab: a screen recorder, a trimmer, MP4 to GIF, WebM and MOV to MP4, and video to WAV. Nothing is uploaded, ever — no account, no queue.">
 <meta name="theme-color" content="#F7F5F0">
 <link rel="stylesheet" href="tally.css">
 <link rel="stylesheet" href="aurora.css">
@@ -62,7 +62,7 @@
     <div>
       <div class="eyebrow"><i></i>The bench · six tools · nothing uploaded</div>
       <h1>Six tools. One tab.<br>Zero uploads.</h1>
-      <p class="lede">A recorder, a trimmer, two converters, a GIF maker and an audio extractor. Every one of them runs in this page — on your machine, in real time, with no queue and no waiting.</p>
+      <p class="lede">A recorder, a trimmer, two converters, a GIF maker and an audio extractor. All of them run in this page, on your machine, in real time.</p>
       <div class="chips">
         <span class="chip static">No account</span>
         <span class="chip static">No uploads</span>
@@ -85,7 +85,7 @@
 <section class="sec" id="tools" style="padding-top:8px">
   <div class="wrap">
     <div class="secline">
-      <span class="mono">01 — The catalog</span>
+      <h2 class="mono">01 — The catalog</h2>
       <p class="hint">Six tools, each doing one thing properly. Watch one run — these are live, not screenshots.</p>
     </div>
 
@@ -261,7 +261,7 @@
         <div class="tool__body">
           <span class="tool__tag">Video → WAV</span>
           <h3>Pull the track out</h3>
-          <p>Want the words, not the pixels? Lift the audio out as a WAV — for a transcript, a podcast edit or a re-record.</p>
+          <p>Want the words, not the pixels? Lift the audio out as a WAV.</p>
           <ul class="tool__steps">
             <li><b>01</b><span>Drop a video in</span></li>
             <li><b>02</b><span>Pull the audio track out</span></li>
@@ -279,7 +279,7 @@
 <section class="sec" id="live" style="padding-top:20px">
   <div class="wrap">
     <div class="secline">
-      <span class="mono">02 — Working right now</span>
+      <h2 class="mono">02 — Working right now</h2>
       <p class="hint">Four more tools, live in this page. Press a button and watch them work — nothing leaves your machine.</p>
     </div>
 
@@ -290,7 +290,7 @@
         <div class="tool__body">
           <span class="tool__tag">Screenshot</span>
           <h3>Grab a still, blur what is private</h3>
-          <p>Capture any screen, window or tab — or pull a still out of a video. Pixelate what should not go public, then copy it to a chat or save the PNG.</p>
+          <p>Capture a screen, or pull a still from a video, then pixelate what should not go public.</p>
           <div class="btnrow" style="margin-top:6px">
             <button class="btn" id="shotGo" type="button">Take a screenshot</button>
             <button class="btn ghost" id="shotVidPick" type="button">Still from a video…</button>
@@ -363,7 +363,7 @@
         <div class="tool__body">
           <span class="tool__tag">Workbench</span>
           <h3>Chain the moves on one file</h3>
-          <p>Drop a recording here — or anywhere on this page. The bench reads it, suggests the moves, and chains them without re-dropping: to MP4, trimmed, compressed, as a GIF, or with the audio pulled out. Nothing leaves this machine.</p>
+          <p>Drop a recording here — or anywhere on this page. The bench reads it and suggests the moves: to MP4, trimmed, compressed, as a GIF, or with the audio pulled out.</p>
 
           <div class="wbdrop" id="wbDrop">
             <b>Drop a video here</b>
@@ -413,7 +413,7 @@
                 <p class="status" id="wbCompSt">Re-encodes at the chosen bitrate — real time, like the rest.</p>
               </div>
               <div class="wpane" id="pane-gif" style="display:none">
-                <p class="wdesc">Uses the Start → End range above (max 8 seconds), 10 fps, up to 560px wide — GIFs are heavy, so we keep them light.</p>
+                <p class="wdesc">Start → End range (max 8s), 10 fps, up to 560px wide.</p>
                 <button class="btn btn-primary" id="wbGoGif" type="button">Make GIF</button>
                 <p class="status" id="wbGifSt">Loops forever. Obviously.</p>
                 <p class="wdesc">Sharing from a computer? WhatsApp Web sends GIFs as documents, not animations. An MP4 of the same range plays inline — and it's smaller.</p>
@@ -460,25 +460,25 @@
 <section class="sec" id="faq" style="padding-top:20px">
   <div class="wrap">
     <div class="secline">
-      <span class="mono">03 — Straight answers</span>
+      <h2 class="mono">03 — Straight answers</h2>
       <p class="hint">If something here is wrong, tell us and we will fix the page and this list at the same time.</p>
     </div>
     <div class="faq">
       <details open>
         <summary>Do these tools upload my file?</summary>
-        <p>No. Every conversion happens in your browser with WebCodecs and WebAssembly — the file is read from your disk and written back to it. There is no server involved, which is also why there is no upload bar and no “processing your video” wait.</p>
+        <p>No. Every conversion happens in your browser: the file is read from your disk and written back to it. No server, so no upload bar and no wait.</p>
       </details>
       <details>
         <summary>Why is the trim re-encoded?</summary>
-        <p>A browser cannot cut a container without rewriting it. We re-encode as it plays, in real time, and keep your original file untouched — so you can always trim the original again instead of trimming the trimmed copy.</p>
+        <p>A browser cannot cut a container without rewriting it. We re-encode as it plays, in real time, and keep your original untouched.</p>
       </details>
       <details>
         <summary>How large a file can I drop?</summary>
-        <p>As large as your browser can decode. Very large files work but take as long as the render takes — a 30-second cut takes about 30 seconds, because it is really being recorded again.</p>
+        <p>As large as your browser can decode. A 30-second cut takes about 30 seconds, because it is really being recorded again.</p>
       </details>
       <details>
         <summary>Is there a paid version?</summary>
-        <p>No. There is no paid tier, no trial and no feature gate. If this ever needs a server, we will say so here before we ask you for anything.</p>
+        <p>No paid tier, no trial, no feature gate. If this ever needs a server, we will say so here first.</p>
       </details>
     </div>
   </div>
@@ -494,19 +494,23 @@
         <p class="f-tag">Local-first. Free to use. Built to be boring in the good way.</p>
       </div>
       <div class="f-col">
-        <h4>Tools</h4>
+        <h2>Tools</h2>
         <a href="record.html">Screen recorder</a><a href="trim-video.html">Trim video</a><a href="mp4-to-gif.html">MP4 → GIF</a>
       </div>
       <div class="f-col">
-        <h4>Convert</h4>
+        <h2>Convert</h2>
         <a href="webm-to-mp4.html">WebM → MP4</a><a href="mov-to-mp4.html">MOV → MP4</a><a href="video-to-audio.html">Video → audio</a>
       </div>
       <div class="f-col">
-        <h4>For developers</h4>
+        <h2>For developers</h2>
         <a href="embed.html">ClipSolo Embed</a><a href="embed.html#config">Configuration</a><a href="embed.html#pricing">Pricing</a>
       </div>
       <div class="f-col">
-        <h4>The promise</h4>
+        <h2>Legal</h2>
+        <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+      </div>
+      <div class="f-col">
+        <h2>The promise</h2>
         <span>Local files only</span><span>No account</span><span>No watermark</span>
       </div>
     </div>
