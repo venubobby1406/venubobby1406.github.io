@@ -18,7 +18,7 @@ body.aurora{
   --surface:rgba(255,255,255,.68);
   --ink:#15161A;
   --ink-2:#4A4D55;
-  --muted:#787C85;
+  --muted:#6A6E77;
   --line:rgba(21,22,26,.09);
   --line-2:rgba(21,22,26,.17);
   --r:12px;
@@ -157,8 +157,65 @@ body.js-reveal .reveal{
 }
 body.js-reveal .reveal.is-in{opacity:1;transform:none}
 
+/* ---------- ambient drift (the clouds) ----------
+   Cap's technique: one element drifts sideways, a pseudo-element bobs
+   vertically, and every duration is a different number so the layers
+   never sync and the loop never reads as a loop.
+
+   Compositor-only. No filter, no blur, no box-shadow, no opacity cycle —
+   the softness IS the gradient, rasterised once and then just moved.
+   Varying --dx as well as --d means they don't travel in lockstep either. */
+.aurora-field__drift{position:absolute;inset:0;z-index:1;pointer-events:none}
+.af-drift{
+  position:absolute;left:var(--x,10%);top:var(--y,10%);
+  width:var(--s,420px);height:var(--s,420px);
+  animation:af-drift var(--d,250s) ease-in-out infinite;
+  animation-delay:var(--dd,0s);
+  will-change:transform;
+}
+.af-drift::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:var(--f);
+  animation:af-bob var(--b,24s) ease-in-out infinite;
+  animation-delay:var(--bd,0s);
+  will-change:transform;
+}
+/* all seven durations are distinct on purpose.
+   Alpha is deliberately present: white-on-cream is invisible, so the visible
+   forms come from warm tint, with white left for the highlights. The gradient
+   is flattened (a wide plateau, then a long fade) so each reads as a cloud
+   bank rather than a spotlight, and positions hug the edges so the headline
+   sits on quiet background. */
+.af-drift:nth-child(1){--x:-12%;--y:-4%;--s:560px;--d:252s;--dd:-60s;--dx:210px;--b:27s;--bd:-9s;--f:radial-gradient(closest-side,rgba(255,255,255,.9) 0%,rgba(255,255,255,.45) 45%,rgba(255,255,255,0) 78%)}
+.af-drift:nth-child(2){--x:24%;--y:-24%;--s:660px;--d:288s;--dd:-24s;--dx:150px;--b:23s;--bd:-4s;--f:radial-gradient(closest-side,rgba(255,196,128,.32) 0%,rgba(255,196,128,.16) 45%,rgba(255,196,128,0) 80%)}
+.af-drift:nth-child(3){--x:54%;--y:-28%;--s:480px;--d:231s;--dd:-96s;--dx:260px;--b:29s;--bd:-15s;--f:radial-gradient(closest-side,rgba(255,255,255,.8) 0%,rgba(255,255,255,.38) 45%,rgba(255,255,255,0) 78%)}
+.af-drift:nth-child(4){--x:80%;--y:-18%;--s:600px;--d:266s;--dd:-38s;--dx:120px;--b:21s;--bd:-11s;--f:radial-gradient(closest-side,rgba(255,132,84,.22) 0%,rgba(255,132,84,.11) 48%,rgba(255,132,84,0) 82%)}
+.af-drift:nth-child(5){--x:94%;--y:12%;--s:430px;--d:241s;--dd:-70s;--dx:230px;--b:25s;--bd:-2s;--f:radial-gradient(closest-side,rgba(247,166,60,.28) 0%,rgba(247,166,60,.13) 46%,rgba(247,166,60,0) 80%)}
+.af-drift:nth-child(6){--x:-8%;--y:34%;--s:390px;--d:274s;--dd:-13s;--dx:180px;--b:19s;--bd:-7s;--f:radial-gradient(closest-side,rgba(232,110,152,.16) 0%,rgba(232,110,152,.08) 48%,rgba(232,110,152,0) 82%)}
+.af-drift:nth-child(7){--x:68%;--y:48%;--s:520px;--d:222s;--dd:-84s;--dx:200px;--b:26s;--bd:-13s;--f:radial-gradient(closest-side,rgba(146,120,255,.13) 0%,rgba(146,120,255,.06) 48%,rgba(146,120,255,0) 82%)}
+@keyframes af-drift{
+  0%{transform:translate3d(calc(var(--dx,180px) * -1),0,0)}
+  50%{transform:translate3d(var(--dx,180px),0,0)}
+  100%{transform:translate3d(calc(var(--dx,180px) * -1),0,0)}
+}
+@keyframes af-bob{
+  0%,100%{transform:translate3d(0,-3.5%,0)}
+  50%{transform:translate3d(0,3.5%,0)}
+}
+
+/* ---------- 404 ----------
+   Lifted out of 404.html's inline <style> so every page ships zero inline CSS.
+   Uses the theme's glass tokens instead of its own hard-coded shadow. */
+.lostsheet{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:28px 30px;
+  box-shadow:var(--glass);max-width:680px}
+.lostsheet h2{font-size:clamp(22px,2.4vw,30px);line-height:1.1;letter-spacing:-.015em;margin:0 0 10px}
+.lostsheet p{font-size:15.5px;line-height:1.65;color:var(--ink-2);margin:0 0 12px;max-width:60ch}
+.lostsheet .btnrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:20px}
+.lostsheet .mono{margin-top:16px}
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
   body.aurora .aurora-field__glow{transform:none}
+  .af-drift,.af-drift::after{animation:none}
   body.js-reveal .reveal{opacity:1;transform:none}
 }
