@@ -12,83 +12,7 @@
 <meta name="theme-color" content="#F7F5F0">
 <link rel="stylesheet" href="tally.css">
 <link rel="stylesheet" href="aurora.css">
-<style>
-  /* the live tools' own furniture — the glass language */
-  .status{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--muted);margin:14px 0 0}
-  .status.err{color:var(--red-deep)}
-  .status.nomargin{margin:0}
-  .clock{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.05em;color:var(--ink-2);font-variant-numeric:tabular-nums}
-  .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-  .btnrow .status{margin:0}
-  .btn.rec-on{background:var(--red);border-color:var(--red);color:#fff}
-  .pulse{width:10px;height:10px;border-radius:50%;background:rgba(21,22,26,.16);flex:none}
-  .pulse.on{background:var(--red);animation:pulse 1.1s ease-in-out infinite}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.82)}}
-  .voibar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;margin:16px 0 0;
-    border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.66)}
-  .camwin{position:relative;margin-top:16px;aspect-ratio:16/9;background:#0E0F13;border:1px solid rgba(255,255,255,.08);
-    border-radius:14px;overflow:hidden}
-  .camwin video{display:block;width:100%;height:100%;object-fit:cover}
-  .camwin .off{position:absolute;inset:0;margin:0;display:grid;place-items:center;text-align:center;padding:0 18px;
-    color:#8A8D95;font-size:14px}
-  .shotwrap{position:relative;margin-top:16px;border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;background:#0E0F13}
-  .shotwrap canvas{display:block;width:100%;height:auto;cursor:crosshair;touch-action:none}
-  .shotchip{position:absolute;left:10px;bottom:10px;padding:5px 9px;border-radius:7px;background:rgba(12,13,16,.8);
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#C8CAD0}
-  .shotvid video{display:block;width:100%;border-radius:12px;background:#0E0F13}
-  .shotout img{display:block;max-width:100%;border-radius:12px;background:#0E0F13}
-  .wbdrop{display:grid;justify-items:center;gap:10px;text-align:center;padding:30px 22px;margin-top:18px;cursor:pointer;
-    border:1px dashed rgba(21,22,26,.26);border-radius:16px;background:rgba(255,255,255,.5)}
-  .wbdrop b{font-size:16px;letter-spacing:-.01em}
-  .wbmoves{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 14px;margin-top:16px;
-    border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72)}
-  .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:2px}
-  .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
-    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);cursor:pointer;transition:transform .16s var(--ease),border-color .16s var(--ease)}
-  .wbmove:hover{transform:translateY(-1px);border-color:rgba(21,22,26,.3);color:var(--ink)}
-  .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
-  .wbwork{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:18px;
-    padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.6)}
-  .wbwork video{display:block;width:100%;border-radius:12px;background:#0E0F13}
-  .wbmeta{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
-  .wblink{border:0;background:transparent;padding:0;color:var(--red);font:600 13px/1.4 var(--sans);cursor:pointer;text-align:left}
-  .wblink:hover{text-decoration:underline}
-  .wrange{display:grid;grid-template-columns:44px 1fr 52px;align-items:center;gap:10px;margin-bottom:10px;
-    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .wrange input[type=range]{width:100%;accent-color:var(--red)}
-  .wmodes{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
-  .wmode,.wpreset,.wspeed{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:8px;color:var(--ink-2);
-    font:600 12px/1.2 var(--sans);padding:7px 11px;cursor:pointer}
-  .wmode.on,.wpreset.on,.wspeed.on{background:var(--ink);border-color:var(--ink);color:#fff}
-  .wpreset,.wspeed{display:flex;flex-direction:column;gap:3px;text-align:left}
-  .wpreset small,.wspeed small{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;opacity:.7}
-  .wpresets,.wspeeds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-  .wpane{border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
-  .wdesc{font-size:13.5px;color:var(--ink-2);margin:0 0 10px}
-  .wprog{display:flex;align-items:center;gap:12px;margin-top:16px}
-  .wbar{flex:1;height:4px;border-radius:3px;background:rgba(21,22,26,.1);overflow:hidden}
-  .wbar span{display:block;height:100%;width:0;background:var(--red);border-radius:3px}
-  .wres{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
-  .wres video{max-width:340px;width:100%;border-radius:12px;background:#0E0F13}
-  .wres img{max-width:240px;border-radius:12px;background:#0E0F13}
-  .toolcard .demo{border-radius:14px;border:1px solid rgba(255,255,255,.08);margin:0 0 18px}
-  /* workbench.js injects its own warm-paper styling for these — override it from
-     the page (higher specificity) so the bench wears the glass skin too */
-  html body .wbmoves{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);gap:8px}
-  html body .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-  html body .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
-    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);transition:transform .16s var(--ease),border-color .16s var(--ease)}
-  html body .wbmove:hover{color:var(--ink);border-color:rgba(21,22,26,.3);transform:translateY(-1px)}
-  html body .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
-  html body .wbmove:disabled{opacity:.5;cursor:default;pointer-events:none}
-  html body.wb-dropping{outline:2px dashed rgba(226,59,46,.55);outline-offset:-10px}
-  html body.wb-dropping::after{
-    content:"DROP IT — THE BENCH HAS IT";top:80px;transform:translateX(-50%);
-    font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
-    background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
-  }
-  @media (max-width:820px){.wbwork{grid-template-columns:1fr}}
-</style>
+<link rel="stylesheet" href="pages.css">
 <!--launch-meta-->
 <link rel="canonical" href="https://venubobby1406.github.io/tools.html">
 <meta property="og:type" content="website">
@@ -111,7 +35,7 @@
 
 <!--/launch-meta-->
 </head>
-<body class="aurora">
+<body class="aurora page-tools">
 
 <header class="nav">
   <div class="wrap">

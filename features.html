@@ -11,49 +11,7 @@
 <meta name="theme-color" content="#F7F5F0">
 <link rel="stylesheet" href="tally.css">
 <link rel="stylesheet" href="aurora.css">
-<style>
-  /* the ledger — a list, so it reads like a list */
-  .filters{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px}
-  .filters .meta{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-right:4px}
-  .filters .chip b{font-weight:500;color:var(--ink);margin-left:4px}
-  .filters .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
-  .filters .chip[aria-pressed="true"] b{color:#fff}
-  .xsec{margin-top:46px}
-  .xhead{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;border-top:1px solid var(--ink);padding-top:14px}
-  .xhead .meta{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0}
-  .xhead h2{font-size:clamp(24px,2.4vw,32px);letter-spacing:-.03em;margin:10px 0 0}
-  .xcount{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted);white-space:nowrap;padding-bottom:4px}
-  .xlead{font-size:15px;line-height:1.6;color:var(--ink-2);max-width:64ch;margin:14px 0 0}
-  .xgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
-  .sheet.card{display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,.72);border:1px solid var(--line);
-    border-radius:18px;padding:20px 20px 22px;text-decoration:none;color:inherit;
-    box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -30px rgba(30,20,14,.3);
-    transition:transform .18s var(--ease),box-shadow .18s var(--ease),background .18s var(--ease)}
-  .sheet.card:hover{transform:translateY(-3px);background:rgba(255,255,255,.86);
-    box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 26px 46px -30px rgba(30,20,14,.36)}
-  .sheet.card h3{font-size:17px;letter-spacing:-.02em;margin:2px 0 0}
-  .sheet.card p{font-size:14px;line-height:1.55;color:var(--ink-2);margin:0}
-  .stamp.stamp-live{align-self:flex-start;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--ok);background:rgba(30,122,82,.08);border:1px solid rgba(30,122,82,.28);
-    border-radius:5px;padding:3px 7px;transform:none}
-  .stamp.stamp-lab{align-self:flex-start;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;
-    text-transform:uppercase;color:#9A6A00;background:rgba(255,239,190,.7);border:1px solid rgba(154,106,0,.28);
-    border-radius:5px;padding:3px 7px;transform:none}
-  .doodle{display:none}
-  .golink{margin-top:auto;padding-top:14px;display:inline-flex;align-items:center;gap:6px;font:600 13px/1 var(--sans);color:var(--ink)}
-  .golink svg{width:13px;height:13px;transition:transform .16s var(--ease)}
-  .sheet.card:hover .golink svg{transform:translate(2px,-2px)}
-  .sheet.nono{list-style:none;margin:22px 0 0;padding:0;background:rgba(255,255,255,.72);border:1px solid var(--line);
-    border-radius:18px;padding:6px 22px;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 18px 40px -30px rgba(30,20,14,.3)}
-  .nono-row{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:15px 0;border-bottom:1px solid var(--line);align-items:start}
-  .nono-row:last-child{border-bottom:0}
-  .no-x{color:var(--red);margin-top:2px}
-  .no-x svg{width:16px;height:16px}
-  .nono-row b{display:block;font-size:15px;margin-bottom:3px}
-  .nono-row p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.55}
-  @media (max-width:1000px){.xgrid{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:800px){.xgrid{grid-template-columns:1fr}}
-</style>
+<link rel="stylesheet" href="pages.css">
 <!--launch-meta-->
 <link rel="canonical" href="https://venubobby1406.github.io/features.html">
 <meta property="og:type" content="website">
@@ -76,7 +34,7 @@
 
 <!--/launch-meta-->
 </head>
-<body class="aurora">
+<body class="aurora page-features">
 
 <header class="nav">
   <div class="wrap">

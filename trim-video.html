@@ -11,100 +11,7 @@
 <meta name="theme-color" content="#F7F5F0">
 <link rel="stylesheet" href="tally.css">
 <link rel="stylesheet" href="aurora.css">
-<style>
-  /* the bench — the live tool on every recipe page */
-  .status{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--muted);margin:14px 0 0}
-  .status.err{color:var(--red-deep)}
-  .status.nomargin{margin:0}
-  .clock{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.05em;color:var(--ink-2);font-variant-numeric:tabular-nums}
-  .btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-  .sheet.tool{background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:20px;padding:22px 24px;
-    box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 20px 44px -30px rgba(30,20,14,.3)}
-  .doodle,.pin{display:none}
-  .wbdrop{display:grid;justify-items:center;gap:10px;text-align:center;padding:30px 22px;margin-top:18px;cursor:pointer;
-    border:1px dashed rgba(21,22,26,.26);border-radius:16px;background:rgba(255,255,255,.5)}
-  .wbdrop b{font-size:16px;letter-spacing:-.01em}
-  .wbmoves{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 14px;margin-top:16px;
-    border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72)}
-  .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:2px}
-  .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
-    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);cursor:pointer;transition:transform .16s var(--ease),border-color .16s var(--ease)}
-  .wbmove:hover{transform:translateY(-1px);border-color:rgba(21,22,26,.3);color:var(--ink)}
-  .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
-  .wbwork{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:18px;
-    padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.6)}
-  .wbwork video{display:block;width:100%;border-radius:12px;background:#0E0F13}
-  .wbmeta{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
-  .wblink{border:0;background:transparent;padding:0;color:var(--red);font:600 13px/1.4 var(--sans);cursor:pointer;text-align:left}
-  .wblink:hover{text-decoration:underline}
-  .wrange{display:grid;grid-template-columns:44px 1fr 52px;align-items:center;gap:10px;margin-bottom:10px;
-    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .wrange input[type=range]{width:100%;accent-color:var(--red)}
-  .wmodes{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
-  .wmode,.wpreset,.wspeed{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:8px;color:var(--ink-2);
-    font:600 12px/1.2 var(--sans);padding:7px 11px;cursor:pointer}
-  .wmode.on,.wpreset.on,.wspeed.on{background:var(--ink);border-color:var(--ink);color:#fff}
-  .wpreset,.wspeed{display:flex;flex-direction:column;gap:3px;text-align:left}
-  .wpreset small,.wspeed small{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;opacity:.7}
-  .wpresets,.wspeeds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-  .wpane{border-top:1px solid var(--line);padding-top:14px;margin-top:4px}
-  .wdesc{font-size:13.5px;color:var(--ink-2);margin:0 0 10px}
-  .wprog{display:flex;align-items:center;gap:12px;margin-top:16px}
-  .wbar{flex:1;height:4px;border-radius:3px;background:rgba(21,22,26,.1);overflow:hidden}
-  .wbar span{display:block;height:100%;width:0;background:var(--red);border-radius:3px}
-  .wres{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
-  .wres video{max-width:340px;width:100%;border-radius:12px;background:#0E0F13}
-  .wres img{max-width:240px;border-radius:12px;background:#0E0F13}
-  /* overrides for the styles workbench.js injects itself — it stays untouched */
-  html body .wbmoves{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);gap:8px}
-  html body .wbmoves .lead{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-  html body .wbmove{border:1px solid rgba(21,22,26,.14);background:#fff;border-radius:999px;padding:6px 13px;
-    font:600 12.5px/1.3 var(--sans);color:var(--ink-2);transition:transform .16s var(--ease),border-color .16s var(--ease)}
-  html body .wbmove:hover{color:var(--ink);border-color:rgba(21,22,26,.3);transform:translateY(-1px)}
-  html body .wbmove.primary{background:var(--ink);border-color:var(--ink);color:#fff}
-  html body.wb-dropping{outline:2px dashed rgba(226,59,46,.55);outline-offset:-10px}
-  html body.wb-dropping::after{
-    content:"DROP IT — THE BENCH HAS IT";top:80px;transform:translateX(-50%);
-    font:600 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
-    background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;
-  }
-  /* the recipe's own bits */
-  .crumb{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--muted);margin-bottom:18px}
-  .crumb a{color:var(--muted);text-decoration:none}
-  .crumb a:hover{color:var(--ink)}
-  .specstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:30px;border-top:1px solid var(--line)}
-  .specstrip .rrow{padding:16px 20px 0;border-left:1px solid var(--line)}
-  .specstrip .rrow:first-child{border-left:0;padding-left:0}
-  .specstrip .rrow b{display:block;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--muted)}
-  .specstrip .rrow span{display:block;margin-top:7px;font-size:14.5px;line-height:1.5;color:var(--ink)}
-  .howlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
-  .howlist li{display:flex;gap:14px;align-items:baseline;font-size:15px;line-height:1.55;color:var(--ink-2)}
-  .howlist li b{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;color:var(--red);flex:none}
-  .prose p{font-size:16px;line-height:1.7;color:var(--ink-2);margin:0 0 14px;max-width:64ch}
-  .nolist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-  .nolist li{position:relative;padding:14px 0 14px 30px;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink-2)}
-  .nolist li::before{content:"→";position:absolute;left:0;top:15px;color:var(--red);font-family:var(--mono);font-size:12px}
-  .faq details .body{padding:0 40px 20px 0;color:var(--ink-2);font-size:14.5px;line-height:1.65}
-  .relchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-  .relchip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid rgba(21,22,26,.14);
-    border-radius:999px;background:#fff;color:var(--ink-2);font:600 12.5px/1 var(--sans);cursor:pointer;text-decoration:none;
-    transition:border-color .16s var(--ease),color .16s var(--ease),transform .16s var(--ease)}
-  .relchip:hover{border-color:rgba(21,22,26,.34);color:var(--ink);transform:translateY(-1px)}
-  .bnote{display:block;margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted)}
-  /* the old two-column shell, kept as hooks for the page script (it toggles
-     .bench-open and scrolls .benchcol into view when a file lands) */
-  .tlayout{display:block}
-  .benchcol{position:static;width:auto}
-  .tlayout.bench-open #wbWork{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:34px}
-  @media (max-width:900px){.tlayout.bench-open #wbWork{grid-template-columns:1fr}}
-  @media (max-width:900px){
-    .wbwork{grid-template-columns:1fr}
-    .specstrip{grid-template-columns:repeat(2,1fr);gap:18px 0}
-    .specstrip .rrow:nth-child(odd){border-left:0;padding-left:0}
-  }
-</style>
+<link rel="stylesheet" href="pages.css">
 <!--launch-meta-->
 <link rel="canonical" href="https://venubobby1406.github.io/trim-video.html">
 <meta property="og:type" content="website">
@@ -129,7 +36,7 @@
 </script>
 <!--/launch-meta-->
 </head>
-<body class="aurora">
+<body class="aurora page-tool">
 
 <header class="nav">
   <div class="wrap">
